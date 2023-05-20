@@ -1,13 +1,12 @@
+import LiveBackground from "@/components/LiveBackground";
+import NavbarObj from "@/components/NavbarObj";
 import Link from "next/link";
 
 export default function AvailableRooms() {
     return (
       <>
-        <p>Yay available rooms!</p>
-        <Link href="/" >
-          <img src="info.png" />
-          Home
-        </Link>
+        <LiveBackground></LiveBackground>
+        <NavbarObj></NavbarObj>
       </>
     )
   }

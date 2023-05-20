@@ -1,0 +1,70 @@
+.circle1 {
+    position: absolute;
+    z-index: -1;
+    width: 50vw;
+    top: -30vh;
+    left: -30vh;
+    animation: growshrink 3s infinite;
+    animation-timing-function: linear;
+    animation-delay: -6s;
+}
+
+.circle2 {
+    position: absolute;
+    z-index: -1;
+    width: 35vw;
+    top: 8vh;
+    left: 25vh;
+    animation: growshrink 3s infinite;
+    animation-timing-function: linear;
+    animation-delay: -5s;
+}
+
+.circle3 {
+    position: fixed;
+    width: 25vw;
+    top: 30vh;
+    left: 8vh;
+    animation: growshrink 3s infinite;
+    animation-timing-function: linear;
+    animation-delay: -4s;
+}
+
+.circle4 {
+    position: fixed;
+    width: 45vw;
+    bottom: -30vh;
+    right: -30vh;
+    animation: growshrink 3s infinite;
+    animation-timing-function: linear;
+    animation-delay: -3s;
+}
+
+.circle5 {
+    position: fixed;
+    width: 20vw;
+    bottom: 5vh;
+    right: 25vh;
+    animation: growshrink 3s infinite;
+    animation-timing-function: linear;
+    animation-delay: -2s;
+}
+
+.circle6 {
+    position: fixed;
+    width: 30vw;
+    bottom: 20vh;
+    right: 8vh;
+    animation: growshrink 3s infinite;
+    animation-timing-function: linear;
+    animation-delay: -1s;
+}
+
+@keyframes growshrink {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
