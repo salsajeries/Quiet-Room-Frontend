@@ -2,7 +2,7 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import LiveBackground from '@/components/LiveBackground'
 import MechButton from '@/components/MechButton'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Col, Container, Row, Stack } from 'react-bootstrap'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -11,32 +11,21 @@ export default function Home() {
   return (
     <>
       <LiveBackground></LiveBackground>
-      <Container className={styles.mainTitle} fluid>
-        <Row>
-          <Col style={{backgroundColor: "purple"}}>
-            <Row style={{display: "flex", justifyContent: "center"}}>
-              
-            </Row>
+      
+      
+      <Container className={styles.container}>
+        <Row className={styles.mainRow}>
+          <Col style={{backgroundColor: 'blue'}}>
+            <img src={'logo-light.png'} className={styles.logoStyle} />
           </Col>
-          <Col>
-            <Row><MechButton href={'/roominfo'} text={'Find Room Info'} /></Row>
-            <Row><MechButton href={'/availablerooms'} text={'Find Available Rooms'} /></Row>
+          <Col style={{backgroundColor: 'purple', alignItems: 'stretch'}}>
+            <Stack>
+              <MechButton href={'/roominfo'} text={'Find Room Info'} width={'30vw'} height={'auto'} />
+              <MechButton href={'/availablerooms'} text={'Find Available Rooms'} width={'30vw'} height={'auto'} />
+            </Stack>
           </Col>
         </Row>
       </Container>
-
-      <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-        <tr style={{}}>
-          <td style={{}}>
-            <img src={'icon-light.png'} className={styles.logoIcon} />
-            <img src={'condensed-logo-light.png'} className={styles.logoText} />
-          </td>
-          <td>
-            <tr style={{width: "100%"}}><MechButton href={'/roominfo'} text={'Find Room Info'} /></tr>
-            <tr><MechButton href={'/availablerooms'} text={'Find Available Rooms'} /></tr>
-          </td>
-        </tr>
-      </div>
 
     </>
   )
@@ -44,4 +33,15 @@ export default function Home() {
 
 /**
  *       <MechButton href={'/roominfo'} text={'FIND ROOM INFO'} />
+ * 
+ * <table style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <tr style={{}}>
+          <td style={{}}>
+            
+          </td>
+          <td>
+            
+          </td>
+        </tr>
+      </table>
  */
