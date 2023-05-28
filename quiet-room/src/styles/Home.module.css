@@ -1,24 +1,20 @@
 .container {
+  display: flex;
   width: 100vw;
   height: 80vh;
-  background-color: aquamarine;
-  justify-content: space-evenly;
-  align-content: center;
-}
-
-.logoCol {
-  grid-row: 1 / 2;
-  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .logoStyle {
-  height: 15vh;
+  height: 18vh;
   width: auto;
+  z-index: 1;
 }
 
-.mainRow {
-  background-color: brown;
+.mainCenter {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-evenly;
+  align-content: center;
 }

@@ -3,14 +3,13 @@ import styles from '../styles/LiveBackground.module.css'
 
 function LiveBackground() {
     return (
-      <>
-        <img src={'circle-design.png'} className={styles.circle1} />
-        <img src={'circle-design.png'} className={styles.circle2} />
-        <img src={'circle-design.png'} className={styles.circle3} />
-        <img src={'circle-design.png'} className={styles.circle4} />
-        <img src={'circle-design.png'} className={styles.circle5} />
-        <img src={'circle-design.png'} className={styles.circle6} />
-      </>
+      <div className={styles.videoContainer}>
+        <video 
+          autoPlay muted loop id="myVideo"
+          className={styles.videoStyle} 
+          src={'live-background.mp4'}
+        />
+      </div>
     );
   }
   
