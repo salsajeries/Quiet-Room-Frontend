@@ -5,7 +5,6 @@ import Link from "next/link";
 export default function AvailableRooms() {
     return (
       <>
-        <LiveBackground></LiveBackground>
         <NavbarObj></NavbarObj>
       </>
     )

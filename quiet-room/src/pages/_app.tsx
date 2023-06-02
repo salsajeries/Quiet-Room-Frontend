@@ -11,8 +11,11 @@ if(typeof document !== 'undefined') {
 export default function App({ Component, pageProps }: AppProps) {
   return(
     <>
-    <LiveBackground></LiveBackground>
     <Component {...pageProps} />
     </>
   );
 }
+
+/**
+ * <LiveBackground></LiveBackground>
+ */
