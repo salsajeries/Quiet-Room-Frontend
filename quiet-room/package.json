@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aldabil/react-scheduler": "^2.7.10",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.3",
@@ -19,12 +20,14 @@
     "@types/react-dom": "18.0.11",
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
+    "dayjs": "^1.11.8",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-dom": "18.2.0",
+    "rrule": "^2.7.2",
     "styled-components": "^5.3.10",
     "typescript": "5.0.3",
     "uuid": "^9.0.0",

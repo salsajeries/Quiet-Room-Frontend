@@ -6,6 +6,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import GetRoomInfo from "./api/getRoomInfo";
 import NavbarObj from "@/components/NavbarObj";
+import DisplayRoomInfo from "./api/displayRoomInfo";
+import GetAvailableRooms from "./api/getAvailableRooms";
 
 
 
@@ -13,7 +15,7 @@ export default function RoomInfo() {
 
   return (
     <>
-      <GetRoomInfo></GetRoomInfo>
+      <GetAvailableRooms></GetAvailableRooms>
     </>
   );
 }
