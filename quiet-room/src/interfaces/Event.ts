@@ -9,7 +9,7 @@ interface Event {
     DaysMet: Days[];
     StartDate: string;
     EndDate: string;
-    ID: string;
+    EventID: string;
 }
 
 export default Event;

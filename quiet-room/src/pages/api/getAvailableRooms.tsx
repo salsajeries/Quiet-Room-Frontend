@@ -1,67 +1,117 @@
 import React, { useEffect, useRef, useState } from "react";
-import Event from '@/interfaces/Event';
 import axios from "axios";
-//import { styles } from '@/styles/Scheduler.module.css'
-import buildings from './buildings.json';
-import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import buildingsList from './buildings.json';
+import { Box, Divider, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select } from "@mui/material";
 import { Input } from '@mui/material';
+import InfoModal from "@/components/InfoModal";
+import Link from "next/link";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { uuid } from "uuidv4";
 
 
+// URL for API Request: Get Available Rooms
+function getURL(building: string, day: string, startTime: string, endTime: string) {
+    return `https://uah.quietroom.app/availability/${building}?day=${day}&startTime=${startTime}&endTime=${endTime}`;
+}
+
+// Parse time input value for API Request format
+// XX:XX -> XXXX
+function getTime(rawTime: string) {
+    let hour = rawTime.substring(0,2);
+    let min = rawTime.substring(3,5);
+    return hour.toString() + min.toString();
+}
+
+const columns: GridColDef[] = [
+    { field: 'Building', headerName: 'Building', width: 130 },
+    { field: 'RoomNumber', headerName: 'Room Number', width: 200 }
+];
+
+
+
+interface AvailableRoomsInt {
+    Building: string;
+    RoomNumber: string;
+    id: string;
+}
 
 export default function getAvailableRooms() {
 
+    // Toggle submit
     const [toggle, setToggle] = useState(false);
 
+    const [rooms, setRooms] = useState<any[]>([]);                     // Rooms list
+    
+    const [day, setDay] = useState('M')                         // Day selection
+    //const [building, setBuilding] = useState('');               // Building selection
+    const [startTime, setStartTime] = useState('1100');         // Start time
+    const [endTime, setEndTime] = useState('1300');             // End time
+
     const handleSubmit = (e: any) => {
-        setToggle(!toggle)
+
+        setRooms([]);       // Empty the array for new data
+
+        buildingsList.map((buildingID: string) => {
+            axios
+            .get(getURL(buildingID, day, startTime, endTime))
+            .then((response) => {
+                
+                console.log(getURL(buildingID, day, startTime, endTime));
+                let readRooms = response?.data;
+
+                // If empty, log to console and skip adding to array
+                if (readRooms.length == 0) {
+                    console.log("AYO THIS IS EMPTY: " + buildingID)
+                }
+                // Add rooms to setRooms
+                else {
+                    readRooms.forEach((room: any) => {
+                        setRooms(rooms => [...rooms,
+                            {
+                                Building: buildingID,
+                                RoomNumber: room,
+                                id: uuid()
+                            }
+                        ])
+                    })
+                }
+
+            })
+            .catch((error) => {
+                if(error == '400')
+                    console.log('THIS WAS A 400');
+                console.log(error);
+            });
+        })
     }
 
-    const [day, setDay] = useState('M')
-    const [building, setBuilding] = useState('OKT');
-    const [startTime, setStartTime] = useState('1100');
-    const [endTime, setEndTime] = useState('1300');
-    
-    const [rooms, setRooms] = useState('');
 
+    // Set building code
     const handleBuilding = (e: any) => {
-        setBuilding(e.target.value);
+        //setBuilding(e.target.value);
         console.log(e.target.value);
     }
 
+    // Set day option
     const handleDay = (e: any) => {
         setDay(e.target.value);
         console.log(e.target.value);
     }
 
+    // Set start time
     const handleStartTime = (e: any) => {
-        setStartTime(e.target.value);
-        console.log(e.target.value);
+        let parsedTime = getTime(e.target.value);
+        setStartTime(parsedTime);
+        console.log(parsedTime);
     }
 
+    // Set end time
     const handleEndTime = (e: any) => {
-        setEndTime(e.target.value);
-        console.log(e.target.value);
+        let parsedTime = getTime(e.target.value);
+        setEndTime(parsedTime);
+        console.log(parsedTime);
     }
 
-
-    // API GET REQUEST
-    useEffect(() => {
-        axios
-          .get(`https://uah.quietroom.app/availability/${building}?day=${day}&startTime=${startTime}&endTime=${endTime}`)
-          .then((response) => {
-            console.log(`https://uah.quietroom.app/availability/${building}?day=${day}&startTime=${startTime}&endTime=${endTime}`);
-            console.log(response?.data)
-            setRooms(response?.data)
-            if(response?.data.length == 0)
-                console.log("AYO THIS IS EMPTY")
-          })
-          .catch((error) => {
-            if(error == '400')
-                console.log('THIS WAS A 4000000');
-            
-            console.log(error);
-        });
-    }, [toggle]);
 
     // LOADING CONDITION
     if (rooms === undefined) {
@@ -72,21 +122,6 @@ export default function getAvailableRooms() {
     return (
         <>
             <br></br>
-            <InputLabel id="demo-simple-select-label">Building</InputLabel>
-            <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Age"
-                onChange={handleBuilding}
-                defaultValue={''}
-            >
-                {buildings.map(building => {
-                    return (
-                        <MenuItem key={building} value={building}>{building}</MenuItem>
-                    );
-                })}
-            </Select>
-            <InputLabel id="weekday-select-label">Day</InputLabel>
             <Select
                 labelId="weekday-select-label"
                 id="weekday-select"
@@ -97,22 +132,48 @@ export default function getAvailableRooms() {
             >
                 <MenuItem value={'M'} selected>Monday</MenuItem>
                 <MenuItem value={'T'}>Tuesday</MenuItem>
-                <MenuItem value={'W'}>Wednessday</MenuItem>
+                <MenuItem value={'W'}>Wednesday</MenuItem>
                 <MenuItem value={'R'}>Thursday</MenuItem>
                 <MenuItem value={'F'}>Friday</MenuItem>
             </Select>
             <br></br>
-            <TextField id="outlined-basic" label="Start Time" variant="outlined" onChange={handleStartTime} />
-            <TextField id="outlined-basic" label="End Time" variant="outlined" onChange={handleEndTime} />
             <button onClick={handleSubmit}>Submit</button>
             <hr></hr>
             
-            <Input type="time" onChange={(e: any) => {console.log(e.target.value)}}
-                style={{color: "blue"}}
+            <Input type="time" onChange={handleStartTime}
+                defaultValue={'10:00'}
+                style={{colorScheme: 'light'}}
             ></Input>
-            
+            <Input type="time" onChange={handleEndTime}
+                defaultValue={'12:00'}
+                style={{colorScheme: 'light'}}
+            ></Input>
             <hr></hr>
-            <p>{JSON.stringify(rooms)}</p>
+
+            <hr></hr>
+
+            <InfoModal></InfoModal>
+
+            <hr></hr>
+
+            <Box sx={{ height: 400, width: '100%' }}>
+                <DataGrid
+                    rows={rooms!}
+                    columns={columns}
+                    initialState={{
+                    pagination: {
+                        paginationModel: {
+                        pageSize: 10,
+                        },
+                    },
+                    }}
+                    pageSizeOptions={[10]}
+                    checkboxSelection
+                    disableRowSelectionOnClick
+                />
+            </Box>
+
+
         </>
     );
 }

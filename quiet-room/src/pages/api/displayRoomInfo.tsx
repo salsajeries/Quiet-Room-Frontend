@@ -3,9 +3,7 @@ import Event from '@/interfaces/Event';
 import Room from "@/interfaces/Room";
 import { uuid } from "uuidv4";
 import axios from "axios";
-import Paper from '@mui/material/Paper';
 import { Scheduler } from "@aldabil/react-scheduler";
-
 
 
 
@@ -65,12 +63,13 @@ function cleanEvents(arr: any) {
 
 }
 
-
-export default function displayRoomInfo() {
+export default function displayRoomInfo(props: RoomInfoInt) {
 
     const [room, setRoom] = useState<Room>();
     const [events, setEvents] = useState();
-    const [num, setNum] = useState('N155');
+    const [building, setBuilding] = useState('OKT');
+    const [num, setNum] = useState('N324');
+
 
     const handleText = (e: any) => {
         if (e.key == 'Enter')
@@ -80,8 +79,9 @@ export default function displayRoomInfo() {
     // API GET REQUEST
     useEffect(() => {
         axios
-          .get(`https://uah.quietroom.app/building/OKT/room/${num}`)
+          .get(`https://uah.quietroom.app/building/${building}/room/${num}`)
           .then((response) => {
+            console.log(`https://uah.quietroom.app/building/${building}/room/${num}`);
             console.log(response)
             setRoom(response?.data);
             let readRooms = response?.data.Events;
@@ -110,24 +110,6 @@ export default function displayRoomInfo() {
     return (
       <>
         <p>test</p>
-        <Scheduler
-          view="week"
-          disableViewNavigator
-          events={[
-            {
-              event_id: 1,
-              title: "Event 1",
-              start: new Date("2021/5/2 09:30"),
-              end: new Date("2021/5/2 10:30"),
-            },
-            {
-              event_id: 2,
-              title: "Event 2",
-              start: new Date("2021/5/4 10:00"),
-              end: new Date("2021/5/4 11:00"),
-            },
-          ]}
-        />
       </>
     );
 }
