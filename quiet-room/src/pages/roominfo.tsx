@@ -10,11 +10,11 @@ import DisplayRoomInfo from "./api/displayRoomInfo";
 import GetAvailableRooms from "./api/getAvailableRooms";
 
 
-export default function RoomInfo(props: RoomInfoInt) {
+export default function RoomInfo() {
 
   return (
     <>
-      <DisplayRoomInfo numVal={props.numVal} buildingVal={props.buildingVal}></DisplayRoomInfo>
+      <DisplayRoomInfo></DisplayRoomInfo>
     </>
   );
 }

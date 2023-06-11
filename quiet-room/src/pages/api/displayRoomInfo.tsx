@@ -4,6 +4,7 @@ import Room from "@/interfaces/Room";
 import { uuid } from "uuidv4";
 import axios from "axios";
 import { Scheduler } from "@aldabil/react-scheduler";
+import { useRouter } from "next/router";
 
 
 
@@ -63,12 +64,16 @@ function cleanEvents(arr: any) {
 
 }
 
-export default function displayRoomInfo(props: RoomInfoInt) {
+export default function displayRoomInfo() {
+
+    const getBuildingQ = useRouter()?.query?.building ?? "OKT";
+    const getNumQ = useRouter()?.query?.num ?? "N324";
+
 
     const [room, setRoom] = useState<Room>();
     const [events, setEvents] = useState();
-    const [building, setBuilding] = useState('OKT');
-    const [num, setNum] = useState('N324');
+    const [building, setBuilding] = useState(getBuildingQ);
+    const [num, setNum] = useState(getNumQ);
 
 
     const handleText = (e: any) => {
@@ -109,7 +114,21 @@ export default function displayRoomInfo(props: RoomInfoInt) {
 
     return (
       <>
-        <p>test</p>
+        <p>{JSON.stringify(events)}</p>
       </>
     );
 }
+
+/**
+ * 
+ * 
+
+ <Link
+  href={{
+    pathname: '/about',
+    query: { name: 'test' },
+  }}
+>
+
+ * 
+ */

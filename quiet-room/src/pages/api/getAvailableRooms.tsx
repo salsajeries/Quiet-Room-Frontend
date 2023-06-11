@@ -153,6 +153,14 @@ export default function getAvailableRooms() {
             <hr></hr>
 
             <InfoModal></InfoModal>
+            <Link 
+                href={{
+                    pathname: '/roominfo',
+                    query: { building: 'OKT', num: 'N155' }
+                }}
+            >
+                Click here!
+            </Link>
 
             <hr></hr>
 
