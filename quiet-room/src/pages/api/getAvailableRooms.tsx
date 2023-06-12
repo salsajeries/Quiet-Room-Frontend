@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import buildingsList from './buildings.json';
-import { Box, Divider, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Select } from "@mui/material";
+import { Box, Button, Chip, Fade, InputLabel, MenuItem, Paper, Popper, Select, Snackbar, Tooltip } from "@mui/material";
 import { Input } from '@mui/material';
 import InfoModal from "@/components/InfoModal";
 import Link from "next/link";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, gridRowSelectionStateSelector, useGridApiContext } from "@mui/x-data-grid";
 import { uuid } from "uuidv4";
+import router from "next/router";
+import MechButton from "@/components/MechButton";
 
 
 // URL for API Request: Get Available Rooms
@@ -29,23 +31,38 @@ const columns: GridColDef[] = [
 
 
 
-interface AvailableRoomsInt {
-    Building: string;
-    RoomNumber: string;
-    id: string;
-}
+
+
 
 export default function getAvailableRooms() {
 
-    // Toggle submit
-    const [toggle, setToggle] = useState(false);
+    // Toggle snackbar
+    const [open, setOpen] = useState(false);
 
     const [rooms, setRooms] = useState<any[]>([]);                     // Rooms list
-    
     const [day, setDay] = useState('M')                         // Day selection
-    //const [building, setBuilding] = useState('');               // Building selection
     const [startTime, setStartTime] = useState('1100');         // Start time
     const [endTime, setEndTime] = useState('1300');             // End time
+
+    const handleRowDoubleClick = (e: any) => {
+        console.log(e.row.RoomNumber);
+        router.push({
+            pathname: '/roominfo',
+            query: { building: e.row.Building, num: e.row.RoomNumber }
+        })
+    }
+
+    const handleRowClick = (e: any) => {
+        setOpen(true);
+    }
+
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+      };
 
     const handleSubmit = (e: any) => {
 
@@ -86,12 +103,6 @@ export default function getAvailableRooms() {
     }
 
 
-    // Set building code
-    const handleBuilding = (e: any) => {
-        //setBuilding(e.target.value);
-        console.log(e.target.value);
-    }
-
     // Set day option
     const handleDay = (e: any) => {
         setDay(e.target.value);
@@ -122,6 +133,7 @@ export default function getAvailableRooms() {
     return (
         <>
             <br></br>
+            <InputLabel id="weekday-select-label">Weekday</InputLabel>
             <Select
                 labelId="weekday-select-label"
                 id="weekday-select"
@@ -130,7 +142,8 @@ export default function getAvailableRooms() {
                 onChange={handleDay}
                 style={{width: "200px"}}
             >
-                <MenuItem value={'M'} selected>Monday</MenuItem>
+                <MenuItem>Select Weekday</MenuItem>
+                <MenuItem value={'M'}>Monday</MenuItem>
                 <MenuItem value={'T'}>Tuesday</MenuItem>
                 <MenuItem value={'W'}>Wednesday</MenuItem>
                 <MenuItem value={'R'}>Thursday</MenuItem>
@@ -148,23 +161,11 @@ export default function getAvailableRooms() {
                 defaultValue={'12:00'}
                 style={{colorScheme: 'light'}}
             ></Input>
-            <hr></hr>
+
 
             <hr></hr>
 
-            <InfoModal></InfoModal>
-            <Link 
-                href={{
-                    pathname: '/roominfo',
-                    query: { building: 'OKT', num: 'N155' }
-                }}
-            >
-                Click here!
-            </Link>
-
-            <hr></hr>
-
-            <Box sx={{ height: 400, width: '100%' }}>
+            <Box sx={{ height: 400, width: '80%' }}>
                 <DataGrid
                     rows={rooms!}
                     columns={columns}
@@ -176,8 +177,14 @@ export default function getAvailableRooms() {
                     },
                     }}
                     pageSizeOptions={[10]}
-                    checkboxSelection
-                    disableRowSelectionOnClick
+                    onRowClick={handleRowClick}
+                    onRowDoubleClick={handleRowDoubleClick}
+                />
+                <Snackbar
+                    open={open}
+                    onClose={handleClose}
+                    autoHideDuration={3000}
+                    message="Double-Click to view Room Info"
                 />
             </Box>
 
@@ -185,10 +192,6 @@ export default function getAvailableRooms() {
         </>
     );
 }
-
-
-
-
 
 
 

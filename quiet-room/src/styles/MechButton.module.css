@@ -1,5 +1,6 @@
 .buttonCard {
     display: flex;
+    justify-content: center;
     align-content: flex-start;
     border: 2px solid #181848;
     background-color: transparent;
