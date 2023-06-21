@@ -5,6 +5,7 @@ import { uuid } from "uuidv4";
 import axios from "axios";
 import { Scheduler } from "@aldabil/react-scheduler";
 import { useRouter } from "next/router";
+import { getRoomInfo } from "../api/getRoomInfo";
 
 
 
@@ -54,8 +55,6 @@ function cleanEvents(arr: any) {
 
         // If valid date, push event to new array
         if (isValidDate(date)) {
-
-
             newArr.push(arr[i]);
         }
     }
@@ -64,25 +63,23 @@ function cleanEvents(arr: any) {
 
 }
 
+
+
+
 export default function displayRoomInfo() {
 
-    const getBuildingQ = useRouter()?.query?.building ?? "OKT";
-    const getNumQ = useRouter()?.query?.num ?? "N324";
+    let getBuildingQ = useRouter()?.query?.building ?? 'OKT';
+    let getNumQ = useRouter()?.query?.num ?? 'N324';
 
-
-    const [room, setRoom] = useState<Room>();
-    const [events, setEvents] = useState();
+    
+    const [room, setRoom] = useState();
+    const [events, setEvents] = useState<any[]>([]);
     const [building, setBuilding] = useState(getBuildingQ);
     const [num, setNum] = useState(getNumQ);
 
+    
+    useState(() => {
 
-    const handleText = (e: any) => {
-        if (e.key == 'Enter')
-            setNum(e.target.value);
-    }
-
-    // API GET REQUEST
-    useEffect(() => {
         axios
           .get(`https://uah.quietroom.app/building/${building}/room/${num}`)
           .then((response) => {
@@ -105,30 +102,34 @@ export default function displayRoomInfo() {
             console.log(Error);
             return <>NOT FOUND</>;
           })
-    }, [num]);
 
-    // LOADING CONDITION
+    }, )
+
+
     if (events === undefined) {
         return <>Still loading...</>;
     }
+
 
     return (
       <>
         <p>{JSON.stringify(events)}</p>
       </>
-    );
+    )
+
 }
 
-/**
- * 
- * 
+/*
+    const handleText = (e: any) => {
+        if (e.key == 'Enter')
+            setNum(e.target.value);
+    }
 
- <Link
-  href={{
-    pathname: '/about',
-    query: { name: 'test' },
-  }}
->
+    */
 
- * 
- */
+    // LOADING CONDITION
+    /*
+    if (events === undefined) {
+        return <>Still loading...</>;
+    }
+*/

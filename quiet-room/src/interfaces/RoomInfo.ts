@@ -1,6 +1,6 @@
 interface RoomInfoInt {
-    numVal?: string;
-    buildingVal?: string;
+    numVal?: string | string[] | undefined;
+    buildingVal?: string | string[] | undefined;
 }
 
 

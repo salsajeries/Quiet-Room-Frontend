@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import buildingsList from './buildings.json';
-import { Box, Button, Chip, Fade, InputLabel, MenuItem, Paper, Popper, Select, Snackbar, Tooltip } from "@mui/material";
+import { Box, Button, Card, CardContent, Chip, Fade, InputLabel, MenuItem, Paper, Popper, Select, Snackbar, Tooltip, Typography } from "@mui/material";
 import { Input } from '@mui/material';
 import InfoModal from "@/components/InfoModal";
 import Link from "next/link";
@@ -179,14 +179,46 @@ export default function getAvailableRooms() {
                     pageSizeOptions={[10]}
                     onRowClick={handleRowClick}
                     onRowDoubleClick={handleRowDoubleClick}
+                    sx={{
+                        boxShadow: 2,
+                        borderColor: 'primary.light',
+                        '& .MuiDataGrid-cell:hover': {
+                          color: 'primary.main',
+                        },
+                        "& .MuiDataGrid-row": {
+                            border: 1,
+                            borderColor: 'primary.light'
+                        },
+                      }}
                 />
                 <Snackbar
                     open={open}
                     onClose={handleClose}
                     autoHideDuration={3000}
-                    message="Double-Click to view Room Info"
+                    message="Double-click to view full room details"
                 />
             </Box>
+
+            <hr></hr>
+
+            <Card variant="outlined" style={{width: '10vw'}}>
+                <CardContent>
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                        Word of the Day
+                    </Typography>
+                    <Typography variant="h5" component="div">
+                        Test
+                    </Typography>
+                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                        adjective
+                    </Typography>
+                    <Typography variant="body2">
+                        well meaning and kindly.
+                        <br />
+                        {'"a benevolent smile"'}
+                    </Typography>
+                </CardContent>
+            </Card>
 
 
         </>

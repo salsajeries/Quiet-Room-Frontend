@@ -3,6 +3,7 @@ import styles from '@/styles/Home.module.css'
 import LiveBackground from '@/components/LiveBackground'
 import MechButton from '@/components/MechButton'
 import { Col, Container, Row, Stack } from 'react-bootstrap'
+import Layout from '@/components'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -10,6 +11,7 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   return (
     <>      
+    <Layout>
       <Container className={styles.container} fluid={'sm'}>
         <Row>
           <Col className={styles.mainCenter}>
@@ -23,6 +25,7 @@ export default function Home() {
           </Col>
         </Row>
       </Container>
+    </Layout>
     </>
   )
 }
