@@ -1,67 +1,88 @@
-import Link from 'next/link';
 import styles from '../styles/NavbarObj.module.css'
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import Link from 'next/link';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { useState } from 'react';
+import { AppBar, Box, IconButton, Toolbar } from '@mui/material';
+import React from 'react';
 
-function NavbarObj() {
-  
-  const expand = "false";
-  
+
+export default function NavbarObj() {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <>
-        <Navbar key={expand} bg="" expand={expand} className={styles.colorNav} fixed={"top"} variant={"dark"}>
-          <Container fluid>
-            <Navbar.Brand href="#home">
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" style={{ background: 'transparent', boxShadow: 'none' }}>
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleShow}
+              sx={{ mr: 2 }}
+            >
               <img
-                src="logo-dark.png"
-                height="100vh"
+                src="bars-solid.svg"
+                height="40vh"
+                className="d-inline-block align-top"
+                alt="UAH QuietRoom"
+                />
+            </IconButton>
+            <Link href='/'>
+              <Box
+                sx={{
+                  display: { xs: 'none', md: 'flex' },
+                }}
+              >
+                <img
+                  src="icon-light.png"
+                  height="50vh"
+                  className="d-inline-block align-top"
+                  alt="UAH QuietRoom"
+                />
+                <img
+                  src="logo-text-light.png"
+                  height="50vh"
+                  className="d-inline-block align-top"
+                  alt="UAH QuietRoom"
+                  style={{padding: '10px'}}
+                />
+              </Box>
+            </Link>
+          </Toolbar>
+        </AppBar>
+      </Box>
+
+      <Offcanvas show={show} onHide={handleClose} style={{ backgroundColor: '#181848', color: '#E0DDDD', width: '200px' }}>
+        <Offcanvas.Header closeButton closeVariant='white'>
+          <Offcanvas.Title>
+            <Link href='/'>
+              <img
+                src="icon-dark.png"
+                height="50vh"
                 className="d-inline-block align-top"
                 alt="UAH QuietRoom"
               />
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`}>
-              <img className={styles.menuButton}
-                src="bars-solid.png"
-              />
-            </Navbar.Toggle>
-            <Navbar.Offcanvas
-              id={`offcanvasNavbar-expand-${expand}`}
-              aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
-              placement="end"
-              className={styles.colorOffcanvas}
-            >
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`} style={{fontSize: "250%"}}>
-                  Menu
-                </Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body>
-                <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Link href="/" className={styles.linkStyle}>
-                    <img src="home.png" className={styles.iconStyle} />
-                    Home
-                  </Link>
-                  <Link href="availablerooms" className={styles.linkStyle}>
-                    <img src="check.png" className={styles.iconStyle} />
-                    Available Rooms
-                  </Link>
-                  <Link href="roominfo" className={styles.linkStyle}>
-                    <img src="info.png" className={styles.iconStyle} />
-                    Room Info
-                  </Link>
-                </Nav>
-              </Offcanvas.Body>
-            </Navbar.Offcanvas>
-          </Container>
-        </Navbar>
+            </Link>
+          </Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <Link href='/roominfo' style={{textDecoration: 'none'}}>
+            <p style={{color: '#e0DDDD'}} className={styles.pageButton}>
+              Find Room Info
+            </p>
+          </Link>
+          <Link href='/availablerooms' style={{textDecoration: 'none'}}>
+            <p style={{color: '#e0DDDD'}} className={styles.pageButton}>
+              Available Rooms
+            </p>
+          </Link>
+        </Offcanvas.Body>
+      </Offcanvas>
     </>
   );
 }
-
-export default NavbarObj;
-
-  /**
-   * <Col><img src="logo-light.png" width={"100%"} /></Col>
-   */

@@ -1,23 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import buildingsList from '@/api/buildings.json';
-import { Box, Button, Card, CardContent, Chip, Fade, FormControl, Grid, InputLabel, MenuItem, Paper, Popper, Select, Snackbar, Stack, Tooltip, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CardContent, CardHeader, CardMedia, Chip, Container, Fade, FormControl, Grid, IconButton, InputLabel, MenuItem, Paper, Popper, Skeleton, Snackbar, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
+import Select from '@mui/material/Select'
 import { Input } from '@mui/material';
-import InfoModal from "@/components/InfoModal";
 import Link from "next/link";
 import { DataGrid, GridColDef, gridRowSelectionStateSelector, useGridApiContext } from "@mui/x-data-grid";
 import { uuid } from "uuidv4";
 import router from "next/router";
 import MechButton from "@/components/MechButton";
-
-
-
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-
-import DatePicker from 'react-native-modern-datepicker';
+import CardRoomInfo from '@/components/CardRoomInfo'
 
 
 
@@ -53,6 +45,7 @@ export default function ListAvailableRooms() {
     const [cardCapacity, setCardCapacity] = useState('');
     const [cardRoomType, setCardRoomType] = useState('');
 
+    const [testLoading, setTestLoading] = useState(true);
 
     const handleRowDoubleClick = (e: any) => {
         console.log(e.row.RoomNumber);
@@ -64,7 +57,9 @@ export default function ListAvailableRooms() {
 
     const handleRowClick = (e: any) => {
         setOpen(true);
-        
+        setTestLoading(false);
+
+
         axios
         .get(`https://uah.quietroom.app/building/${e.row.Building}/room/${e.row.RoomNumber}`)
         .then((response) => {
@@ -110,7 +105,7 @@ export default function ListAvailableRooms() {
             .then((response) => {
 
 
-                
+
                 console.log(loadingData)
                 console.log(`https://uah.quietroom.app/availability/${buildingID}?day=${day}&startTime=${startTime}&endTime=${endTime}`);
                 let readRooms = response?.data;
@@ -179,138 +174,231 @@ export default function ListAvailableRooms() {
             <br></br>
             <br></br>
 
-            <Stack
-                direction='column'
-                spacing={{ xs: 1, sm: 2, md: 4 }}
+            <Grid container
+                columns={{ xs: 4, sm: 10, md: 12, lg: 12 }}
+                justifyContent="center"
+                alignItems="flex-start"
+                margin={{ xs: 1 }}
             >
-                <FormControl fullWidth>
-                    <InputLabel id="weekday-select-label">Weekday</InputLabel>
-                    <Select
-                        labelId="weekday-select-label"
-                        id="weekday-select"
-                        defaultValue={''}
-                        onChange={handleDay}
-                        label="Weekday"
-                        style={{width: "200px"}}
+                <Grid container item xs={5} direction='column' justifyContent='center' alignItems='center'>
+                    <Grid container item direction='column' justifyContent='center' alignItems='center'
+                        zeroMinWidth
                     >
-                        <MenuItem value={'M'}>Monday</MenuItem>
-                        <MenuItem value={'T'}>Tuesday</MenuItem>
-                        <MenuItem value={'W'}>Wednesday</MenuItem>
-                        <MenuItem value={'R'}>Thursday</MenuItem>
-                        <MenuItem value={'F'}>Friday</MenuItem>
-                    </Select>
-                </FormControl>
-                <FormControl fullWidth>
-                    <InputLabel id="startdate-select-label"></InputLabel>
-                    <Select
-                        labelId="startdate-select-label"
-                        id="weekday-select"
-                        defaultValue={''}
-                        onChange={handleStartTime}
-                        label="Weekday"
-                        style={{width: "200px"}}
-                    >
-                        <MenuItem value={'01'}>01</MenuItem>
-                        <MenuItem value={'02'}>02</MenuItem>
-                        <MenuItem value={'03'}>03</MenuItem>
-                        <MenuItem value={'04'}>04</MenuItem>
-                        <MenuItem value={'05'}>05</MenuItem>
-                        <MenuItem value={'06'}>06</MenuItem>
-                        <MenuItem value={'07'}>07</MenuItem>
-                        <MenuItem value={'08'}>08</MenuItem>
-                        <MenuItem value={'09'}>09</MenuItem>
-                        <MenuItem value={'10'}>10</MenuItem>
-                        <MenuItem value={'11'}>11</MenuItem>
-                        <MenuItem value={'12'}>12</MenuItem>
-                    </Select>
-                </FormControl>
-                <Input type="time" onChange={handleStartTime}
-                    defaultValue={'10:00'}
-                    style={{colorScheme: 'light'}}
-                ></Input>
-                <Input type="time" onChange={handleEndTime}
-                    defaultValue={'12:00'}
-                    style={{colorScheme: 'light'}}
-                ></Input>
-            </Stack>
+                        <Grid item>
+                            <Select
+                                id="weekday-select"
+                                defaultValue={'X'}
+                                onChange={handleDay}
+                                label="Weekday"
+                                variant="standard"
+                                placeholder="Weekday"
+                                sx={{
+                                    minWidth: '20vw'
+                                }}
+                            >
+                                <MenuItem disabled value={'X'}>Weekday</MenuItem>
+                                <MenuItem value={'M'}>Monday</MenuItem>
+                                <MenuItem value={'T'}>Tuesday</MenuItem>
+                                <MenuItem value={'W'}>Wednesday</MenuItem>
+                                <MenuItem value={'R'}>Thursday</MenuItem>
+                                <MenuItem value={'F'}>Friday</MenuItem>
+                            </Select>
+                        </Grid>
+                        <Grid item>
+                            <TableContainer
+                                sx={{
+                                    minWidth: '35vw',
+                                    margin: '10px',
+                                    '& .MuiTable-root': {
+                                    },
+                                    '& .MuiTableCell-head': {
+                                        padding: '0px',
+                                        border: 'none'
+                                    },
+                                    '& .MuiTableCell-body': {
+                                        padding: '5px',
+                                        border: 'none'
+                                    }
+                                }}
+                            >
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center">Start Time</TableCell>
+                                            <TableCell align="center"></TableCell>
+                                            <TableCell align="center">End Time</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell align="center">
+                                                <Input type="time" onChange={handleStartTime}
+                                                    defaultValue={'10:00'}
+                                                    sx={{colorScheme: 'light'}}
+                                                ></Input>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <img
+                                                    src="minus-solid.svg"
+                                                    height="20vh"
+                                                    className="d-inline-block align-top"
+                                                    alt="UAH QuietRoom"
+                                                />
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Input type="time" onChange={handleEndTime}
+                                                    defaultValue={'12:00'}
+                                                    sx={{colorScheme: 'light'}}
+                                                ></Input>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                        <Grid item>
+                            <div onClick={handleSubmit}>
+                                <MechButton href={''} text={'Submit'} width={'30vw'}></MechButton>
+                            </div>
+                        </Grid>
+                    </Grid>
+                    <Grid item width={'85%'}>
+                        <CardRoomInfo loading={testLoading} cardTitle={cardTitle} cardRoomType={cardRoomType} cardCapacity={cardCapacity} />
+                    </Grid>
+                </Grid>
 
-
-            
-
-                <div onClick={handleSubmit} style={{width: '20vw', height: '10vh'}}>
-                    <MechButton href={''} text={'Submit'} width={'100%'} height={'100%'}></MechButton>
-                </div>
-                
-                
-            
-            <br></br>
-            <br></br>
-
-
-        
-
-
-
-
-            <Box sx={{ flexGrow: 2, width: '80%', marginLeft: '10px' }}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={8}>
-                        <DataGrid
+                <Grid item xs={5} margin={{xs: 1}} >
+                    <DataGrid
                         rows={rooms!}
                         columns={columns}
                         initialState={{
-                        pagination: {
-                            paginationModel: {
-                            pageSize: 10,
+                            pagination: {
+                                paginationModel: {
+                                pageSize: 10,
+                                },
                             },
-                        },
+                            sorting: {
+                                sortModel: [{ field: 'Building', sort: 'asc' }]
+                            },
                         }}
                         pageSizeOptions={[10]}
                         onRowClick={handleRowClick}
                         onRowDoubleClick={handleRowDoubleClick}
                         loading={loadingData}
-                        disableRowSelectionOnClick
                         sx={{
                             color: '#181848',
                             borderRadius: 5,
                             border: 2,
-                            '& .MuiDataGrid-cell:hover': {
-                            },
-                            "& .MuiDataGrid-row:selected": {
-                                borderColor: '#181848',
+                            '& .MuiDataGrid-row': {
+                                transition: 'all 0.15s ease-in-out'
                             }
                         }}
-                        
                     />
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        <Card variant="outlined">
-                            <CardContent>
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                    Room Information Advanced
-                                </Typography>
-                                <Typography variant="h5" component="div">
-                                    {cardTitle}
-                                </Typography>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    {cardRoomType}
-                                </Typography>
-                                <Typography variant="body2">
-                                    {cardCapacity}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
                 </Grid>
-            </Box>
+            </Grid> 
+            
 
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+
+            
             <Snackbar
                     open={open}
                     onClose={handleClose}
                     autoHideDuration={3000}
                     message="Double-click to view full room details"
             />
-
         </>
     );
 }
+
+
+
+
+
+/**
+
+
+<Grid display={'flex'} container item direction='column' justifyContent='center'>
+                        <Grid item>
+                                <Select
+                                    id="weekday-select"
+                                    defaultValue={'X'}
+                                    onChange={handleDay}
+                                    label="Weekday"
+                                    variant="standard"
+                                    placeholder="Weekday"
+                                    
+                                >
+                                    <MenuItem disabled value={'X'}>Weekday</MenuItem>
+                                    <MenuItem value={'M'}>Monday</MenuItem>
+                                    <MenuItem value={'T'}>Tuesday</MenuItem>
+                                    <MenuItem value={'W'}>Wednesday</MenuItem>
+                                    <MenuItem value={'R'}>Thursday</MenuItem>
+                                    <MenuItem value={'F'}>Friday</MenuItem>
+                                </Select>
+                        </Grid>
+                        <Grid item>
+                            <TableContainer
+                                sx={{
+                                    '& .MuiTable-root': {
+                                    },
+                                    '& .MuiTableCell-head': {
+                                        padding: '0px',
+                                        border: 'none'
+                                    },
+                                    '& .MuiTableCell-body': {
+                                        padding: '5px',
+                                        border: 'none'
+                                    }
+                                }}
+                            >
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center">Start Time</TableCell>
+                                            <TableCell align="center"></TableCell>
+                                            <TableCell align="center">End Time</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell align="center">
+                                                <Input type="time" onChange={handleStartTime}
+                                                    defaultValue={'10:00'}
+                                                    sx={{colorScheme: 'light'}}
+                                                ></Input>
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <img
+                                                    src="minus-solid.svg"
+                                                    height="20vh"
+                                                    className="d-inline-block align-top"
+                                                    alt="UAH QuietRoom"
+                                                />
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Input type="time" onChange={handleEndTime}
+                                                    defaultValue={'12:00'}
+                                                    sx={{colorScheme: 'light'}}
+                                                ></Input>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                        <Grid item>
+                            <div onClick={handleSubmit} style={{width: '400px'}}>
+                                <MechButton href={''} text={'Submit'} width={'300px'}></MechButton>
+                            </div>
+                        </Grid>
+
+
+                    </Grid>
+
+
+ */

@@ -68,7 +68,7 @@ function cleanEvents(arr: any) {
 
 export default function displayRoomInfo() {
 
-    let getBuildingQ = useRouter()?.query?.building ?? 'OKT';
+    let getBuildingQ = useRouter()?.query?.building ;
     let getNumQ = useRouter()?.query?.num ?? 'N324';
 
     

@@ -11,7 +11,7 @@ const Layout = ({ children }) => (
       type: "spring",
       stiffness: 260,
       damping: 20,
-      delay: 0.2
+      stiffness: 260,
     }}
   >
     {children}
