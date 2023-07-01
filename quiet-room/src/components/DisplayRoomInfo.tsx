@@ -68,7 +68,7 @@ function cleanEvents(arr: any) {
 
 export default function displayRoomInfo() {
 
-    let getBuildingQ = useRouter()?.query?.building ;
+    let getBuildingQ = useRouter()?.query?.building ?? 'OKT';
     let getNumQ = useRouter()?.query?.num ?? 'N324';
 
     
@@ -77,7 +77,7 @@ export default function displayRoomInfo() {
     const [building, setBuilding] = useState(getBuildingQ);
     const [num, setNum] = useState(getNumQ);
 
-    
+
     useState(() => {
 
         axios
@@ -114,6 +114,7 @@ export default function displayRoomInfo() {
     return (
       <>
         <p>{JSON.stringify(events)}</p>
+        <br></br>
       </>
     )
 

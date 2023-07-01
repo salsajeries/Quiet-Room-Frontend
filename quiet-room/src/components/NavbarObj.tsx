@@ -35,7 +35,8 @@ export default function NavbarObj() {
             <Link href='/'>
               <Box
                 sx={{
-                  display: { xs: 'none', md: 'flex' },
+                  minWidth: '450px',
+                  display: { md: 'flex' },
                 }}
               >
                 <img

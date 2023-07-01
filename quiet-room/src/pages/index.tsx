@@ -4,6 +4,7 @@ import LiveBackground from '@/components/LiveBackground'
 import MechButton from '@/components/MechButton'
 import { Col, Container, Row, Stack } from 'react-bootstrap'
 import Layout from '@/components'
+import { Grid } from '@mui/material'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -12,18 +13,24 @@ export default function Home() {
   return (
     <>      
     <Layout>
-      <Container className={styles.container} fluid={'sm'}>
-        <Row>
-          <Col className={styles.mainCenter}>
+      <Container className={styles.container}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+          columns={{xs: 2, sm: 6, md: 6}}
+        >
+          <Grid item className={styles.mainCenter} xs={3}>
             <img src={'logo-light.png'} className={styles.logoStyle} />
-          </Col>
-          <Col className={styles.mainCenter}>
+          </Grid>
+          <Grid item xs={3} minWidth={'400px'}>
             <Stack className={styles.mainCenter}>
-              <MechButton href={'/roominfo'} text={'Find Room Info'} width={'30vw'} height={'auto'} />
-              <MechButton href={'/availablerooms'} text={'Find Available Rooms'} width={'30vw'} height={'auto'} />
+              <MechButton href={'/roominfo'} text={'Find Room Info'} width={'30vw'} height={'auto'} fontSize={'2vw'} />
+              <MechButton href={'/availablerooms'} text={'Find Available Rooms'} width={'30vw'} height={'auto'} fontSize={'2vw'} />
             </Stack>
-          </Col>
-        </Row>
+          </Grid>
+        </Grid>
       </Container>
     </Layout>
     </>
