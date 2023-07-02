@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import buildingsList from '@/api/buildings.json';
-import { Container, Grid, LinearProgress, MenuItem, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Grid, LinearProgress, MenuItem, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import Select from '@mui/material/Select'
 import { Input } from '@mui/material';
-import Link from "next/link";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { uuid } from "uuidv4";
 import router from "next/router";
 import MechButton from "@/components/MechButton";
 import CardRoomInfo from '@/components/CardRoomInfo'
-import { Icon } from "next/dist/lib/metadata/types/metadata-types";
 
 
 // Parse time input value for API Request format
@@ -131,7 +129,7 @@ export default function ListAvailableRooms() {
                 const tempType = response?.data.RoomType;
                 if (tempType.includes('Lab'))
                     setCardRoomType(tempType.substring(0, 3) + ' - ' + tempType.substring(4))
-                if (tempType.includes('*'))
+                else if (tempType.includes('*'))
                     setCardRoomType(tempType.substring(1))
                 else
                     setCardRoomType(response?.data.RoomType)
@@ -292,6 +290,7 @@ export default function ListAvailableRooms() {
                 </Grid>
                 <Grid item xs={4} margin={{xs: 1}} >
                     <DataGrid
+                        autoHeight
                         slots={{
                             loadingOverlay: LinearProgress
                         }}
@@ -315,7 +314,6 @@ export default function ListAvailableRooms() {
                             color: '#181848',
                             borderRadius: 5,
                             border: 2,
-                            height: '600px',
                             '& .MuiDataGrid-row': {
                                 transition: 'all 0.15s ease-in-out'
                             }
