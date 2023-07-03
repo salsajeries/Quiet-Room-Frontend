@@ -58,12 +58,12 @@ export default function NavbarObj() {
         </AppBar>
       </Box>
 
-      <Offcanvas show={show} onHide={handleClose} style={{ backgroundColor: '#181848', color: '#E0DDDD', width: '200px' }}>
+      <Offcanvas show={show} onHide={handleClose} style={{ backgroundColor: '#181848', color: '#E0DDDD', width: '320px' }}>
         <Offcanvas.Header closeButton closeVariant='white'>
           <Offcanvas.Title>
             <Link href='/'>
               <img
-                src="icon-dark.png"
+                src="logo-dark.png"
                 height="50vh"
                 className="d-inline-block align-top"
                 alt="UAH QuietRoom"

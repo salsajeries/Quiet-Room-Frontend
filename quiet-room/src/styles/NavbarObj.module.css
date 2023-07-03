@@ -1,3 +1,15 @@
+.pageButton {
+    text-decoration: none;
+    font-size: 125%;
+    padding-left: 5%;
+    padding-bottom: 5%;
+    transition: all 0.15s ease-in-out;
+}
+
 .pageButton:hover {
-    color: 'black'
+    transform: translateX(8px);
+}
+
+.pageButton:active {
+    transform: translateX(-2px);
 }
