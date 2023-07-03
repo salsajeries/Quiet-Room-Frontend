@@ -13,6 +13,7 @@ export default function Home() {
   return (
     <>      
     <Layout>
+    <LiveBackground></LiveBackground>
       <Container className={styles.container}>
         <Grid
           container
