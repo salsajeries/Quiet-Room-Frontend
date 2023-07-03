@@ -68,9 +68,9 @@ function cleanEvents(arr: any) {
 // Define list component columns
 const columns: GridColDef[] = [
     { field: 'Name', headerName: 'Classname', width: 100 },
-    { field: 'BuildingCode', headerName: 'Building', width: 80 },
-    { field: 'RoomNumber', headerName: 'Room Number', width: 120 },
-    { field: 'DaysMet', headerName: 'Days Met', width: 200 },
+    { field: 'BuildingCode', headerName: 'Building', width: 80, sortable: false, filterable: false },
+    { field: 'RoomNumber', headerName: 'Room Number', width: 120, sortable: false, filterable: false },
+    { field: 'DaysMet', headerName: 'Days Met', width: 200, sortingOrder: ['desc', 'asc'] },
     { field: 'StartTime', headerName: 'Start Time', width: 100 },
     { field: 'EndTime', headerName: 'End Time', width: 100 }
 ];

@@ -22,8 +22,8 @@ function getTime(rawTime: string) {
 
 // Define list component columns
 const columns: GridColDef[] = [
-    { field: 'Building', headerName: 'Building', width: 130 },
-    { field: 'RoomNumber', headerName: 'Room Number', width: 200 }
+    { field: 'Building', headerName: 'Building', width: 130, sortingOrder: ['desc', 'asc'] },
+    { field: 'RoomNumber', headerName: 'Room Number', width: 200, sortable: false }
 ];
 
 
