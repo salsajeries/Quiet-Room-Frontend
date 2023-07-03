@@ -1,19 +1,9 @@
-import MechButton from "@/components/MechButton";
 import styles from '@/styles/RoomInfo.module.css'
-import { Col, Container, Nav, Row, Stack } from "react-bootstrap";
-
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-//import GetRoomInfo from "./api/getRoomInfo";
+import React from "react";
 import NavbarObj from "@/components/NavbarObj";
 import DisplayRoomInfo from "../components/DisplayRoomInfo";
-import GetAvailableRooms from "../api/getAvailableRooms";
-import { uuid } from "uuidv4";
-
-
-import { getRoomInfo, getResponse } from '../api/getData'
-import Room from "@/interfaces/Room";
 import Layout from "@/components";
+import { Container, Typography } from '@mui/material';
 
 
 export default function RoomInfo() {
@@ -22,7 +12,21 @@ export default function RoomInfo() {
     <>
       <Layout>
         <NavbarObj></NavbarObj>
-        <DisplayRoomInfo></DisplayRoomInfo>
+        <Container maxWidth={'xl'}
+            sx={{
+              paddingTop: '5vh',
+              marginLeft: 'none'
+            }}
+        >
+          <Typography variant="h4">Find Room Info</Typography>
+          <Typography variant="subtitle1">
+              Search for a room's full schedule by entering the building ID and room number. You can filter
+              and sort the results by clicking the menu for each column. You'll also find a quick overview
+              of the room's details in the 'Room Quick View' card!
+          </Typography>
+          <hr/>
+          <DisplayRoomInfo></DisplayRoomInfo>
+        </Container>
       </Layout>
     </>
   );

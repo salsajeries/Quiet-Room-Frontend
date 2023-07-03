@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import buildingsList from '@/api/buildings.json';
-import { Grid, LinearProgress, MenuItem, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Alert, Collapse, FormControl, Grid, IconButton, InputLabel, LinearProgress, MenuItem, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import Select from '@mui/material/Select'
 import { Input } from '@mui/material';
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -9,6 +9,7 @@ import { uuid } from "uuidv4";
 import router from "next/router";
 import MechButton from "@/components/MechButton";
 import CardRoomInfo from '@/components/CardRoomInfo'
+import CloseIcon from '@mui/icons-material/Close';
 
 
 // Parse time input value for API Request format
@@ -29,16 +30,18 @@ const columns: GridColDef[] = [
 
 export default function ListAvailableRooms() {
 
-    // Toggle snackbar
-    const [open, setOpen] = useState(false);
+    // Toggle states
+    const [open, setOpen] = useState(false);                // Snackbar toggle
+    const [alertOpen, setAlertOpen] = useState(false);      // Input error alert toggle
+
 
     // Available rooms list
     const [rooms, setRooms] = useState<any[]>([]);
 
     // Input data
-    const [day, setDay] = useState('M')                         // Day selection
-    const [startTime, setStartTime] = useState('1000');         // Start time
-    const [endTime, setEndTime] = useState('1200');             // End time
+    const [day, setDay] = useState('')                      // Day selection
+    const [startTime, setStartTime] = useState('');         // Start time
+    const [endTime, setEndTime] = useState('');             // End time
 
     // Loading states
     const [loadingData, setLoadingData] = useState<boolean>(false);     // Data grid loading state
@@ -90,14 +93,22 @@ export default function ListAvailableRooms() {
     // On submit, make API call and set appropriate loading states
     const handleSubmit = (e: any) => {
         
-        setLoadingData(true);
-        setRooms([]);
+        if (day == '' || startTime == '' || endTime == '') {
+            console.log('ERROR: Invalid input')
+            setAlertOpen(true)
+        }
+        else {
+            setAlertOpen(false)
+            setLoadingData(true)
+            setRooms([])
 
-        buildingsList.map((buildingID: string) => {
-            getAvailableRooms(buildingID, day, startTime, endTime);
-        })
+            buildingsList.map((buildingID: string) => {
+                getAvailableRooms(buildingID, day, startTime, endTime);
+            })
 
-        setLoadingData(false);
+            setLoadingData(false);
+        }
+
     };
 
     // On row double click, route to 'roominfo' page
@@ -205,32 +216,55 @@ export default function ListAvailableRooms() {
                 alignItems="flex-start"
             >
                 <Grid container item xs={5} direction='column' alignItems='center' minWidth={'500px'}>
-                    <Grid container item direction='column' justifyContent='center' alignItems='center' zeroMinWidth>
-                        <Grid item>
-                            <Select
-                                id="weekday-select"
-                                defaultValue={'X'}
-                                onChange={handleDay}
-                                label="Weekday"
-                                variant="standard"
-                                placeholder="Weekday"
-                                sx={{
-                                    minWidth: '20vw'
-                                }}
-                            >
-                                <MenuItem disabled value={'X'}>Weekday</MenuItem>
-                                <MenuItem value={'M'}>Monday</MenuItem>
-                                <MenuItem value={'T'}>Tuesday</MenuItem>
-                                <MenuItem value={'W'}>Wednesday</MenuItem>
-                                <MenuItem value={'R'}>Thursday</MenuItem>
-                                <MenuItem value={'F'}>Friday</MenuItem>
-                            </Select>
+                    <Grid container item direction='column' justifyContent='center' alignItems='center' spacing={1} zeroMinWidth>
+                        <Grid item width={'70%'}>
+                            <Collapse in={alertOpen}>
+                                <Alert
+                                variant="filled" severity="error"
+                                action={
+                                    <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setAlertOpen(false);
+                                    }}
+                                    >
+                                        <CloseIcon fontSize="inherit" />
+                                    </IconButton>
+                                }
+                                sx={{ mb: 2 }}
+                                >
+                                    Invalid input. Please try again!
+                                </Alert>
+                            </Collapse>
+                        </Grid>
+                        <Grid item width={'70%'}>
+                            <FormControl variant="standard" sx={{width: '100%'}}>
+                                <InputLabel id="weekday-select-label">Weekday</InputLabel>
+                                <Select
+                                    labelId="weekday-select-label"
+                                    id="weekday-select"
+                                    defaultValue={''}
+                                    onChange={handleDay}
+                                    variant="standard"
+                                    sx={{
+                                        width: '100%'
+                                    }}
+                                >
+                                    <MenuItem disabled value={'X'}>Select Weekday</MenuItem>
+                                    <MenuItem value={'M'}>Monday</MenuItem>
+                                    <MenuItem value={'T'}>Tuesday</MenuItem>
+                                    <MenuItem value={'W'}>Wednesday</MenuItem>
+                                    <MenuItem value={'R'}>Thursday</MenuItem>
+                                    <MenuItem value={'F'}>Friday</MenuItem>
+                                </Select>
+                            </FormControl>
                         </Grid>
                         <Grid item>
                             <TableContainer
                                 sx={{
                                     minWidth: '35vw',
-                                    margin: '10px',
                                     '& .MuiTable-root': {
                                     },
                                     '& .MuiTableCell-head': {
@@ -255,7 +289,7 @@ export default function ListAvailableRooms() {
                                         <TableRow>
                                             <TableCell align="center">
                                                 <Input type="time" onChange={handleStartTime}
-                                                    defaultValue={'10:00'}
+                                                    defaultValue={''}
                                                     sx={{colorScheme: 'light'}}
                                                 ></Input>
                                             </TableCell>
@@ -269,7 +303,7 @@ export default function ListAvailableRooms() {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <Input type="time" onChange={handleEndTime}
-                                                    defaultValue={'12:00'}
+                                                    defaultValue={''}
                                                     sx={{colorScheme: 'light'}}
                                                 ></Input>
                                             </TableCell>
@@ -316,6 +350,12 @@ export default function ListAvailableRooms() {
                             border: 2,
                             '& .MuiDataGrid-row': {
                                 transition: 'all 0.15s ease-in-out'
+                            },
+                            '& .MuiDataGrid-columnHeaders': {
+                                backgroundColor: '#181848'
+                            },
+                            '& .MuiDataGrid-columnHeaderTitle': {
+                                color: '#E0DDDD'
                             }
                         }}
                     />
