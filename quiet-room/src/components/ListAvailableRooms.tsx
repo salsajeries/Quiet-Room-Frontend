@@ -233,7 +233,7 @@ export default function ListAvailableRooms() {
                                         <CloseIcon fontSize="inherit" />
                                     </IconButton>
                                 }
-                                sx={{ mb: 2 }}
+                                sx={{ mb: 2, borderRadius: '15px' }}
                                 >
                                     Invalid input. Please try again!
                                 </Alert>
@@ -356,7 +356,15 @@ export default function ListAvailableRooms() {
                             },
                             '& .MuiDataGrid-columnHeaderTitle': {
                                 color: '#E0DDDD'
-                            }
+                            },
+                            '& .MuiDataGrid-sortIcon': {
+                                opacity: 1,
+                                color: "#E0DDDD",
+                            },
+                            '& .MuiDataGrid-menuIconButton': {
+                                opacity: 1,
+                                color: "#E0DDDD"
+                            },
                         }}
                     />
                 </Grid>
@@ -366,8 +374,11 @@ export default function ListAvailableRooms() {
                 open={open}
                 onClose={handleClose}
                 autoHideDuration={3000}
-                message="Double-click row to view full room details"
-            />
+            >
+                <Alert variant="filled" severity="info" sx={{ borderRadius: '15px', backgroundColor: '#181848', color: '#E0DDDD' }}>
+                    Double-click a row to view full room details!
+                </Alert>
+            </Snackbar>
         </>
     );
 }

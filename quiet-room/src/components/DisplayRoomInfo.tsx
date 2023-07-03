@@ -235,7 +235,7 @@ export default function displayRoomInfo() {
                                         <CloseIcon fontSize="inherit" />
                                     </IconButton>
                                 }
-                                sx={{ mb: 2 }}
+                                sx={{ mb: 2, borderRadius: '15px' }}
                                 >
                                     Invalid input. Please try again!
                                 </Alert>
@@ -307,7 +307,15 @@ export default function displayRoomInfo() {
                             },
                             '& .MuiDataGrid-columnHeaderTitle': {
                                 color: '#E0DDDD'
-                            }
+                            },
+                            '& .MuiDataGrid-sortIcon': {
+                                opacity: 1,
+                                color: "#E0DDDD",
+                            },
+                            '& .MuiDataGrid-menuIconButton': {
+                                opacity: 1,
+                                color: "#E0DDDD"
+                            },
                         }}
                     />
                 </Grid>
