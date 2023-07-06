@@ -2,7 +2,7 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import LiveBackground from '@/components/LiveBackground'
 import MechButton from '@/components/MechButton'
-import { Col, Container, Row, Stack } from 'react-bootstrap'
+import { Container, Stack } from '@mui/material'
 import Layout from '@/components'
 import { Grid } from '@mui/material'
 
@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>      
     <Layout>
-    <LiveBackground></LiveBackground>
+      <LiveBackground></LiveBackground>
       <Container className={styles.container}>
         <Grid
           container

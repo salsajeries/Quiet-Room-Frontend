@@ -27,7 +27,7 @@
     "@types/react": "18.0.33",
     "@types/react-dom": "18.0.11",
     "axios": "^1.4.0",
-    "bootstrap": "^5.0.1",
+    "bootstrap": "^5.2.3",
     "dayjs": "^1.11.8",
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
