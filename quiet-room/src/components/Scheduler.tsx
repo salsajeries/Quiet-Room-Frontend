@@ -176,7 +176,7 @@ export default function Schedule(props: SchedulerViewInt) {
                         
                         <Typography sx={{ flexShrink: 0 }}>
                             <InfoIcon style={{ color: '#181848', margin: '1vw' }} />
-                            Note: Courses offered as both undergradute and graduate level appear twice in a timeslot with
+                            Note: Courses offered as both undergradute and graduate level appear twice in the same timeslot
                             their respective course numbers. Ex: CS 424 and CS 524
                         </Typography>
                         <br></br>
