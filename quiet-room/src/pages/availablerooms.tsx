@@ -19,7 +19,7 @@ export default function AvailableRooms() {
             <Typography variant="h4">Find Available Rooms</Typography>
             <Typography variant="subtitle1">
                 Select a weekday and time range to search for available rooms on campus. You can filter
-                and sort the results by building or room number by clicking the menu for each column. Select 
+                and sort the results by building or room number by clicking the menu button for each column. Select 
                 a row to get a quick-view of room info, and double click a row to find the full details
                 and schedule for that room!
             </Typography>

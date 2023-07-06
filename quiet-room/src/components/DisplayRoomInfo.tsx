@@ -3,11 +3,16 @@ import { uuid } from "uuidv4";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Alert, Collapse, FormControl, Grid, IconButton, InputLabel, LinearProgress, MenuItem, Select, TextField } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Collapse, FormControl, Grid, IconButton, InputLabel, LinearProgress, List, ListItemButton, ListItemText, ListSubheader, MenuItem, Select, TextField, Typography } from "@mui/material";
 import buildingsList from '@/api/buildings.json';
 import MechButton from "./MechButton";
 import CardRoomInfo from "./CardRoomInfo";
 import CloseIcon from '@mui/icons-material/Close';
+import Event from "@/interfaces/Event";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+
+import Scheduler from "./Scheduler";
 
 
 
@@ -16,18 +21,11 @@ function convertTime(timeVal: string) {
     let min = timeVal.substring(2, 4);
     let opt = 'AM'
 
+    if (hour == 12) { opt = 'PM' };
     if (hour > 12) { hour -= 12; opt = 'PM' };
     if (hour == 0) { hour = 12 };
 
     return hour.toString() + ':' + min + ' ' + opt;
-}
-
-function parseDate(dateVal: string) {
-    let year = parseInt(dateVal.substring(0,4));
-    let month = parseInt(dateVal.substring(5,7));
-    let day = parseInt(dateVal.substring(8,10));
-
-    return month.toString() + '/' + day.toString() + '/' + year.toString();
 }
 
 function isValidDate(dateVal: string) {
@@ -65,6 +63,7 @@ function cleanEvents(arr: any) {
 
 }
 
+
 // Define list component columns
 const columns: GridColDef[] = [
     { field: 'Name', headerName: 'Classname', width: 100 },
@@ -84,12 +83,12 @@ export default function displayRoomInfo() {
 
 
     // Toggle states
-    const [toggle, setToggle] = useState<boolean>(false);       // Submit toggle
-    const [alertOpen, setAlertOpen] = useState(false);          // Input error alert toggle
+    const [submitToggle, setSubmitToggle] = useState(false);                        // Submit toggle
+    const [alertOpen, setAlertOpen] = useState(false);                  // Input error alert toggle
 
     // Room information
     const [room, setRoom] = useState();
-    const [events, setEvents] = useState<any[]>([]);
+    const [events, setEvents] = useState<Event[]>([]);
     const [building, setBuilding] = useState(getBuildingQ);       // Set to query?.building, otherwise empty
     const [num, setNum] = useState(getNumQ);                      // Set to query?.num, otherwise empty
 
@@ -100,7 +99,9 @@ export default function displayRoomInfo() {
     const [cardIcon, setCardIcon] = useState('');
 
     // Loading states
-    const [cardLoading, setCardLoading] = useState(true);           // Card loading state
+    const [cardLoading, setCardLoading] = useState(true);               // Card loading state
+    const [schedulerToggle, setSchedulerToggle] = useState(true);       // Scheduler component loading state
+
 
     // On submit, make API call
     const handleSubmit = (e: any) => {
@@ -110,7 +111,8 @@ export default function displayRoomInfo() {
         }
         else {
             setAlertOpen(false)
-            setToggle(!toggle)
+            setSchedulerToggle(!schedulerToggle)
+            setSubmitToggle(!submitToggle)
         }
     }
 
@@ -155,8 +157,13 @@ export default function displayRoomInfo() {
                     DaysMet: element.DaysMet.toString().replaceAll(',', ' - '),
                     StartTime: convertTime(element.StartTime),
                     EndTime: convertTime(element.EndTime),
+                    RawStartTime: element.StartTime,
+                    RawEndTime: element.EndTime,
                     EventID: uuid()
                 }));
+
+                setEvents(addID);
+
 
                 // Set card Title and Capacity
                 setCardTitle(response?.data.BuildingCode + ' ' + response?.data.RoomNumber);
@@ -188,7 +195,6 @@ export default function displayRoomInfo() {
                     setCardIcon('info.png')
                 }
 
-                setEvents(addID);
                 setCardLoading(false);
 
             })
@@ -199,7 +205,7 @@ export default function displayRoomInfo() {
 
         }
 
-    }, [toggle])
+    }, [(submitToggle)])
 
 
     if (events === undefined) {
@@ -207,11 +213,16 @@ export default function displayRoomInfo() {
     }
 
 
+    const sendEvents = () => {
+        return events;
+    }
+
+
+
+
+
     return (
-      <>
-        <br></br>
-        <br></br>
-        
+      <>        
             <Grid container
                 columns={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}
                 justifyContent="space-evenly"
@@ -321,7 +332,9 @@ export default function displayRoomInfo() {
                 </Grid>
             </Grid> 
 
+            <br></br>
 
+            <Scheduler rawEvents={events} toggle={schedulerToggle}></Scheduler>
 
 
       </>

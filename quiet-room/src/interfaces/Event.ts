@@ -6,6 +6,8 @@ interface Event {
     RoomNumber: string;
     StartTime: string;
     EndTime: string;
+    RawStartTime: string;
+    RawEndTime: string;
     DaysMet: Days[];
     StartDate: string;
     EndDate: string;

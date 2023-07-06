@@ -21,8 +21,9 @@ export default function RoomInfo() {
           <Typography variant="h4">Find Room Info</Typography>
           <Typography variant="subtitle1">
               Search for a room's full schedule by entering the building ID and room number. You can filter
-              and sort the results by clicking the menu for each column. You'll also find a quick overview
-              of the room's details in the 'Room Quick View' card!
+              and sort the results by clicking the menu button for each column. You can also see a quick overview
+              of the room's details in the "Room Quick View" card! At the bottom, you'll find the "Schedule View"
+              where you can look at the room's weekly schedule in a calendar view!
           </Typography>
           <hr/>
           <DisplayRoomInfo></DisplayRoomInfo>
