@@ -22,7 +22,7 @@ export default function CardRoomInfo(props: CardRoomInfoProps) {
                     borderColor: '#181848',
                     borderRadius: '15px',
                     backgroundColor: 'transparent',
-                    spacing: '5px'
+                    spacing: '5px',
                 }}
             >
                 <CardHeader
@@ -34,6 +34,7 @@ export default function CardRoomInfo(props: CardRoomInfoProps) {
                             <img 
                                 src={props.cardIcon}
                                 height='30px'
+                                alt={'Card-Icon'}
                             />
                         </Avatar>
                     )

@@ -35,19 +35,19 @@ export default function NavbarObj() {
             <Link href='/'>
               <Box
                 sx={{
-                  minWidth: '450px',
+                  minWidth: '330px',
                   display: { md: 'flex' },
                 }}
               >
                 <img
                   src="icon-light.png"
-                  height="50vh"
+                  height="45vh"
                   className="d-inline-block align-top"
                   alt="UAH QuietRoom"
                 />
                 <img
                   src="logo-text-light.png"
-                  height="50vh"
+                  height="45vh"
                   className="d-inline-block align-top"
                   alt="UAH QuietRoom"
                   style={{padding: '10px'}}

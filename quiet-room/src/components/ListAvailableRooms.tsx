@@ -1,15 +1,17 @@
 import React, { useState } from "react";
+import styles from '@/styles/ListAvailableRooms.module.css'
 import axios from "axios";
 import buildingsList from '@/api/buildings.json';
 import { Alert, Collapse, FormControl, Grid, IconButton, InputLabel, LinearProgress, MenuItem, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import Select from '@mui/material/Select'
 import { Input } from '@mui/material';
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { uuid } from "uuidv4";
 import router from "next/router";
 import MechButton from "@/components/MechButton";
 import CardRoomInfo from '@/components/CardRoomInfo'
 import CloseIcon from '@mui/icons-material/Close';
+
 
 
 // Parse time input value for API Request format
@@ -40,8 +42,8 @@ export default function ListAvailableRooms() {
 
     // Input data
     const [day, setDay] = useState('')                      // Day selection
-    const [startTime, setStartTime] = useState('');         // Start time
-    const [endTime, setEndTime] = useState('');             // End time
+    const [startTime, setStartTime] = useState('1000');     // Start time
+    const [endTime, setEndTime] = useState('1100');         // End time
 
     // Loading states
     const [loadingData, setLoadingData] = useState<boolean>(false);     // Data grid loading state
@@ -147,7 +149,7 @@ export default function ListAvailableRooms() {
 
                 // Set card Icon
                 if (tempType.includes('Classroom')) {
-                    setCardIcon('pencil-solid.png')
+                    setCardIcon('book-solid.svg')
                 }
                 else if (tempType.includes('Computer') || tempType.includes('Graphics')) {
                     setCardIcon('desktop-solid.svg')
@@ -215,8 +217,8 @@ export default function ListAvailableRooms() {
                 justifyContent="space-evenly"
                 alignItems="flex-start"
             >
-                <Grid container item xs={5} direction='column' alignItems='center' minWidth={'500px'}>
-                    <Grid container item direction='column' justifyContent='center' alignItems='center' spacing={1} zeroMinWidth>
+                <Grid container item xs={5} direction='column' alignItems='center' minWidth={'300px'}>
+                    <Grid container item direction='column' justifyContent='center' alignItems='center' zeroMinWidth>
                         <Grid item width={'70%'}>
                             <Collapse in={alertOpen}>
                                 <Alert
@@ -261,10 +263,11 @@ export default function ListAvailableRooms() {
                                 </Select>
                             </FormControl>
                         </Grid>
+                        <br></br>
                         <Grid item>
                             <TableContainer
                                 sx={{
-                                    minWidth: '35vw',
+                                    
                                     '& .MuiTable-root': {
                                     },
                                     '& .MuiTableCell-head': {
@@ -288,8 +291,8 @@ export default function ListAvailableRooms() {
                                     <TableBody>
                                         <TableRow>
                                             <TableCell align="center">
-                                                <Input type="time" onChange={handleStartTime}
-                                                    defaultValue={''}
+                                            <Input type="time" onChange={handleStartTime}
+                                                    defaultValue={'10:00'}
                                                     sx={{colorScheme: 'light'}}
                                                 ></Input>
                                             </TableCell>
@@ -303,7 +306,7 @@ export default function ListAvailableRooms() {
                                             </TableCell>
                                             <TableCell align="center">
                                                 <Input type="time" onChange={handleEndTime}
-                                                    defaultValue={''}
+                                                    defaultValue={'12:00'}
                                                     sx={{colorScheme: 'light'}}
                                                 ></Input>
                                             </TableCell>
@@ -312,9 +315,9 @@ export default function ListAvailableRooms() {
                                 </Table>
                             </TableContainer>
                         </Grid>
-                        <Grid item>
+                        <Grid item width={('90%')}>
                             <div onClick={handleSubmit}>
-                                <MechButton href={''} text={'Submit'} width={'30vw'}></MechButton>
+                                <MechButton href={''} text={'Search'} width={'90%'} fontSize={'4vh'}></MechButton>
                             </div>
                         </Grid>
                     </Grid>
@@ -369,7 +372,8 @@ export default function ListAvailableRooms() {
                     />
                 </Grid>
             </Grid> 
-            
+
+
             <Snackbar
                 open={open}
                 onClose={handleClose}

@@ -13,9 +13,17 @@
   min-width: 400px;
 }
 
-.mainCenter {
+.logoCenter {
   display: flex;
   justify-content: center;
   align-items: center;
   align-content: center;
+  padding: 'none';
+}
+
+.aboutContainer {
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
 }

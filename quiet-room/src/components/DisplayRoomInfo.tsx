@@ -1,17 +1,15 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import { uuid } from "uuidv4";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Collapse, FormControl, Grid, IconButton, InputLabel, LinearProgress, List, ListItemButton, ListItemText, ListSubheader, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Alert, Collapse, FormControl, Grid, IconButton, InputLabel, LinearProgress, MenuItem, Select, TextField } from "@mui/material";
 import buildingsList from '@/api/buildings.json';
 import MechButton from "./MechButton";
 import CardRoomInfo from "./CardRoomInfo";
 import CloseIcon from '@mui/icons-material/Close';
 import Event from "@/interfaces/Event";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-
 import Scheduler from "./Scheduler";
 
 
@@ -28,7 +26,7 @@ function convertTime(timeVal: string) {
     return hour.toString() + ':' + min + ' ' + opt;
 }
 
-function isValidDate(dateVal: string) {
+function isValidEndDate(dateVal: string) {
     let year = parseInt(dateVal.substring(0,4));
     let month = parseInt(dateVal.substring(5,7));
     let day = parseInt(dateVal.substring(8,10));
@@ -46,15 +44,34 @@ function isValidDate(dateVal: string) {
     return true;
 }
 
+function isValidStartDate(dateVal: string) {
+    let year = parseInt(dateVal.substring(0,4));
+    let month = parseInt(dateVal.substring(5,7));
+    let day = parseInt(dateVal.substring(8,10));
+    
+    // Remove old years
+    let today = new Date().getFullYear();
+    if (year < today) { return false };
+
+    // Remove old months within current year
+    // Condition: dateVal is "StartDate"
+    today = new Date().getMonth();
+    if (month < today) { return false };
+
+    // Else, return true
+    return true;
+}
+
 function cleanEvents(arr: any) {
 
     let newArr = [];
 
     for (let i = 0; i < arr.length; i++) {
-        let date = arr[i].EndDate;
+        let endDate = arr[i].EndDate;
+        let startDate = arr[i].StartDate;
 
-        // If valid date, push event to new array
-        if (isValidDate(date)) {
+        // If end date is in the future, push event to new array
+        if (isValidEndDate(endDate) && isValidStartDate(startDate)) {
             newArr.push(arr[i]);
         }
     }
@@ -67,11 +84,11 @@ function cleanEvents(arr: any) {
 // Define list component columns
 const columns: GridColDef[] = [
     { field: 'Name', headerName: 'Classname', width: 100 },
-    { field: 'BuildingCode', headerName: 'Building', width: 80, sortable: false, filterable: false },
-    { field: 'RoomNumber', headerName: 'Room Number', width: 120, sortable: false, filterable: false },
     { field: 'DaysMet', headerName: 'Days Met', width: 200, sortingOrder: ['desc', 'asc'] },
     { field: 'StartTime', headerName: 'Start Time', width: 100 },
-    { field: 'EndTime', headerName: 'End Time', width: 100 }
+    { field: 'EndTime', headerName: 'End Time', width: 100 },
+    { field: 'StartDate', headerName: 'Start Date', width: 100 },
+    { field: 'EndDate', headerName: 'End Date', width: 100 }
 ];
 
 
@@ -114,6 +131,10 @@ export default function displayRoomInfo() {
             setSchedulerToggle(!schedulerToggle)
             setSubmitToggle(!submitToggle)
         }
+
+        let today = new Date().getMonth();
+        console.log(today);
+
     }
 
     // Set building number
@@ -180,7 +201,7 @@ export default function displayRoomInfo() {
 
                 // Set card Icon
                 if (tempType.includes('Classroom')) {
-                    setCardIcon('pencil-solid.png')
+                    setCardIcon('book-solid.svg')
                 }
                 else if (tempType.includes('Computer') || tempType.includes('Graphics')) {
                     setCardIcon('desktop-solid.svg')
@@ -213,14 +234,6 @@ export default function displayRoomInfo() {
     }
 
 
-    const sendEvents = () => {
-        return events;
-    }
-
-
-
-
-
     return (
       <>        
             <Grid container
@@ -228,7 +241,7 @@ export default function displayRoomInfo() {
                 justifyContent="space-evenly"
                 alignItems="flex-start"
             >
-                <Grid container item xs={4} direction='column' alignItems='center' minWidth={'500px'}>
+                <Grid container item xs={4} direction='column' alignItems='center' minWidth={'340px'}>
                     <Grid container item direction='column' justifyContent='center' alignItems='center' spacing={1} zeroMinWidth>
                         <Grid item width={'80%'}>
                             <Collapse in={alertOpen}>
@@ -267,7 +280,7 @@ export default function displayRoomInfo() {
                                 >
                                     <MenuItem disabled value={''}>Select Building</MenuItem>
                                     {buildingsList.map((buildingID: any) =>
-                                        <MenuItem value={buildingID}>{buildingID}</MenuItem>
+                                        <MenuItem value={buildingID} key={buildingID}>{buildingID}</MenuItem>
                                     )}
                                 </Select>
                             </FormControl>
@@ -277,7 +290,7 @@ export default function displayRoomInfo() {
                         </Grid>
                         <Grid item width={'90%'}>
                             <div onClick={handleSubmit}>
-                                <MechButton href={''} text={'Submit'} width={'100%'}></MechButton>
+                                <MechButton href={''} text={'Search'} width={'100%'}></MechButton>
                             </div>
                         </Grid>
                         <Grid item width={'90%'}>

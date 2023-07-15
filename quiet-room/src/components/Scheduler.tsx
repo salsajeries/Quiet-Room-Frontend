@@ -1,6 +1,6 @@
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Paper, Skeleton, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Paper, Skeleton, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import styles from '@/styles/Scheduler.module.css'
@@ -143,14 +143,15 @@ export default function Schedule(props: SchedulerViewInt) {
     
     return (
         <div>
-            <Accordion sx={{
-                backgroundColor: 'transparent',
-                color: "#E0DDDD",
-                '& .MuiAccordionSummary-content': {
-                    justifyContent: 'center'
-                }
-            }}
-            elevation={0}
+            <Accordion 
+                elevation={0} defaultExpanded={true}
+                sx={{
+                    backgroundColor: 'transparent',
+                    color: "#E0DDDD",
+                    '& .MuiAccordionSummary-content': {
+                        justifyContent: 'center'
+                    }
+                }}
             >
                 <AccordionSummary
                 expandIcon={<ExpandMoreIcon style={{ color: "#E0DDDD" }}/>}
@@ -162,7 +163,7 @@ export default function Schedule(props: SchedulerViewInt) {
                     borderRadius: '15px',
                 }}
                 >
-                    <Typography sx={{ flexShrink: 0 }}>
+                    <Typography variant={'h6'} sx={{ flexShrink: 0 }}>
                         Schedule View
                     </Typography>
                 </AccordionSummary>
@@ -173,12 +174,18 @@ export default function Schedule(props: SchedulerViewInt) {
                         padding: '2vw',
                         backgroundColor: 'transparent'
                     }}>
-                        
-                        <Typography sx={{ flexShrink: 0 }}>
-                            <InfoIcon style={{ color: '#181848', margin: '1vw' }} />
-                            Note: Courses offered as both undergradute and graduate level appear twice in the same timeslot
-                            their respective course numbers. Ex: CS 424 and CS 524.
-                        </Typography>
+                        <Grid container justifyContent={'center'} alignItems={'center'}>
+                            <Grid item xs={1}>
+                                <InfoIcon style={{ color: '#181848' }} />
+                            </Grid>
+                            <Grid item xs={11}>
+                                <Typography sx={{ flexShrink: 0 }}>
+                                    Note: Courses offered as both undergradute and graduate level appear twice in the same timeslot with
+                                    their respective course numbers (Ex: CS 424 and CS 524). Courses may also overlap if they are given
+                                    different course IDs by different departments (Ex: CE 370 and MAE 370).
+                                </Typography>
+                            </Grid>
+                        </Grid>
                         <br></br>
                         <div className={styles.customCalendar}>
                             <FullCalendar
@@ -193,7 +200,7 @@ export default function Schedule(props: SchedulerViewInt) {
                                 slotMaxTime={"20:00:00"}
                                 nowIndicator={true}
                                 expandRows
-                                dayHeaderFormat={{ weekday: 'long' }}
+                                dayHeaderFormat={{ weekday: 'short' }}
                                 headerToolbar={false}
                             />
                         </div>
