@@ -18,6 +18,7 @@ export default function CardRoomInfo(props: CardRoomInfoProps) {
         <>
             <Card variant="outlined"
                 sx={{
+                    color: '#181848',
                     border: 'solid 2px',
                     borderColor: '#181848',
                     borderRadius: '15px',

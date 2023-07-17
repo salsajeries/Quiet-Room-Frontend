@@ -108,8 +108,9 @@ export default function displayRoomInfo() {
 
 
     // Toggle states
-    const [submitToggle, setSubmitToggle] = useState(false);            // Submit toggle
-    const [alertOpen, setAlertOpen] = useState(false);                  // Input error alert toggle
+    const [submitToggle, setSubmitToggle] = useState(false);                // Submit toggle
+    const [invalidAlertOpen, setInvalidAlertOpen] = useState(false);        // Input error alert toggle
+    const [dneAlertOpen, setDneAlertOpen] = useState(false);                // DNE error alert toggle
 
     // Room information
     const [room, setRoom] = useState();
@@ -189,8 +190,14 @@ export default function displayRoomInfo() {
                 setCardLoading(false);
             })
         }
-        catch {
-            console.log('ERROR');
+        catch(error: any) {
+
+            console.log(error?.message)             // Log error message to console
+
+            if (error?.response.status == '404') {
+                setDneAlertOpen(true)               // Open warning message that room DNE
+            }
+            
             setLoadingData(false);
         }
     }
@@ -199,17 +206,15 @@ export default function displayRoomInfo() {
     const handleSubmit = (e: any) => {
         if (building == '' || num == '') {
             console.log('ERROR: Invalid input')
-            setAlertOpen(true)
+            setInvalidAlertOpen(true)
+            setDneAlertOpen(false)
         }
         else {
-            setAlertOpen(false)
+            setInvalidAlertOpen(false)
+            setDneAlertOpen(false)
             setSchedulerToggle(!schedulerToggle)
             setSubmitToggle(!submitToggle)
         }
-
-        let today = new Date().getMonth();
-        console.log(today);
-
     }
 
     // Set building number
@@ -259,7 +264,7 @@ export default function displayRoomInfo() {
                 <Grid container item xs={4} direction='column' alignItems='center' minWidth={'340px'}>
                     <Grid container item direction='column' justifyContent='center' alignItems='center' spacing={1} zeroMinWidth>
                         <Grid item width={'80%'}>
-                            <Collapse in={alertOpen}>
+                            <Collapse in={invalidAlertOpen}>
                                 <Alert
                                 variant="filled" severity="error"
                                 action={
@@ -268,7 +273,7 @@ export default function displayRoomInfo() {
                                     color="inherit"
                                     size="small"
                                     onClick={() => {
-                                        setAlertOpen(false);
+                                        setInvalidAlertOpen(false);
                                     }}
                                     >
                                         <CloseIcon fontSize="inherit" />
@@ -277,6 +282,26 @@ export default function displayRoomInfo() {
                                 sx={{ mb: 2, borderRadius: '15px' }}
                                 >
                                     Invalid input. Please try again!
+                                </Alert>
+                            </Collapse>
+                            <Collapse in={dneAlertOpen}>
+                                <Alert
+                                variant="filled" severity="warning"
+                                action={
+                                    <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setDneAlertOpen(false);
+                                    }}
+                                    >
+                                        <CloseIcon fontSize="inherit" />
+                                    </IconButton>
+                                }
+                                sx={{ mb: 2, borderRadius: '15px' }}
+                                >
+                                    This room does not exist. Please try again!
                                 </Alert>
                             </Collapse>
                         </Grid>

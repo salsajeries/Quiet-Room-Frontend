@@ -32,9 +32,8 @@ const columns: GridColDef[] = [
 export default function ListAvailableRooms() {
 
     // Toggle states
-    const [open, setOpen] = useState(false);                // Snackbar toggle
-    const [alertOpen, setAlertOpen] = useState(false);      // Input error alert toggle
-
+    const [open, setOpen] = useState(false);                                // Snackbar toggle
+    const [invalidAlertOpen, setInvalidAlertOpen] = useState(false);        // Input error alert toggle
 
     // Available rooms list
     const [rooms, setRooms] = useState<any[]>([]);
@@ -85,11 +84,10 @@ export default function ListAvailableRooms() {
                 setLoadingData(false);
             })
         }
-        catch {
-            console.log('ERROR');
+        catch(error) {
+            console.log(error);
             setLoadingData(false);
         }
-
     };
 
     // On submit, make API call and set appropriate loading states
@@ -97,10 +95,10 @@ export default function ListAvailableRooms() {
         
         if (day == '' || startTime == '' || endTime == '') {
             console.log('ERROR: Invalid input')
-            setAlertOpen(true)
+            setInvalidAlertOpen(true)
         }
         else {
-            setAlertOpen(false)
+            setInvalidAlertOpen(false)
             setRooms([])
 
             buildingsList.map((buildingID: string) => {
@@ -216,7 +214,7 @@ export default function ListAvailableRooms() {
                 <Grid container item xs={5} direction='column' alignItems='center' minWidth={'300px'}>
                     <Grid container item direction='column' justifyContent='center' alignItems='center' zeroMinWidth>
                         <Grid item width={'70%'}>
-                            <Collapse in={alertOpen}>
+                            <Collapse in={invalidAlertOpen}>
                                 <Alert
                                 variant="filled" severity="error"
                                 action={
@@ -225,7 +223,7 @@ export default function ListAvailableRooms() {
                                     color="inherit"
                                     size="small"
                                     onClick={() => {
-                                        setAlertOpen(false);
+                                        setInvalidAlertOpen(false);
                                     }}
                                     >
                                         <CloseIcon fontSize="inherit" />
