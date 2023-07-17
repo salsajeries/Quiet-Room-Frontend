@@ -113,10 +113,9 @@ const columns: GridColDef[] = [
   { field: 'EndDate', headerName: 'End Date', width: 100 },
 ]
 
-export default function displayRoomInfo() {
-  let getBuildingQ = useRouter()?.query?.building != null ? useRouter()?.query?.building : ''
-  let getNumQ = useRouter()?.query?.num != null ? useRouter()?.query?.num : ''
-
+export default function DisplayRoomInfo() {
+  let getBuildingQ = useRouter()?.query?.building
+  let getNumQ = useRouter()?.query?.num
   // Toggle states
   const [submitToggle, setSubmitToggle] = useState(false) // Submit toggle
   const [invalidAlertOpen, setInvalidAlertOpen] = useState(false) // Input error alert toggle
@@ -125,8 +124,8 @@ export default function displayRoomInfo() {
   // Room information
   const [room, setRoom] = useState()
   const [events, setEvents] = useState<Event[]>([])
-  const [building, setBuilding] = useState(getBuildingQ) // Set to query?.building, otherwise empty
-  const [num, setNum] = useState(getNumQ) // Set to query?.num, otherwise empty
+  const [building, setBuilding] = useState(getBuildingQ != null ? getBuildingQ : '') // Set to query?.building, otherwise empty
+  const [num, setNum] = useState(getNumQ != null ? getNumQ : '') // Set to query?.num, otherwise empty
 
   // Card information
   const [cardTitle, setCardTitle] = useState('')
