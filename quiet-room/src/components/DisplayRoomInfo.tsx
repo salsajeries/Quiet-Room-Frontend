@@ -100,7 +100,7 @@ export default function displayRoomInfo() {
 
 
     // Toggle states
-    const [submitToggle, setSubmitToggle] = useState(false);                        // Submit toggle
+    const [submitToggle, setSubmitToggle] = useState(false);            // Submit toggle
     const [alertOpen, setAlertOpen] = useState(false);                  // Input error alert toggle
 
     // Room information
@@ -116,55 +116,16 @@ export default function displayRoomInfo() {
     const [cardIcon, setCardIcon] = useState('');
 
     // Loading states
+    const [loadingData, setLoadingData] = useState<boolean>(false);     // Data grid loading state
     const [cardLoading, setCardLoading] = useState(true);               // Card loading state
     const [schedulerToggle, setSchedulerToggle] = useState(true);       // Scheduler component loading state
 
 
-    // On submit, make API call
-    const handleSubmit = (e: any) => {
-        if (building == '' || num == '') {
-            console.log('ERROR: Invalid input')
-            setAlertOpen(true)
-        }
-        else {
-            setAlertOpen(false)
-            setSchedulerToggle(!schedulerToggle)
-            setSubmitToggle(!submitToggle)
-        }
-
-        let today = new Date().getMonth();
-        console.log(today);
-
-    }
-
-    // Set building number
-    const handleBuilding = (e: any) => {
-        console.log(e.target.value)
-        setBuilding(e.target.value)
-    };
-
-    // Set room number
-    const handleRoomNumber = (e: any) => {
-        console.log(e.target.value)
-        setNum(e.target.value)
-    };
-
-    // Use Effect: Update local storage for building
-    useEffect(() => {
-        localStorage.setItem("building", JSON.stringify(building));
-    }, [building]);
-
-    // Use Effect: Update local storage for room number
-    useEffect(() => {
-        localStorage.setItem("num", JSON.stringify(num));
-    }, [num]);
-
-    // API call Use Effect
-    useEffect(() => {
-
-        if (building != '' || num != '') {
-
-            axios
+    // API CALL -> Get room info for given building and room number
+    const getRoomInfo = async () => {
+        try {
+            setLoadingData(true);
+            await axios
             .get(`https://uah.quietroom.app/building/${building}/room/${num}`)
             .then((response) => {
 
@@ -216,14 +177,60 @@ export default function displayRoomInfo() {
                     setCardIcon('info.png')
                 }
 
+                setLoadingData(false);
                 setCardLoading(false);
-
             })
-            .catch((Error) => {
-                console.log(Error);
-                return <>NOT FOUND</>;
-            })
+        }
+        catch {
+            console.log('ERROR');
+            setLoadingData(false);
+        }
+    }
 
+    // On submit, make API call
+    const handleSubmit = (e: any) => {
+        if (building == '' || num == '') {
+            console.log('ERROR: Invalid input')
+            setAlertOpen(true)
+        }
+        else {
+            setAlertOpen(false)
+            setSchedulerToggle(!schedulerToggle)
+            setSubmitToggle(!submitToggle)
+        }
+
+        let today = new Date().getMonth();
+        console.log(today);
+
+    }
+
+    // Set building number
+    const handleBuilding = (e: any) => {
+        console.log(e.target.value)
+        setBuilding(e.target.value)
+    };
+
+    // Set room number
+    const handleRoomNumber = (e: any) => {
+        console.log(e.target.value)
+        setNum(e.target.value)
+    };
+
+    // Use Effect: Update local storage for building
+    useEffect(() => {
+        localStorage.setItem("building", JSON.stringify(building));
+    }, [building]);
+
+    // Use Effect: Update local storage for room number
+    useEffect(() => {
+        localStorage.setItem("num", JSON.stringify(num));
+    }, [num]);
+
+    // Trigger API call
+    useEffect(() => {
+
+        if (building != '' || num != '') {
+            getRoomInfo()
         }
 
     }, [(submitToggle)])
@@ -318,7 +325,7 @@ export default function displayRoomInfo() {
                             },
                         }}
                         pageSizeOptions={[10]}
-                        loading={false}
+                        loading={loadingData}
                         sx={{
                             color: '#181848',
                             borderRadius: 5,

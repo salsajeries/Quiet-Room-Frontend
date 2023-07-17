@@ -1,7 +1,7 @@
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, Paper, Skeleton, Typography } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { Accordion, AccordionDetails, AccordionSummary, Grid, Paper, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import styles from '@/styles/Scheduler.module.css'
 import InfoIcon from '@mui/icons-material/Info';

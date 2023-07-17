@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styles from '@/styles/ListAvailableRooms.module.css'
 import axios from "axios";
 import buildingsList from '@/api/buildings.json';
 import { Alert, Collapse, FormControl, Grid, IconButton, InputLabel, LinearProgress, MenuItem, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
@@ -57,38 +56,39 @@ export default function ListAvailableRooms() {
 
 
     // API CALL -> Get available rooms for given building, day, and time range
-    async function getAvailableRooms (buildingID: string, day: string, startTime: string, endTime: string) {
-
-        await axios
-        .get(`https://uah.quietroom.app/availability/${buildingID}?day=${day}&startTime=${startTime}&endTime=${endTime}`)
-        .then((response) => {
-
-            console.log(`https://uah.quietroom.app/availability/${buildingID}?day=${day}&startTime=${startTime}&endTime=${endTime}`);
-            let readRooms = response?.data;
-
-            // If empty, log to console and skip adding to array
-            if (readRooms.length == 0) {
-                console.log("AYO THIS IS EMPTY: " + buildingID)
-            }
-            // Add rooms to setRooms
-            else {
-                readRooms.forEach((room: any) => {
-                    setRooms(rooms => [...rooms,
-                        {
-                            Building: buildingID,
-                            RoomNumber: room,
-                            id: uuid()
-                        }
-                    ])
-                })
-            }
-
-        })
-        .catch((error) => {
-            if(error == '400')
-                console.log('THIS WAS A 400');
-            console.log(error);
-        })
+    const getAvailableRooms = async (buildingID: string, day: string, startTime: string, endTime: string) => {
+        try {
+            setLoadingData(true);
+            await axios
+            .get(`https://uah.quietroom.app/availability/${buildingID}?day=${day}&startTime=${startTime}&endTime=${endTime}`)
+            .then((response) => {
+    
+                console.log(`https://uah.quietroom.app/availability/${buildingID}?day=${day}&startTime=${startTime}&endTime=${endTime}`);
+                let readRooms = response?.data;
+    
+                // If empty, log to console and skip adding to array
+                if (readRooms.length == 0) {
+                    console.log("AYO THIS IS EMPTY: " + buildingID)
+                }
+                // Add rooms to setRooms
+                else {
+                    readRooms.forEach((room: any) => {
+                        setRooms(rooms => [...rooms,
+                            {
+                                Building: buildingID,
+                                RoomNumber: room,
+                                id: uuid()
+                            }
+                        ])
+                    })
+                }
+                setLoadingData(false);
+            })
+        }
+        catch {
+            console.log('ERROR');
+            setLoadingData(false);
+        }
 
     };
 
@@ -101,16 +101,12 @@ export default function ListAvailableRooms() {
         }
         else {
             setAlertOpen(false)
-            setLoadingData(true)
             setRooms([])
 
-            await buildingsList.map((buildingID: string) => {
-                getAvailableRooms(buildingID, day, startTime, endTime);
+            buildingsList.map((buildingID: string) => {
+                getAvailableRooms(buildingID, day, startTime, endTime)
             })
-
-            setLoadingData(false);
         }
-
     };
 
     // On row double click, route to 'roominfo' page

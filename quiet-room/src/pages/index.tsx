@@ -1,11 +1,9 @@
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import LiveBackground from '@/components/LiveBackground'
 import MechButton from '@/components/MechButton'
-import { Avatar, Button, ButtonGroup, Container, IconButton, Stack, Typography } from '@mui/material'
+import { Avatar, Button, Container, IconButton, Stack, Typography } from '@mui/material'
 import Layout from '@/components'
 import { Grid } from '@mui/material'
-import { ST } from 'next/dist/shared/lib/utils'
 import Link from 'next/link'
 
 

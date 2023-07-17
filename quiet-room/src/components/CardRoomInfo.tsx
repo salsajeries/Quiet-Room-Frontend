@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Avatar, Card, CardContent, CardHeader, Divider, Skeleton, Typography } from '@mui/material';
 
 interface CardRoomInfoProps {

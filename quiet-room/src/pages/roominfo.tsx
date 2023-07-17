@@ -1,4 +1,4 @@
-import styles from '@/styles/RoomInfo.module.css'
+//import styles from '@/styles/RoomInfo.module.css'
 import React from "react";
 import NavbarObj from "@/components/NavbarObj";
 import DisplayRoomInfo from "../components/DisplayRoomInfo";
