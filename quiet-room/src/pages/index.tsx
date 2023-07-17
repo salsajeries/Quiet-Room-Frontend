@@ -7,7 +7,6 @@ import Layout from '@/components'
 import { Grid } from '@mui/material'
 import { ST } from 'next/dist/shared/lib/utils'
 import Link from 'next/link'
-import LinkComponent from '@/components/LinkComponent'
 
 
 const inter = Inter({ subsets: ['latin'] })

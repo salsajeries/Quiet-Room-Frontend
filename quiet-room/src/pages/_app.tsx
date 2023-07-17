@@ -3,8 +3,7 @@ import type { AppProps } from 'next/app'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LiveBackground from '@/components/LiveBackground';
 import { AnimatePresence } from 'framer-motion';
-import zIndex from '@mui/material/styles/zIndex';
-import { Container } from '@mui/material';
+
 
 if(typeof document !== 'undefined') {
   // you are safe to use the "document" object here
@@ -19,7 +18,9 @@ export default function App({ Component, pageProps }: AppProps) {
       initial={false}
       onExitComplete={() => window.scrollTo(0, 0)}>
       <LiveBackground></LiveBackground>
-      <Component {...pageProps} />
+      <div style={{color: '#181848', fontFamily: 'Montserrat, sans-serif'}}>
+        <Component {...pageProps} />
+      </div>
     </AnimatePresence>
     </>
   );
