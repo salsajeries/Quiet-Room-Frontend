@@ -1,6 +1,6 @@
 // components/Layout/index.js
 
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion'
 
 const Layout = ({ children }) => (
   <motion.div
@@ -8,7 +8,7 @@ const Layout = ({ children }) => (
     animate={{ x: 0, opacity: 1 }}
     exit={{ x: 300, opacity: 0 }}
     transition={{
-      type: "spring",
+      type: 'spring',
       stiffness: 260,
       damping: 20,
       stiffness: 260,
@@ -16,5 +16,5 @@ const Layout = ({ children }) => (
   >
     {children}
   </motion.div>
-);
-export default Layout;
+)
+export default Layout

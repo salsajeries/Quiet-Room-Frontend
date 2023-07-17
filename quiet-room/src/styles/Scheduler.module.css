@@ -1,6 +1,6 @@
 .customCalendar {
-    --bs-link-color: black;
-    --fc-border-color: transparent;
-    --fc-now-indicator-color: #181848;
-    --fc-today-bg-color: #C8DBE4;
+  --bs-link-color: black;
+  --fc-border-color: transparent;
+  --fc-now-indicator-color: #181848;
+  --fc-today-bg-color: #c8dbe4;
 }
