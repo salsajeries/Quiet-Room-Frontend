@@ -34,7 +34,7 @@ export default function CardRoomInfo(props: CardRoomInfoProps) {
                             <img 
                                 src={props.cardIcon}
                                 height='30px'
-                                alt={'Card-Icon'}
+                                alt=''
                             />
                         </Avatar>
                     )

@@ -93,7 +93,7 @@ export default function ListAvailableRooms() {
     };
 
     // On submit, make API call and set appropriate loading states
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         
         if (day == '' || startTime == '' || endTime == '') {
             console.log('ERROR: Invalid input')
@@ -104,7 +104,7 @@ export default function ListAvailableRooms() {
             setLoadingData(true)
             setRooms([])
 
-            buildingsList.map((buildingID: string) => {
+            await buildingsList.map((buildingID: string) => {
                 getAvailableRooms(buildingID, day, startTime, endTime);
             })
 
