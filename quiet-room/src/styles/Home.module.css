@@ -1,4 +1,4 @@
-.container {
+.mainContainer {
   display: flex;
   width: 100vw;
   height: 80vh;
@@ -7,14 +7,16 @@
 }
 
 .logoStyle {
-  height: 18vh;
-  width: auto;
+  width: 40vw;
+  height: auto;
   z-index: 1;
+  min-width: 400px;
 }
 
-.mainCenter {
+.logoCenter {
   display: flex;
   justify-content: center;
   align-items: center;
   align-content: center;
+  padding: 'none';
 }

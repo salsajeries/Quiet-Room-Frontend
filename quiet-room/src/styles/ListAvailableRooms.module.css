@@ -1,0 +1,21 @@
+.inputBorder {
+    display: flex;
+    justify-content: center;
+    align-content: flex-start;
+    color-scheme: light;
+    border: 'none';
+    border-bottom: 2px solid #181848;
+    background-color: transparent;
+    color: #181848;
+    text-align: center;
+    margin: 2vw;
+    padding: 1%;
+    transition: all 0.25s ease-in-out;
+    min-width: 50%;
+}
+
+.timeBorder {
+    border: 2px solid #181848;
+    border-radius: 20px;
+}
+

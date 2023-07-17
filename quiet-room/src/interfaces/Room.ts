@@ -6,6 +6,7 @@ interface Room {
     Capacity: number;
     RoomType: string;
     Events: Event[];
+    RoomID: string;
 }
 
 export default Room;
