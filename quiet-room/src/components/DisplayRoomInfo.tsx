@@ -27,39 +27,47 @@ function convertTime(timeVal: string) {
 }
 
 function isValidEndDate(dateVal: string) {
+    
+    // Get current date
+    let today = new Date();
+    
+    // Parse dateVal to create date object
     let year = parseInt(dateVal.substring(0,4));
     let month = parseInt(dateVal.substring(5,7));
     let day = parseInt(dateVal.substring(8,10));
     
-    // Remove old years
-    let today = new Date().getFullYear();
-    if (year < today) { return false };
+    // Create date object for dateVal
+    let endDate = new Date();
+    endDate.setFullYear(year);
+    endDate.setMonth(month - 1);
+    endDate.setDate(day);
 
-    // Remove old months within current year
-    // Condition: dateVal is "EndDate"
-    today = new Date().getMonth();
-    if (month < today) { return false };
+    // If end date is in the PAST, not valid: return false
+    if (endDate < today) { return false }
+    else { return true }
 
-    // Else, return true
-    return true;
 }
 
 function isValidStartDate(dateVal: string) {
+    
+    // Get current date
+    let today = new Date();
+    
+    // Parse dateVal to create date object
     let year = parseInt(dateVal.substring(0,4));
     let month = parseInt(dateVal.substring(5,7));
     let day = parseInt(dateVal.substring(8,10));
     
-    // Remove old years
-    let today = new Date().getFullYear();
-    if (year < today) { return false };
+    // Create date object for dateVal
+    let startDate = new Date();
+    startDate.setFullYear(year);
+    startDate.setMonth(month - 1);
+    startDate.setDate(day);
 
-    // Remove old months within current year
-    // Condition: dateVal is "StartDate"
-    today = new Date().getMonth();
-    if (month < today) { return false };
-
-    // Else, return true
-    return true;
+    // If start date is in the FUTURE, not valid: return false
+    if (startDate > today) { return false }
+    else { return true }
+    
 }
 
 function cleanEvents(arr: any) {
