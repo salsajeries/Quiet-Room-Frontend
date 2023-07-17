@@ -208,6 +208,8 @@ export default function DisplayRoomInfo() {
       setDneAlertOpen(false)
       setSchedulerToggle(!schedulerToggle)
       setSubmitToggle(!submitToggle)
+
+      getRoomInfo()
     }
   }
 
@@ -232,13 +234,6 @@ export default function DisplayRoomInfo() {
   useEffect(() => {
     localStorage.setItem('num', JSON.stringify(num))
   }, [num])
-
-  // Trigger API call
-  useEffect(() => {
-    if (building != '' || num != '') {
-      getRoomInfo()
-    }
-  }, [submitToggle])
 
   if (events === undefined) {
     return <>Still loading...</>
