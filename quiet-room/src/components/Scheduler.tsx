@@ -146,7 +146,7 @@ export default function Schedule(props: SchedulerViewInt) {
             <Accordion 
                 elevation={0} defaultExpanded={true}
                 sx={{
-                    backgroundColor: 'transparent',
+                    backgroundColor: '#E0DDDD',
                     color: "#E0DDDD",
                     '& .MuiAccordionSummary-content': {
                         justifyContent: 'center'
@@ -154,14 +154,14 @@ export default function Schedule(props: SchedulerViewInt) {
                 }}
             >
                 <AccordionSummary
-                expandIcon={<ExpandMoreIcon style={{ color: "#E0DDDD" }}/>}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-                sx={{
-                    backgroundColor: '#181848',
-                    color: '#E0DDDD',
-                    borderRadius: '15px',
-                }}
+                    expandIcon={<ExpandMoreIcon style={{ color: "#E0DDDD" }}/>}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                    sx={{
+                        backgroundColor: '#181848',
+                        color: '#E0DDDD',
+                        borderRadius: '15px',
+                    }}
                 >
                     <Typography variant={'h6'} sx={{ flexShrink: 0 }}>
                         Schedule View

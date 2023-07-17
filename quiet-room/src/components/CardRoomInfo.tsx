@@ -21,7 +21,7 @@ export default function CardRoomInfo(props: CardRoomInfoProps) {
                     border: 'solid 2px',
                     borderColor: '#181848',
                     borderRadius: '15px',
-                    backgroundColor: 'transparent',
+                    backgroundColor: '#E0DDDD',
                     spacing: '5px',
                 }}
             >

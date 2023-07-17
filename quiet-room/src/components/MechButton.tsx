@@ -1,7 +1,6 @@
 import styles from '../styles/MechButton.module.css'
 import Card from 'react-bootstrap/Card'
 import Link from 'next/link'
-import { Grid } from '@mui/material';
 
 interface MechButtonProps {
     href: string;

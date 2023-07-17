@@ -18,12 +18,9 @@ export default function App({ Component, pageProps }: AppProps) {
       mode="wait"
       initial={false}
       onExitComplete={() => window.scrollTo(0, 0)}>
+      <LiveBackground></LiveBackground>
       <Component {...pageProps} />
     </AnimatePresence>
     </>
   );
 }
-
-/**
- * <LiveBackground></LiveBackground>
- */

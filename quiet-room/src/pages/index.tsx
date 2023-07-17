@@ -2,16 +2,19 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import LiveBackground from '@/components/LiveBackground'
 import MechButton from '@/components/MechButton'
-import { Avatar, Container, Stack, Typography } from '@mui/material'
+import { Avatar, Button, ButtonGroup, Container, IconButton, Stack, Typography } from '@mui/material'
 import Layout from '@/components'
 import { Grid } from '@mui/material'
 import { ST } from 'next/dist/shared/lib/utils'
 import Link from 'next/link'
+import LinkComponent from '@/components/LinkComponent'
 
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+
   return (
     <>      
     <Layout>
@@ -60,8 +63,8 @@ export default function Home() {
             Sometimes you need a change of environment from the Charger Union, or your group project needs a place to meet, or you just hate the
             windowless study rooms in the library. We created QuietRoom to help you find the perfect spot on campus to get whatever you need done.
             Find out what rooms are available to use during the time that you need it on
-            the <Link href={'/availablerooms'} style={{textDecoration: 'none'}}>Find Available Rooms</Link> page.
-            Want to see a little more info about the room? Check out the <Link href={'/roominfo'} style={{textDecoration: 'none'}}>Find Room Info</Link> page
+            the <Button variant='text'><Link href={'/availablerooms'} style={{textDecoration: 'none'}}>Find Available Rooms</Link></Button> page.
+            Want to see a little more info about the room? Check out the <Button variant='text'><Link href={'/roominfo'} style={{textDecoration: 'none'}}>Find Room Info</Link></Button> page
             to get all the details you might need - the type of room, capacity, and more. You can also see a week-view of a room's schedule for a more
             better idea of when that room will be available.
           </Typography>
@@ -103,15 +106,15 @@ export default function Home() {
                   <Typography variant='h6'>Backend</Typography>
                   <br></br>
                   <Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
-                    <Link href='https://github.com/balloman'>
-                      <img src='github-icon.svg' height='30px' alt='Github' />  
-                    </Link>
-                    <Link href='https://www.linkedin.com/in/bernard-a-842555106/'>
-                      <img src='linkedin-icon.svg' height='30px' alt='Linkedin' />  
-                    </Link>
-                    <Link href='https://bernardallotey.com/'>
-                      <img src='globe-solid.svg' height='30px' alt='Site' />  
-                    </Link>
+                    <IconButton>
+                      <Link href='https://github.com/balloman'><img src='github-icon.svg' height='30px' alt='Github' /></Link>
+                    </IconButton>
+                    <IconButton>
+                      <Link href='https://www.linkedin.com/in/bernard-a-842555106/'><img src='linkedin-icon.svg' height='30px' alt='Linkedin' /></Link>
+                    </IconButton>
+                    <IconButton>
+                      <Link href='https://bernardallotey.com/'><img src='globe-solid.svg' height='30px' alt='Site' /></Link>
+                    </IconButton>
                   </Stack>
                 </Stack>
               </Grid>
@@ -132,15 +135,15 @@ export default function Home() {
                   <Typography variant='h6'>Frontend/Design</Typography>
                   <br></br>
                   <Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
-                    <Link href='https://github.com/salsajeries'>
-                      <img src='github-icon.svg' height='30px' alt='Github' />  
-                    </Link>
-                    <Link href='https://www.linkedin.com/in/salwa-jeries-17a146226/'>
-                      <img src='linkedin-icon.svg' height='30px' alt='Linkedin' />  
-                    </Link>
-                    <Link href='https://www.salwajeries.com'>
-                      <img src='globe-solid.svg' height='30px' alt='Site' />  
-                    </Link>
+                    <IconButton>
+                      <Link href='https://github.com/salsajeries'><img src='github-icon.svg' height='30px' alt='Github' /></Link>
+                    </IconButton>
+                    <IconButton>
+                      <Link href='https://www.linkedin.com/in/salwa-jeries-17a146226/'><img src='linkedin-icon.svg' height='30px' alt='Linkedin' /></Link>
+                    </IconButton>
+                    <IconButton>
+                      <Link href='https://www.salwajeries.com'><img src='globe-solid.svg' height='30px' alt='Site' /></Link>
+                    </IconButton>
                   </Stack>
                 </Stack>
               </Grid>
