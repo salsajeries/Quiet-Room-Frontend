@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import MechButton from '@/components/MechButton'

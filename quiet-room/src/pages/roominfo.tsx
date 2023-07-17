@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 //import styles from '@/styles/RoomInfo.module.css'
 import React from 'react'
 import NavbarObj from '@/components/NavbarObj'
