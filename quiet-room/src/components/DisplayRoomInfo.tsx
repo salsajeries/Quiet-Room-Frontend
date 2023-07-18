@@ -235,6 +235,11 @@ export default function DisplayRoomInfo() {
     localStorage.setItem('num', JSON.stringify(num))
   }, [num])
 
+  // Use Effect: Search based on query on first render
+  useEffect(() => {
+    getRoomInfo()
+  }, [])
+
   if (events === undefined) {
     return <>Still loading...</>
   }
