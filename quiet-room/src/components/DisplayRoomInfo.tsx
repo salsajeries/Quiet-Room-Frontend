@@ -237,7 +237,8 @@ export default function DisplayRoomInfo() {
 
   // Use Effect: Search based on query on first render
   useEffect(() => {
-    getRoomInfo()
+    if (building != '' && num != '')
+      getRoomInfo()
   }, [])
 
   if (events === undefined) {

@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <Layout>
         <div>
-          <Container className={styles.mainContainer}>
+          <Container sx={{display: 'flex', width: '100vw', height: '80vh', justifyContent: 'center', alignItems: 'center'}}>
             <Grid
               container
               direction={'row'}
