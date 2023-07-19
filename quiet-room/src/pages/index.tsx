@@ -6,12 +6,16 @@ import Layout from '@/components'
 import { Grid } from '@mui/material'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
+import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
     <>
+      <Head>
+        <title>UAH QuietRoom</title>
+      </Head>
       <Layout>
         <div>
           <Container sx={{display: 'flex', width: '100vw', height: '80vh', justifyContent: 'center', alignItems: 'center'}}>

@@ -5,10 +5,14 @@ import DisplayRoomInfo from '../components/DisplayRoomInfo'
 import Layout from '@/components'
 import { Container, Typography } from '@mui/material'
 import Footer from '@/components/Footer'
+import Head from 'next/head'
 
 export default function RoomInfo() {
   return (
     <>
+      <Head>
+        <title>QuietRoom - Find Room Info</title>
+      </Head>
       <Layout>
         <NavbarObj></NavbarObj>
         <Container

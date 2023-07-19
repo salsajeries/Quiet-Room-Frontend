@@ -3,10 +3,14 @@ import ListAvailableRooms from '../components/ListAvailableRooms'
 import Layout from '@/components'
 import { Container, Typography } from '@mui/material'
 import Footer from '@/components/Footer'
+import Head from 'next/head'
 
 export default function AvailableRooms() {
   return (
     <>
+      <Head>
+        <title>QuietRoom - Find Available Rooms</title>
+      </Head>
       <Layout>
         <NavbarObj></NavbarObj>
         <Container
