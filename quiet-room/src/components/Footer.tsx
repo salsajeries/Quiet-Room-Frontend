@@ -8,11 +8,16 @@ export default function Footer() {
             width: '100vw',
             height: '12vh',
             backgroundColor: '#CFC9C9',
-            padding: '2vw',
-            marginTop: '5vh'
+            marginTop: '5vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignContent: 'center'
         }}>
-            <Typography variant='body1'>UAH QuietRoom</Typography>
-            <Typography variant='body1'>Copyright © 2023</Typography>
+            <ul style={{ listStyleType: 'none', margin: '0', padding: '0', height: 'auto' }}>
+                <li><Typography variant='body1' width={'100%'} flexBasis={'100%'}>UAH QuietRoom</Typography></li>
+                <li><Typography variant='body1' width={'100%'}>Copyright © 2023</Typography></li>
+            </ul>
         </div>
     )
 }
