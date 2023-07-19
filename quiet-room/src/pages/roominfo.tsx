@@ -4,6 +4,7 @@ import NavbarObj from '@/components/NavbarObj'
 import DisplayRoomInfo from '../components/DisplayRoomInfo'
 import Layout from '@/components'
 import { Container, Typography } from '@mui/material'
+import Footer from '@/components/Footer'
 
 export default function RoomInfo() {
   return (
@@ -27,6 +28,7 @@ export default function RoomInfo() {
           <hr />
           <DisplayRoomInfo></DisplayRoomInfo>
         </Container>
+        <Footer></Footer>
       </Layout>
     </>
   )

@@ -5,6 +5,7 @@ import { Avatar, Button, Container, IconButton, Stack, Typography } from '@mui/m
 import Layout from '@/components'
 import { Grid } from '@mui/material'
 import Link from 'next/link'
+import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -43,20 +44,20 @@ export default function Home() {
                     minWidth: '340px',
                   }}
                 >
-                  <Grid item xs={3}>
+                  <Grid item xs={3} width={'100%'}>
                     <MechButton
                       href={'/roominfo'}
                       text={'Find Room Info'}
-                      width={'30vw'}
+                      width={'100%'}
                       height={'auto'}
                       fontSize={'3.5vh'}
                     />
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={3} width={'100%'}>
                     <MechButton
                       href={'/availablerooms'}
                       text={'Find Available Rooms'}
-                      width={'30vw'}
+                      width={'100%'}
                       height={'auto'}
                       fontSize={'3.5vh'}
                     />
@@ -194,6 +195,7 @@ export default function Home() {
             </Grid>
           </Container>
         </div>
+        <Footer></Footer>
       </Layout>
     </>
   )

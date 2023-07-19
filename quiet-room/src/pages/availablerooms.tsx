@@ -1,8 +1,8 @@
-import LiveBackground from '@/components/LiveBackground'
 import NavbarObj from '@/components/NavbarObj'
 import ListAvailableRooms from '../components/ListAvailableRooms'
 import Layout from '@/components'
 import { Container, Typography } from '@mui/material'
+import Footer from '@/components/Footer'
 
 export default function AvailableRooms() {
   return (
@@ -25,6 +25,7 @@ export default function AvailableRooms() {
           <hr />
           <ListAvailableRooms></ListAvailableRooms>
         </Container>
+        <Footer></Footer>
       </Layout>
     </>
   )
