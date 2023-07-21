@@ -135,13 +135,14 @@ export default function DisplayRoomInfo() {
 
   // Loading states
   const [loadingData, setLoadingData] = useState<boolean>(false) // Data grid loading state
-  const [cardLoading, setCardLoading] = useState(true) // Card loading state
+  const [cardLoading, setCardLoading] = useState('empty') // Card loading state
   const [schedulerToggle, setSchedulerToggle] = useState(true) // Scheduler component loading state
 
   // API CALL -> Get room info for given building and room number
   const getRoomInfo = async () => {
     try {
       setLoadingData(true)
+      setCardLoading('loading')
       await axios.get(`https://uah.quietroom.app/building/${building}/room/${num}`).then((response) => {
         console.log(`https://uah.quietroom.app/building/${building}/room/${num}`)
         console.log(response)
@@ -184,7 +185,7 @@ export default function DisplayRoomInfo() {
         }
 
         setLoadingData(false)
-        setCardLoading(false)
+        setCardLoading('set')
       })
     } catch (error: any) {
       console.log(error?.message) // Log error message to console
@@ -340,7 +341,7 @@ export default function DisplayRoomInfo() {
             </Grid>
             <Grid item width={'90%'}>
               <CardRoomInfo
-                loading={cardLoading}
+                state={cardLoading}
                 cardTitle={cardTitle}
                 cardRoomType={cardRoomType}
                 cardCapacity={cardCapacity}
