@@ -50,9 +50,9 @@ export default function ListAvailableRooms() {
   const [rooms, setRooms] = useState<any[]>([])
 
   // Input data
-  const [day, setDay] = useState('') // Day selection
+  const [day, setDay] = useState('M') // Day selection
   const [startTime, setStartTime] = useState('1000') // Start time
-  const [endTime, setEndTime] = useState('1100') // End time
+  const [endTime, setEndTime] = useState('1200') // End time
 
   // Loading states
   const [loadingData, setLoadingData] = useState<boolean>(false) // Data grid loading state
@@ -236,7 +236,7 @@ export default function ListAvailableRooms() {
                 <Select
                   labelId="weekday-select-label"
                   id="weekday-select"
-                  defaultValue={''}
+                  defaultValue={'M'}
                   onChange={handleDay}
                   variant="standard"
                   sx={{
