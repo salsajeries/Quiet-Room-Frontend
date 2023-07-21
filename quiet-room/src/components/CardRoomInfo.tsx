@@ -6,15 +6,15 @@ interface CardRoomInfoProps {
   cardRoomType: string
   cardCapacity: string
   cardIcon: string
-  loading: boolean
+  state: string         // States: empty, loading, set
 }
 
 export default function CardRoomInfo(props: CardRoomInfoProps) {
   // Loading state for card
-  const { loading = false } = props
+  const { state = 'false' } = props
 
-  return (
-    <>
+  if (state != 'empty') {
+    return (
       <Card
         variant="outlined"
         sx={{
@@ -28,7 +28,7 @@ export default function CardRoomInfo(props: CardRoomInfoProps) {
       >
         <CardHeader
           avatar={
-            loading ? (
+            state == 'loading' ? (
               <Skeleton variant="circular" width={'50px'} height={'50px'} />
             ) : (
               <Avatar sx={{ width: '50px', height: '50px', bgcolor: 'transparent' }}>
@@ -41,16 +41,47 @@ export default function CardRoomInfo(props: CardRoomInfoProps) {
         <Divider role="presentation" sx={{ bgcolor: '#181848' }} />
         <CardContent>
           <Typography variant="h3" component="div" style={{ marginBottom: 6 }}>
-            {loading ? <Skeleton variant="rounded" /> : <>{props.cardTitle}</>}
+            {state == 'loading' ? <Skeleton variant="rounded" /> : <>{props.cardTitle}</>}
           </Typography>
           <Typography variant="h5" component="div" style={{ marginBottom: 6 }}>
-            {loading ? <Skeleton variant="rounded" /> : <>Room Type: {props.cardRoomType}</>}
+            {state == 'loading' ? <Skeleton variant="rounded" /> : <>Room Type: {props.cardRoomType}</>}
           </Typography>
           <Typography variant="h5" component="div" style={{ marginBottom: 6 }}>
-            {loading ? <Skeleton variant="rounded" /> : <>Capacity: {props.cardCapacity}</>}
+            {state == 'loading' ? <Skeleton variant="rounded" /> : <>Capacity: {props.cardCapacity}</>}
           </Typography>
         </CardContent>
       </Card>
-    </>
-  )
+    )
+  }
+  else {
+    return (
+      <Card
+        variant="outlined"
+        sx={{
+          color: '#181848',
+          border: 'solid 2px',
+          borderColor: '#181848',
+          borderRadius: '15px',
+          backgroundColor: '#E0DDDD',
+          spacing: '5px',
+        }}
+      >
+        <CardHeader
+          avatar={
+            <Avatar sx={{ width: '50px', height: '50px', bgcolor: 'transparent' }}>
+              <img src={'info.png'} height="30px" alt="" />
+            </Avatar>
+          }
+          title={<Typography variant="subtitle1">Room Quick View</Typography>}
+        />
+        <Divider role="presentation" sx={{ bgcolor: '#181848' }} />
+        <CardContent>
+          <Typography variant="subtitle1" component="div" style={{ marginBottom: 6 }}>
+            <i>Room details will appear here!</i>
+          </Typography>
+        </CardContent>
+      </Card>
+    )
+  }
+
 }

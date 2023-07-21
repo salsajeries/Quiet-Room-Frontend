@@ -56,7 +56,7 @@ export default function ListAvailableRooms() {
 
   // Loading states
   const [loadingData, setLoadingData] = useState<boolean>(false) // Data grid loading state
-  const [cardLoading, setCardLoading] = useState(true) // Card loading state
+  const [cardLoading, setCardLoading] = useState('empty') // Card loading state
 
   // Card information
   const [cardTitle, setCardTitle] = useState('')
@@ -68,6 +68,7 @@ export default function ListAvailableRooms() {
   const getAvailableRooms = async (buildingID: string, day: string, startTime: string, endTime: string) => {
     try {
       setLoadingData(true)
+      setCardLoading('empty')
       await axios
         .get(
           `https://uah.quietroom.app/availability/${buildingID}?day=${day}&startTime=${startTime}&endTime=${endTime}`,
@@ -130,6 +131,7 @@ export default function ListAvailableRooms() {
   // On row click, fetch basic room details for card display
   const handleRowClick = async (e: any) => {
     setOpen(true)
+    setCardLoading('loading')
 
     try {
       await axios
@@ -162,7 +164,7 @@ export default function ListAvailableRooms() {
           }
         })
 
-      setCardLoading(false)
+      setCardLoading('set')
     } catch (err) {
       console.log(err)
       return 'NOT FOUND'
@@ -316,7 +318,7 @@ export default function ListAvailableRooms() {
           </Grid>
           <Grid item width={'90%'}>
             <CardRoomInfo
-              loading={cardLoading}
+              state={cardLoading}
               cardTitle={cardTitle}
               cardRoomType={cardRoomType}
               cardCapacity={cardCapacity}
