@@ -168,7 +168,11 @@ export default function Home() {
 
               <Grid container item xs={12} sm={6} spacing={2} justifyContent={'center'} alignItems={'center'}>
                 <Grid item>
-                  <Avatar alt="Salwa Jeries" src="salwa-pfp.jpg" sx={{ width: 250, height: 250, float: 'left' }} />
+                  <Avatar
+                    alt="Salwa Jeries"
+                    src="salwa-pfp.JPG"
+                    sx={{ width: 250, height: 250, float: 'left' }}
+                  />
                 </Grid>
                 <Grid item>
                   <Stack sx={{ textAlign: 'center' }}>
