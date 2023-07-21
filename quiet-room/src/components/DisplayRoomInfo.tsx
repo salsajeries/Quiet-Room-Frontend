@@ -222,7 +222,7 @@ export default function DisplayRoomInfo() {
   // Set room number
   const handleRoomNumber = (e: any) => {
     console.log(e.target.value)
-    setNum(e.target.value)
+    setNum(e.target.value.toUpperCase())
   }
 
   // Use Effect: Update local storage for building
