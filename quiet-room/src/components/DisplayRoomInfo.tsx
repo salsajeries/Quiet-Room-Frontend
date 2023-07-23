@@ -103,6 +103,18 @@ function cleanEvents(arr: any) {
   return newArr
 }
 
+function parseDate(dateVal: string) {
+  
+  // Parse dateVal to create date object
+  let year = parseInt(dateVal.substring(0, 4))
+  let month = parseInt(dateVal.substring(5, 7))
+  let day = parseInt(dateVal.substring(8, 10))
+
+  // console.log month.toString() + '/' + day.toString() + '/' + year.toString()
+  return month.toString() + '/' + day.toString() + '/' + year.toString()
+  
+}
+
 // Define list component columns
 const columns: GridColDef[] = [
   { field: 'Name', headerName: 'Classname', width: 100 },
@@ -156,6 +168,8 @@ export default function DisplayRoomInfo() {
           EndTime: convertTime(element.EndTime),
           RawStartTime: element.StartTime,
           RawEndTime: element.EndTime,
+          StartDate: parseDate(element.StartDate),
+          EndDate: parseDate(element.EndDate),
           EventID: uuid(),
         }))
 
