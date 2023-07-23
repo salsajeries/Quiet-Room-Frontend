@@ -21,6 +21,10 @@ function LiveBackground() {
         init={particlesInit}
         loaded={particlesLoaded}
         options={{
+          preset: 'stars',
+          size: {
+            value: { min: 0.05, max: 0.15 }
+          },
           particles: {
             number: {
               value: 300,
@@ -67,16 +71,9 @@ function LiveBackground() {
                 sync: false,
               },
             },
-            line_linked: {
-              enable: false,
-              distance: 150,
-              color: '#ffffff',
-              opacity: 0.4,
-              width: 1,
-            },
             move: {
               enable: true,
-              speed: 1,
+              speed: 0.5,
               direction: 'none',
               random: true,
               straight: false,
