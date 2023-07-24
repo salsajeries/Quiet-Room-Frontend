@@ -195,6 +195,7 @@ export default function DisplayRoomInfo() {
       }
 
       setLoadingData(false)
+      setCardLoading('empty')
     }
   }
 
