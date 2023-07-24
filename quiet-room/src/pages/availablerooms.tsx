@@ -14,7 +14,6 @@ export default function AvailableRooms() {
       <Layout>
         <NavbarObj></NavbarObj>
         <Container
-          maxWidth={'xl'}
           sx={{
             paddingTop: '5vh',
             marginLeft: 'none',

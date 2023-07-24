@@ -364,70 +364,68 @@ export default function DisplayRoomInfo() {
       <hr />
       <br></br>
 
-      <Container sx={{marginLeft: 'none'}} disableGutters>
-        <Stack spacing={5} direction={{md: 'column', lg: 'row'}} justifyContent={'center'} alignItems={'flex-start'} rowGap={1}>
-          <Box width={'100%'}>
-            <CardRoomInfo
-              state={cardLoading}
-              cardTitle={cardTitle}
-              cardRoomType={cardRoomType}
-              cardCapacity={cardCapacity}
-              cardIcon={cardIcon}
-            />
-          </Box>
-          <Box width={'100%'}>
-            <DataGrid
-              autoHeight
-              slots={{
-                loadingOverlay: LinearProgress,
-              }}
-              rows={events!}
-              getRowId={(row) => row.EventID}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 10,
-                  },
+      <Stack spacing={5} direction={{md: 'column', lg: 'row'}} justifyContent={'center'} alignItems={'flex-start'} rowGap={1}>
+        <Box width={'100%'}>
+          <CardRoomInfo
+            state={cardLoading}
+            cardTitle={cardTitle}
+            cardRoomType={cardRoomType}
+            cardCapacity={cardCapacity}
+            cardIcon={cardIcon}
+          />
+        </Box>
+        <Box width={'100%'}>
+          <DataGrid
+            autoHeight
+            slots={{
+              loadingOverlay: LinearProgress,
+            }}
+            rows={events!}
+            getRowId={(row) => row.EventID}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10,
                 },
-                sorting: {
-                  sortModel: [{ field: 'DaysMet', sort: 'asc' }],
-                },
-              }}
-              pageSizeOptions={[10]}
-              loading={loadingData}
-              sx={{
-                color: '#181848',
-                borderRadius: 5,
-                border: 2,
-                '& .MuiDataGrid-row': {
-                  transition: 'all 0.15s ease-in-out',
-                },
-                '& .MuiDataGrid-columnHeaders': {
-                  backgroundColor: '#181848',
-                },
-                '& .MuiDataGrid-columnHeaderTitle': {
-                  color: '#E0DDDD',
-                },
-                '& .MuiDataGrid-sortIcon': {
-                  opacity: 1,
-                  color: '#E0DDDD',
-                },
-                '& .MuiDataGrid-menuIconButton': {
-                  opacity: 1,
-                  color: '#E0DDDD',
-                },
-              }}
-            />
-          </Box>
-        </Stack>
+              },
+              sorting: {
+                sortModel: [{ field: 'DaysMet', sort: 'asc' }],
+              },
+            }}
+            pageSizeOptions={[10]}
+            loading={loadingData}
+            sx={{
+              color: '#181848',
+              borderRadius: 5,
+              border: 2,
+              '& .MuiDataGrid-row': {
+                transition: 'all 0.15s ease-in-out',
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                backgroundColor: '#181848',
+              },
+              '& .MuiDataGrid-columnHeaderTitle': {
+                color: '#E0DDDD',
+              },
+              '& .MuiDataGrid-sortIcon': {
+                opacity: 1,
+                color: '#E0DDDD',
+              },
+              '& .MuiDataGrid-menuIconButton': {
+                opacity: 1,
+                color: '#E0DDDD',
+              },
+            }}
+          />
+        </Box>
+      </Stack>
 
-        <br></br>
-        <hr />
-        <br></br>
+      <br></br>
+      <hr />
+      <br></br>
 
-        <Scheduler rawEvents={events} toggle={schedulerToggle}></Scheduler>
-      </Container>
+      <Scheduler rawEvents={events} toggle={schedulerToggle}></Scheduler>
 
     </>
   )
