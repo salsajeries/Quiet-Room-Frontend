@@ -40,6 +40,7 @@ export default function Home() {
                   container
                   direction={'column'}
                   columns={{ xs: 3 }}
+                  rowGap={5}
                   sx={{
                     display: 'flex',
                     justifyContent: 'center',

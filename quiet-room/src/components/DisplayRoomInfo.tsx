@@ -310,7 +310,7 @@ export default function DisplayRoomInfo() {
         </Grid>
         <Grid item xs={3} sm={2} md={3}>
           <div onClick={handleSubmit}>
-            <MechButton href={''} text={'Search'} width={'100%'}></MechButton>
+            <MechButton href={''} text={'Search'} width={'100%'} fontSize={'3vh'} search={true}></MechButton>
           </div>
         </Grid>
       </Grid>
