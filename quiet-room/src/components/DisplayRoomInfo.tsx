@@ -123,8 +123,6 @@ function parseDate(dateVal: string) {
 
 // Define list component columns
 const columns: GridColDef[] = [
-  { field: 'BuildingCode', headerName: 'Building', width: 100 },
-  { field: 'RoomNumber', headerName: 'Room Number', width: 130 },
   { field: 'Name', headerName: 'Classname', width: 100 },
   { field: 'DaysMet', headerName: 'Days Met', sortingOrder: ['desc', 'asc'], width: 220 },
   { field: 'StartTime', headerName: 'Start Time', width: 100 },
