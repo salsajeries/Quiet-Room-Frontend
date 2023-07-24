@@ -3,7 +3,9 @@ import axios from 'axios'
 import buildingsList from '@/api/buildings.json'
 import {
   Alert,
+  Box,
   Collapse,
+  Container,
   FormControl,
   Grid,
   IconButton,
@@ -18,6 +20,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from '@mui/material'
 import Select from '@mui/material/Select'
 import { Input } from '@mui/material'
@@ -207,118 +210,103 @@ export default function ListAvailableRooms() {
 
   return (
     <>
-
-      <Stack spacing={5} direction={{md: 'column', lg: 'row'}} justifyContent={'center'} alignItems={'flex-start'} rowGap={1}>
         
-        <Grid container columns={{xs: 3, sm: 6, md: 12}} rowGap={2}
-          width={'100%'} justifyContent={'center'} alignItems={'center'}
-        >
-          <Grid item xs={3} sm={3} md={6}>
-            <FormControl variant="standard" sx={{ width: '100%' }}>
-              <InputLabel id="weekday-select-label">Weekday</InputLabel>
-              <Select
-                labelId="weekday-select-label"
-                id="weekday-select"
-                defaultValue={'M'}
-                onChange={handleDay}
-                variant="standard"
-                sx={{
-                  width: '100%',
-                }}
-              >
-                <MenuItem disabled value={'X'}>
-                  Select Weekday
-                </MenuItem>
-                <MenuItem value={'M'}>Monday</MenuItem>
-                <MenuItem value={'T'}>Tuesday</MenuItem>
-                <MenuItem value={'W'}>Wednesday</MenuItem>
-                <MenuItem value={'R'}>Thursday</MenuItem>
-                <MenuItem value={'F'}>Friday</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={3} sm={3} md={6}>
-            <TableContainer
-              sx={{
-                '& .MuiTable-root': {},
-                '& .MuiTableCell-head': {
-                  padding: '0px',
-                  border: 'none',
-                },
-                '& .MuiTableCell-body': {
-                  padding: '5px',
-                  border: 'none',
-                },
-              }}
+      <Grid container columns={{xs: 3, sm: 6, md: 12}} rowGap={2}
+        width={'100%'} justifyContent={'space-between'} alignItems={'center'}
+      >
+        <Grid item xs={3} sm={3} md={4}>
+          <FormControl sx={{ width: '100%' }}>
+            <InputLabel id="weekday-select-label">Weekday</InputLabel>
+            <Select
+              labelId="weekday-select-label"
+              id="weekday-select"
+              defaultValue={'M'}
+              onChange={handleDay}
+              variant="outlined"
+              label="Weekday"
+              sx={{ borderRadius: '15px' }}
             >
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center">Start Time</TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center">End Time</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell align="center">
-                      <Input
-                        type="time"
-                        onChange={handleStartTime}
-                        defaultValue={'10:00'}
-                        sx={{ colorScheme: 'light' }}
-                      ></Input>
-                    </TableCell>
-                    <TableCell align="center">
-                      <img
-                        src="minus-solid.svg"
-                        height="20vh"
-                        className="d-inline-block align-top"
-                        alt="UAH QuietRoom"
-                      />
-                    </TableCell>
-                    <TableCell align="center">
-                      <Input
-                        type="time"
-                        onChange={handleEndTime}
-                        defaultValue={'12:00'}
-                        sx={{ colorScheme: 'light' }}
-                      ></Input>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-          <Grid item xs={12}>
-            <Collapse in={invalidAlertOpen}>
-              <Alert
-                variant="filled"
-                severity="error"
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setInvalidAlertOpen(false)
-                    }}
-                  >
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
-                }
-                sx={{ mb: 2, borderRadius: '15px' }}
-              >
-                Invalid input. Please try again!
-              </Alert>
-            </Collapse>
-          </Grid>
-          <Grid item xs={12}>
-            <div onClick={handleSubmit}>
-              <MechButton href={''} text={'Search'} width={'100%'} fontSize={'3vh'} search={true}></MechButton>
-            </div>
-          </Grid>
-          <Grid item xs={12}>
+              <MenuItem disabled value={'X'}>
+                Select Weekday
+              </MenuItem>
+              <MenuItem value={'M'}>Monday</MenuItem>
+              <MenuItem value={'T'}>Tuesday</MenuItem>
+              <MenuItem value={'W'}>Wednesday</MenuItem>
+              <MenuItem value={'R'}>Thursday</MenuItem>
+              <MenuItem value={'F'}>Friday</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={3} sm={3} md={4}>
+          <Stack direction="row" spacing={2} justifyContent={'center'} alignItems={'center'} width={'100%'}
+            paddingLeft={{xs: 'none', sm: '2%', md: 'none'}}
+          >
+            <FormControl fullWidth>
+              <TextField
+                id="time"
+                InputLabelProps={{shrink: true}}
+                InputProps={{ style: { colorScheme: 'light', borderRadius: '15px' } }}
+                type="time"
+                label="Start Time"
+                defaultValue={'10:00'}
+                onChange={handleStartTime}
+              />
+            </FormControl>
+            <img
+              src="minus-solid.svg"
+              height="20vh"
+              className="d-inline-block align-top"
+              alt="UAH QuietRoom"
+            />
+            <FormControl fullWidth>
+              <TextField
+                id="time"
+                InputLabelProps={{shrink: true}}
+                InputProps={{ style: { colorScheme: 'light', borderRadius: '15px' } }}
+                type="time"
+                label="End Time"
+                defaultValue={'12:00'}
+                onChange={handleEndTime}
+              />
+            </FormControl>
+          </Stack>
+        </Grid>
+        <Grid item xs={3} sm={6} md={3}>
+          <div onClick={handleSubmit}>
+            <MechButton href={''} text={'Search'} width={'100%'} fontSize={'3vh'} search={true}></MechButton>
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <Collapse in={invalidAlertOpen}>
+            <Alert
+              variant="filled"
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setInvalidAlertOpen(false)
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2, borderRadius: '15px' }}
+            >
+              Invalid input. Please try again!
+            </Alert>
+          </Collapse>
+        </Grid>
+      </Grid>
+        
+      <hr />
+      <br></br>
+
+      <Container sx={{marginLeft: 'none'}} disableGutters>
+        <Stack spacing={5} direction={{md: 'column', lg: 'row'}} justifyContent={'center'} alignItems={'flex-start'} rowGap={1}>
+          <Box width={'100%'}>
             <CardRoomInfo
               state={cardLoading}
               cardTitle={cardTitle}
@@ -326,57 +314,55 @@ export default function ListAvailableRooms() {
               cardCapacity={cardCapacity}
               cardIcon={cardIcon}
             />
-          </Grid>
-        </Grid>
-
-        <Grid item width={'100%'}>
-          <DataGrid
-            autoHeight
-            slots={{
-              loadingOverlay: LinearProgress,
-            }}
-            rows={rooms!}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 10,
+          </Box>
+          <Box width={'100%'}>
+            <DataGrid
+              autoHeight
+              slots={{
+                loadingOverlay: LinearProgress,
+              }}
+              rows={rooms!}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 10,
+                  },
                 },
-              },
-              sorting: {
-                sortModel: [{ field: 'Building', sort: 'asc' }],
-              },
-            }}
-            pageSizeOptions={[10]}
-            onRowClick={handleRowClick}
-            onRowDoubleClick={handleRowDoubleClick}
-            loading={loadingData}
-            sx={{
-              color: '#181848',
-              borderRadius: 5,
-              border: 2,
-              '& .MuiDataGrid-row': {
-                transition: 'all 0.15s ease-in-out',
-              },
-              '& .MuiDataGrid-columnHeaders': {
-                backgroundColor: '#181848',
-              },
-              '& .MuiDataGrid-columnHeaderTitle': {
-                color: '#E0DDDD',
-              },
-              '& .MuiDataGrid-sortIcon': {
-                opacity: 1,
-                color: '#E0DDDD',
-              },
-              '& .MuiDataGrid-menuIconButton': {
-                opacity: 1,
-                color: '#E0DDDD',
-              },
-            }}
-          />
-        </Grid>
-        
-      </Stack>
+                sorting: {
+                  sortModel: [{ field: 'Building', sort: 'asc' }],
+                },
+              }}
+              pageSizeOptions={[10]}
+              onRowClick={handleRowClick}
+              onRowDoubleClick={handleRowDoubleClick}
+              loading={loadingData}
+              sx={{
+                color: '#181848',
+                borderRadius: 5,
+                border: 2,
+                '& .MuiDataGrid-row': {
+                  transition: 'all 0.15s ease-in-out',
+                },
+                '& .MuiDataGrid-columnHeaders': {
+                  backgroundColor: '#181848',
+                },
+                '& .MuiDataGrid-columnHeaderTitle': {
+                  color: '#E0DDDD',
+                },
+                '& .MuiDataGrid-sortIcon': {
+                  opacity: 1,
+                  color: '#E0DDDD',
+                },
+                '& .MuiDataGrid-menuIconButton': {
+                  opacity: 1,
+                  color: '#E0DDDD',
+                },
+              }}
+            />
+          </Box>
+        </Stack>
+      </Container>
 
 
       <Snackbar open={open} onClose={handleClose} autoHideDuration={3000}>
@@ -388,6 +374,7 @@ export default function ListAvailableRooms() {
           Double-click a row to view full room details!
         </Alert>
       </Snackbar>
+
     </>
   )
 }

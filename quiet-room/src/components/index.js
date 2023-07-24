@@ -1,5 +1,3 @@
-// components/Layout/index.js
-
 import { motion } from 'framer-motion'
 
 const Layout = ({ children }) => (

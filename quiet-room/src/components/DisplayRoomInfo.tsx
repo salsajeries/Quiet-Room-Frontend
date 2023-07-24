@@ -276,17 +276,16 @@ export default function DisplayRoomInfo() {
         width={'100%'} justifyContent={'space-between'} alignItems={'center'}
       >
         <Grid item xs={3} sm={3} md={4}>
-          <FormControl variant="standard" sx={{ minWidth: '100%' }}>
+          <FormControl sx={{ width: '100%' }}>
             <InputLabel id="building-select-label">Building</InputLabel>
             <Select
               labelId="building-select-label"
               id="building-select"
               defaultValue={getBuildingQ}
               onChange={handleBuilding}
-              variant="standard"
-              sx={{
-                width: '100%',
-              }}
+              variant="outlined"
+              label="Building"
+              sx={{ width: '100%', borderRadius: '15px' }}
             >
               <MenuItem disabled value={''}>
                 Select Building
@@ -300,14 +299,16 @@ export default function DisplayRoomInfo() {
           </FormControl>
         </Grid>
         <Grid item xs={3} sm={3} md={4}>
-          <TextField
-            id="standard-basic"
-            label="Room Number"
-            variant="standard"
-            onChange={handleRoomNumber}
-            defaultValue={getNumQ}
-            sx={{ width: '100%' }}
-          />
+          <FormControl sx={{ width: '100%' }}>
+            <TextField
+              id="room-number-input"
+              InputProps={{ style: { colorScheme: 'light', borderRadius: '15px' } }}
+              label="Room Number"
+              variant="outlined"
+              onChange={handleRoomNumber}
+              defaultValue={getNumQ}
+            />
+          </FormControl>
         </Grid>
         <Grid item xs={3} sm={2} md={3}>
           <div onClick={handleSubmit}>
@@ -364,7 +365,7 @@ export default function DisplayRoomInfo() {
       <br></br>
 
       <Container sx={{marginLeft: 'none'}} disableGutters>
-        <Stack spacing={5} direction={'row'} justifyContent={'center'} alignItems={'stretch'} rowGap={1}>
+        <Stack spacing={5} direction={{md: 'column', lg: 'row'}} justifyContent={'center'} alignItems={'flex-start'} rowGap={1}>
           <Box width={'100%'}>
             <CardRoomInfo
               state={cardLoading}

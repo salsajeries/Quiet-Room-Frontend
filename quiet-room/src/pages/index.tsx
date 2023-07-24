@@ -92,13 +92,13 @@ export default function Home() {
               meet, or you just hate the windowless study rooms in the library. We created QuietRoom to help you find
               the perfect spot on campus to get whatever you need done. Find out what rooms are available to use during
               the time that you need it on the{' '}
-              <Button variant="text">
+              <Button variant="outlined" style={{borderRadius: '15px'}}>
                 <Link href={'/availablerooms'} style={{ textDecoration: 'none' }}>
                   Find Available Rooms
                 </Link>
               </Button>{' '}
               page. Want to see a little more info about the room? Check out the{' '}
-              <Button variant="text">
+              <Button variant="outlined" style={{borderRadius: '15px'}}>
                 <Link href={'/roominfo'} style={{ textDecoration: 'none' }}>
                   Find Room Info
                 </Link>
