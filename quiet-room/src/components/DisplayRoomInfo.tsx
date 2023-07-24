@@ -7,13 +7,13 @@ import {
   Alert,
   Box,
   Collapse,
+  Container,
   FormControl,
   Grid,
   IconButton,
   InputLabel,
   LinearProgress,
   MenuItem,
-  Paper,
   Select,
   Stack,
   TextField,
@@ -314,119 +314,120 @@ export default function DisplayRoomInfo() {
             <MechButton href={''} text={'Search'} width={'100%'} fontSize={'3vh'} search={true}></MechButton>
           </div>
         </Grid>
+        <Grid item xs={12}>
+          <Collapse in={invalidAlertOpen}>
+            <Alert
+              variant="filled"
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setInvalidAlertOpen(false)
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2, borderRadius: '15px' }}
+            >
+              Invalid input. Please try again!
+            </Alert>
+          </Collapse>
+          <Collapse in={dneAlertOpen}>
+            <Alert
+              variant="filled"
+              severity="warning"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setDneAlertOpen(false)
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2, borderRadius: '15px' }}
+            >
+              This room does not exist. Please try again!
+            </Alert>
+          </Collapse>
+        </Grid>
       </Grid>
 
+      <hr />
       <br></br>
 
-      <Grid item xs={12}>
-        <Collapse in={invalidAlertOpen}>
-          <Alert
-            variant="filled"
-            severity="error"
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setInvalidAlertOpen(false)
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-            sx={{ mb: 2, borderRadius: '15px' }}
-          >
-            Invalid input. Please try again!
-          </Alert>
-        </Collapse>
-        <Collapse in={dneAlertOpen}>
-          <Alert
-            variant="filled"
-            severity="warning"
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setDneAlertOpen(false)
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-            sx={{ mb: 2, borderRadius: '15px' }}
-          >
-            This room does not exist. Please try again!
-          </Alert>
-        </Collapse>
-      </Grid>
-
-      <br></br>
-
-      <Stack spacing={5} direction={{md: 'column', lg: 'row'}} justifyContent={'center'} alignItems={'stretch'} rowGap={1}>
-        <Box width={'100%'}>
-          <CardRoomInfo
-            state={cardLoading}
-            cardTitle={cardTitle}
-            cardRoomType={cardRoomType}
-            cardCapacity={cardCapacity}
-            cardIcon={cardIcon}
-          />
-        </Box>
-        <Box width={'100%'}>
-          <DataGrid
-            autoHeight
-            slots={{
-              loadingOverlay: LinearProgress,
-            }}
-            rows={events!}
-            getRowId={(row) => row.EventID}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 10,
+      <Container sx={{marginLeft: 'none'}} disableGutters>
+        <Stack spacing={5} direction={'row'} justifyContent={'center'} alignItems={'stretch'} rowGap={1}>
+          <Box width={'100%'}>
+            <CardRoomInfo
+              state={cardLoading}
+              cardTitle={cardTitle}
+              cardRoomType={cardRoomType}
+              cardCapacity={cardCapacity}
+              cardIcon={cardIcon}
+            />
+          </Box>
+          <Box width={'100%'}>
+            <DataGrid
+              autoHeight
+              slots={{
+                loadingOverlay: LinearProgress,
+              }}
+              rows={events!}
+              getRowId={(row) => row.EventID}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 10,
+                  },
                 },
-              },
-              sorting: {
-                sortModel: [{ field: 'DaysMet', sort: 'asc' }],
-              },
-            }}
-            pageSizeOptions={[10]}
-            loading={loadingData}
-            sx={{
-              color: '#181848',
-              borderRadius: 5,
-              border: 2,
-              '& .MuiDataGrid-row': {
-                transition: 'all 0.15s ease-in-out',
-              },
-              '& .MuiDataGrid-columnHeaders': {
-                backgroundColor: '#181848',
-              },
-              '& .MuiDataGrid-columnHeaderTitle': {
-                color: '#E0DDDD',
-              },
-              '& .MuiDataGrid-sortIcon': {
-                opacity: 1,
-                color: '#E0DDDD',
-              },
-              '& .MuiDataGrid-menuIconButton': {
-                opacity: 1,
-                color: '#E0DDDD',
-              },
-            }}
-          />
-        </Box>
-      </Stack>
+                sorting: {
+                  sortModel: [{ field: 'DaysMet', sort: 'asc' }],
+                },
+              }}
+              pageSizeOptions={[10]}
+              loading={loadingData}
+              sx={{
+                color: '#181848',
+                borderRadius: 5,
+                border: 2,
+                '& .MuiDataGrid-row': {
+                  transition: 'all 0.15s ease-in-out',
+                },
+                '& .MuiDataGrid-columnHeaders': {
+                  backgroundColor: '#181848',
+                },
+                '& .MuiDataGrid-columnHeaderTitle': {
+                  color: '#E0DDDD',
+                },
+                '& .MuiDataGrid-sortIcon': {
+                  opacity: 1,
+                  color: '#E0DDDD',
+                },
+                '& .MuiDataGrid-menuIconButton': {
+                  opacity: 1,
+                  color: '#E0DDDD',
+                },
+              }}
+            />
+          </Box>
+        </Stack>
 
-      
+        <br></br>
+        <hr />
+        <br></br>
 
-      <br></br>
+        <Scheduler rawEvents={events} toggle={schedulerToggle}></Scheduler>
+      </Container>
 
-      <Scheduler rawEvents={events} toggle={schedulerToggle}></Scheduler>
     </>
   )
 }

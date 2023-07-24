@@ -213,7 +213,7 @@ export default function ListAvailableRooms() {
         <Grid container columns={{xs: 3, sm: 6, md: 12}} rowGap={2}
           width={'100%'} justifyContent={'center'} alignItems={'center'}
         >
-          <Grid item xs={3} sm={3} md={3}>
+          <Grid item xs={3} sm={3} md={6}>
             <FormControl variant="standard" sx={{ width: '100%' }}>
               <InputLabel id="weekday-select-label">Weekday</InputLabel>
               <Select
@@ -237,7 +237,7 @@ export default function ListAvailableRooms() {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={3} sm={3} md={3}>
+          <Grid item xs={3} sm={3} md={6}>
             <TableContainer
               sx={{
                 '& .MuiTable-root': {},

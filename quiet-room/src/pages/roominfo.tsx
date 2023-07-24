@@ -29,7 +29,6 @@ export default function RoomInfo() {
             in the "Room Quick View" card! At the bottom, you'll find the "Schedule View" where you can look at the
             room's weekly schedule in a calendar view!
           </Typography>
-          <hr />
           <br></br>
           <DisplayRoomInfo></DisplayRoomInfo>
         </Container>

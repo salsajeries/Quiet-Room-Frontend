@@ -26,7 +26,7 @@ export default function AvailableRooms() {
             by building or room number by clicking the menu button for each column. Select a row to get a quick-view of
             room info, and double click a row to find the full details and schedule for that room!
           </Typography>
-          <hr />
+          <br></br>
           <ListAvailableRooms></ListAvailableRooms>
         </Container>
         <Footer></Footer>
