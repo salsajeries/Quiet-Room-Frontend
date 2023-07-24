@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import {
   Alert,
+  Box,
   Collapse,
   FormControl,
   Grid,
@@ -12,7 +13,9 @@ import {
   InputLabel,
   LinearProgress,
   MenuItem,
+  Paper,
   Select,
+  Stack,
   TextField,
 } from '@mui/material'
 import buildingsList from '@/api/buildings.json'
@@ -21,6 +24,9 @@ import CardRoomInfo from './CardRoomInfo'
 import CloseIcon from '@mui/icons-material/Close'
 import Event from '@/interfaces/Event'
 import Scheduler from './Scheduler'
+
+
+
 
 function convertTime(timeVal: string) {
   let hour = parseInt(timeVal.substring(0, 2))
@@ -117,8 +123,10 @@ function parseDate(dateVal: string) {
 
 // Define list component columns
 const columns: GridColDef[] = [
+  { field: 'BuildingCode', headerName: 'Building', width: 100 },
+  { field: 'RoomNumber', headerName: 'Room Number', width: 130 },
   { field: 'Name', headerName: 'Classname', width: 100 },
-  { field: 'DaysMet', headerName: 'Days Met', width: 200, sortingOrder: ['desc', 'asc'] },
+  { field: 'DaysMet', headerName: 'Days Met', sortingOrder: ['desc', 'asc'], width: 220 },
   { field: 'StartTime', headerName: 'Start Time', width: 100 },
   { field: 'EndTime', headerName: 'End Time', width: 100 },
   { field: 'StartDate', headerName: 'Start Date', width: 100 },
@@ -262,109 +270,111 @@ export default function DisplayRoomInfo() {
 
   return (
     <>
-      <Grid
-        container
-        columns={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}
-        justifyContent="space-evenly"
-        alignItems="flex-start"
+
+      <Grid container columns={{xs: 3, sm: 9, md: 12}} rowGap={2}
+        width={'100%'} justifyContent={'space-between'} alignItems={'center'}
       >
-        <Grid container item xs={4} direction="column" alignItems="center" minWidth={'340px'}>
-          <Grid container item direction="column" justifyContent="center" alignItems="center" spacing={1} zeroMinWidth>
-            <Grid item width={'80%'}>
-              <Collapse in={invalidAlertOpen}>
-                <Alert
-                  variant="filled"
-                  severity="error"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setInvalidAlertOpen(false)
-                      }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2, borderRadius: '15px' }}
-                >
-                  Invalid input. Please try again!
-                </Alert>
-              </Collapse>
-              <Collapse in={dneAlertOpen}>
-                <Alert
-                  variant="filled"
-                  severity="warning"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setDneAlertOpen(false)
-                      }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2, borderRadius: '15px' }}
-                >
-                  This room does not exist. Please try again!
-                </Alert>
-              </Collapse>
-            </Grid>
-            <Grid item width={'80%'}>
-              <FormControl variant="standard" sx={{ width: '100%' }}>
-                <InputLabel id="building-select-label">Building</InputLabel>
-                <Select
-                  labelId="building-select-label"
-                  id="building-select"
-                  defaultValue={getBuildingQ}
-                  onChange={handleBuilding}
-                  variant="standard"
-                  sx={{
-                    width: '100%',
-                  }}
-                >
-                  <MenuItem disabled value={''}>
-                    Select Building
-                  </MenuItem>
-                  {buildingsList.map((buildingID: any) => (
-                    <MenuItem value={buildingID} key={buildingID}>
-                      {buildingID}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item width={'80%'}>
-              <TextField
-                id="standard-basic"
-                label="Room Number"
-                variant="standard"
-                onChange={handleRoomNumber}
-                defaultValue={getNumQ}
-                sx={{ width: '100%' }}
-              />
-            </Grid>
-            <Grid item width={'90%'}>
-              <div onClick={handleSubmit}>
-                <MechButton href={''} text={'Search'} width={'100%'}></MechButton>
-              </div>
-            </Grid>
-            <Grid item width={'90%'}>
-              <CardRoomInfo
-                state={cardLoading}
-                cardTitle={cardTitle}
-                cardRoomType={cardRoomType}
-                cardCapacity={cardCapacity}
-                cardIcon={cardIcon}
-              />
-            </Grid>
-          </Grid>
+        <Grid item xs={3} sm={3} md={4}>
+          <FormControl variant="standard" sx={{ minWidth: '100%' }}>
+            <InputLabel id="building-select-label">Building</InputLabel>
+            <Select
+              labelId="building-select-label"
+              id="building-select"
+              defaultValue={getBuildingQ}
+              onChange={handleBuilding}
+              variant="standard"
+              sx={{
+                width: '100%',
+              }}
+            >
+              <MenuItem disabled value={''}>
+                Select Building
+              </MenuItem>
+              {buildingsList.map((buildingID: any) => (
+                <MenuItem value={buildingID} key={buildingID}>
+                  {buildingID}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
-        <Grid item xs={6} margin={{ xs: 1 }} justifyContent="center">
+        <Grid item xs={3} sm={3} md={4}>
+          <TextField
+            id="standard-basic"
+            label="Room Number"
+            variant="standard"
+            onChange={handleRoomNumber}
+            defaultValue={getNumQ}
+            sx={{ width: '100%' }}
+          />
+        </Grid>
+        <Grid item xs={3} sm={2} md={3}>
+          <div onClick={handleSubmit}>
+            <MechButton href={''} text={'Search'} width={'100%'}></MechButton>
+          </div>
+        </Grid>
+      </Grid>
+
+      <br></br>
+
+      <Grid item xs={12}>
+        <Collapse in={invalidAlertOpen}>
+          <Alert
+            variant="filled"
+            severity="error"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setInvalidAlertOpen(false)
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2, borderRadius: '15px' }}
+          >
+            Invalid input. Please try again!
+          </Alert>
+        </Collapse>
+        <Collapse in={dneAlertOpen}>
+          <Alert
+            variant="filled"
+            severity="warning"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setDneAlertOpen(false)
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2, borderRadius: '15px' }}
+          >
+            This room does not exist. Please try again!
+          </Alert>
+        </Collapse>
+      </Grid>
+
+      <br></br>
+
+      <Stack spacing={2} direction={{md: 'column', lg: 'row'}} justifyContent={'center'} alignItems={'stretch'} rowGap={1}>
+        <Box width={'100%'}>
+          <CardRoomInfo
+            state={cardLoading}
+            cardTitle={cardTitle}
+            cardRoomType={cardRoomType}
+            cardCapacity={cardCapacity}
+            cardIcon={cardIcon}
+          />
+        </Box>
+        <Box width={'100%'}>
           <DataGrid
             autoHeight
             slots={{
@@ -408,8 +418,10 @@ export default function DisplayRoomInfo() {
               },
             }}
           />
-        </Grid>
-      </Grid>
+        </Box>
+      </Stack>
+
+      
 
       <br></br>
 
@@ -417,3 +429,116 @@ export default function DisplayRoomInfo() {
     </>
   )
 }
+
+
+/**
+
+<Grid
+        container
+        columns={{ xs: 6, sm: 6, md: 6, lg: 12, xl: 12 }}
+        justifyContent="space-evenly"
+        alignItems="flex-start"
+      >
+
+
+
+
+
+<Grid container item xs={4} direction="column" alignItems="center" minWidth={'340px'}>
+  <Grid container item direction="row" justifyContent="center" alignItems="center" spacing={1} zeroMinWidth>
+    <Grid item>
+      <Collapse in={invalidAlertOpen}>
+        <Alert
+          variant="filled"
+          severity="error"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setInvalidAlertOpen(false)
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2, borderRadius: '15px' }}
+        >
+          Invalid input. Please try again!
+        </Alert>
+      </Collapse>
+      <Collapse in={dneAlertOpen}>
+        <Alert
+          variant="filled"
+          severity="warning"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setDneAlertOpen(false)
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2, borderRadius: '15px' }}
+        >
+          This room does not exist. Please try again!
+        </Alert>
+      </Collapse>
+    </Grid>
+    <Grid item>
+      <FormControl variant="standard" sx={{ width: '100%' }}>
+        <InputLabel id="building-select-label">Building</InputLabel>
+        <Select
+          labelId="building-select-label"
+          id="building-select"
+          defaultValue={getBuildingQ}
+          onChange={handleBuilding}
+          variant="standard"
+          sx={{
+            width: '100%',
+          }}
+        >
+          <MenuItem disabled value={''}>
+            Select Building
+          </MenuItem>
+          {buildingsList.map((buildingID: any) => (
+            <MenuItem value={buildingID} key={buildingID}>
+              {buildingID}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Grid>
+    <Grid item>
+      <TextField
+        id="standard-basic"
+        label="Room Number"
+        variant="standard"
+        onChange={handleRoomNumber}
+        defaultValue={getNumQ}
+        sx={{ width: '100%' }}
+      />
+    </Grid>
+    <Grid item>
+      <div onClick={handleSubmit}>
+        <MechButton href={''} text={'Search'} width={'100%'}></MechButton>
+      </div>
+    </Grid>
+    <Grid item>
+      <CardRoomInfo
+        state={cardLoading}
+        cardTitle={cardTitle}
+        cardRoomType={cardRoomType}
+        cardCapacity={cardCapacity}
+        cardIcon={cardIcon}
+      />
+    </Grid>
+  </Grid>
+</Grid>
+
+ */
