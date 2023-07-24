@@ -157,8 +157,6 @@ export default function Schedule(props: SchedulerViewInt) {
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon style={{ color: '#E0DDDD' }} />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
           sx={{
             backgroundColor: '#181848',
             color: '#E0DDDD',
@@ -175,21 +173,34 @@ export default function Schedule(props: SchedulerViewInt) {
               border: '2px solid #181848',
               borderRadius: '15px',
               padding: '2vw',
-              backgroundColor: 'transparent',
+              backgroundColor: 'transparent'
             }}
           >
-            <Grid container justifyContent={'center'} alignItems={'center'}>
-              <Grid item xs={1}>
-                <InfoIcon style={{ color: '#181848' }} />
-              </Grid>
-              <Grid item xs={11}>
-                <Typography sx={{ flexShrink: 0 }}>
-                  Note: Courses offered as both undergradute and graduate level appear twice in the same timeslot with
+            <Accordion elevation={0}
+              sx={{
+                backgroundColor: '#E0DDDD',
+                color: '#181848'
+              }}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{
+                  backgroundColor: '#E0DDDD',
+                  color: '#181848',
+                }}
+              >
+                <InfoIcon style={{ color: '#181848', float: 'left', marginRight: '20px' }} />
+                <Typography>Note</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography sx={{ flexShrink: 0 }}><i>
+                  Courses offered as both undergradute and graduate level appear twice in the same timeslot with
                   their respective course numbers (Ex: CS 424 and CS 524). Courses may also overlap if they are given
                   different course IDs by different departments (Ex: CE 370 and MAE 370).
-                </Typography>
-              </Grid>
-            </Grid>
+                </i></Typography>
+              </AccordionDetails>
+            </Accordion>
+
             <br></br>
             <div className={styles.customCalendar}>
               <FullCalendar

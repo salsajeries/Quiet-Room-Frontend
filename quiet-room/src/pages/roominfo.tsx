@@ -30,6 +30,7 @@ export default function RoomInfo() {
             room's weekly schedule in a calendar view!
           </Typography>
           <hr />
+          <br></br>
           <DisplayRoomInfo></DisplayRoomInfo>
         </Container>
         <Footer></Footer>
