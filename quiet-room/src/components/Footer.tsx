@@ -29,14 +29,14 @@ export default function Footer() {
             <Divider variant='middle'></Divider>
             <ul style={{ listStyleType: 'none', margin: '0', padding: '0', height: 'auto' }}>
                 <li>
-                    <Link href="https://forms.gle/PamUMtey2cBjPAnD6">
+                    <Link href="https://forms.gle/PamUMtey2cBjPAnD6" style={{ textDecoration: 'none' }}>
                         <Chip variant='outlined' label='Feedback' onClick={handleGithub}
                             avatar={<img src="comment-regular.svg" height="30px" alt="Feedback" />}
                         />
                     </Link>
                 </li>
                 <li>
-                    <Link href="https://github.com/QuietRoomUAH/Quiet-Room-Frontend">
+                    <Link href="https://github.com/QuietRoomUAH/Quiet-Room-Frontend" style={{ textDecoration: 'none' }}>
                         <Chip variant='outlined' label='Github' onClick={handleGithub}
                             avatar={<img src="github-icon.svg" height="30px" alt="Github" />}
                         />
