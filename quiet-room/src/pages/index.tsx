@@ -17,7 +17,7 @@ export default function Home() {
         <title>UAH QuietRoom</title>
       </Head>
       <Layout>
-        <div>
+        <div style={{minHeight: '83vh'}}>
           <Container sx={{display: 'flex', width: '100vw', height: '80vh', justifyContent: 'center', alignItems: 'center'}}>
             <Grid
               container
@@ -40,6 +40,7 @@ export default function Home() {
                   container
                   direction={'column'}
                   columns={{ xs: 3 }}
+                  rowGap={5}
                   sx={{
                     display: 'flex',
                     justifyContent: 'center',
@@ -50,8 +51,8 @@ export default function Home() {
                 >
                   <Grid item xs={3} width={'100%'}>
                     <MechButton
-                      href={'/roominfo'}
-                      text={'Find Room Info'}
+                      href={'/availablerooms'}
+                      text={'Find Available Rooms'}
                       width={'100%'}
                       height={'auto'}
                       fontSize={'3.5vh'}
@@ -59,8 +60,8 @@ export default function Home() {
                   </Grid>
                   <Grid item xs={3} width={'100%'}>
                     <MechButton
-                      href={'/availablerooms'}
-                      text={'Find Available Rooms'}
+                      href={'/roominfo'}
+                      text={'Find Room Info'}
                       width={'100%'}
                       height={'auto'}
                       fontSize={'3.5vh'}
@@ -87,17 +88,18 @@ export default function Home() {
             }}
           >
             <Typography variant="h6">
-              Sometimes you need a change of environment from the Charger Union, or your group project needs a place to
-              meet, or you just hate the windowless study rooms in the library. We created QuietRoom to help you find
-              the perfect spot on campus to get whatever you need done. Find out what rooms are available to use during
-              the time that you need it on the{' '}
-              <Button variant="text">
+              Sometimes you need a change of environment from the Charger Union,
+              your group project needs a place to meet, or you just hate the windowless study rooms in the
+              library. We created <strong>Quiet Room</strong> to help you find the perfect spot on campus
+              to get whatever you need done. Find out what rooms are available to use during the time that
+              you need it on the{' '}
+              <Button variant="outlined" style={{borderRadius: '15px'}}>
                 <Link href={'/availablerooms'} style={{ textDecoration: 'none' }}>
                   Find Available Rooms
                 </Link>
               </Button>{' '}
               page. Want to see a little more info about the room? Check out the{' '}
-              <Button variant="text">
+              <Button variant="outlined" style={{borderRadius: '15px'}}>
                 <Link href={'/roominfo'} style={{ textDecoration: 'none' }}>
                   Find Room Info
                 </Link>

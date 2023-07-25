@@ -12,7 +12,9 @@ export default function Footer() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            alignContent: 'center'
+            alignContent: 'center',
+            position: 'relative',
+            bottom: '0'
         }}>
             <ul style={{ listStyleType: 'none', margin: '0', padding: '0', height: 'auto' }}>
                 <li><Typography variant='body1' width={'100%'} flexBasis={'100%'}>UAH QuietRoom</Typography></li>

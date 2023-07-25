@@ -9,7 +9,3 @@
 .pageButton:hover {
   transform: translateX(8px);
 }
-
-.pageButton:active {
-  transform: translateX(-2px);
-}

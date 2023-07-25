@@ -15,27 +15,46 @@ export default function NavbarObj() {
     <>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" style={{ background: 'transparent', boxShadow: 'none' }}>
-          <Toolbar>
-            <IconButton size="large" edge="start" color="inherit" aria-label="menu" onClick={handleShow} sx={{ mr: 2 }}>
+          <Toolbar sx={{margin: '1%'}}>
+            <IconButton size="large" edge="start" color="inherit" aria-label="menu" onClick={handleShow}
+              sx={{ mr: 2, display: { sm: 'flex', md: 'none' } }}
+            >
               <img src="bars-solid.svg" height="40vh" className="d-inline-block align-top" alt="UAH QuietRoom" />
             </IconButton>
-            <Link href="/">
-              <Box
-                sx={{
-                  minWidth: '330px',
-                  display: { md: 'flex' },
-                }}
-              >
-                <img src="icon-light.png" height="45vh" className="d-inline-block align-top" alt="UAH QuietRoom" />
-                <img
-                  src="logo-text-light.png"
-                  height="45vh"
-                  className="d-inline-block align-top"
-                  alt="UAH QuietRoom"
-                  style={{ padding: '10px' }}
-                />
-              </Box>
-            </Link>
+            <Box
+              sx={{
+                display: { md: 'flex' },
+                paddingRight: '20px',
+              }}
+            >
+              <Link href="/">
+                <img src="logo-light.png" height="75vh" className="d-inline-block align-top" alt="UAH QuietRoom" />
+              </Link>
+            </Box>
+            <Box sx={{
+                display: { xs: 'none', sm: 'none', md: 'flex' },
+                width: 'auto',
+                color: '#181848',
+                paddingLeft: '20px',
+                paddingRight: '20px'
+              }}
+            >
+              <Link href="/availablerooms" style={{ textDecoration: 'none', color: '#181848' }}>
+                Available Rooms
+              </Link>
+            </Box>
+            <Box sx={{
+                display: { xs: 'none', sm: 'none', md: 'flex' },
+                witdth: 'auto',
+                color: '#181848',
+                paddingLeft: '20px',
+                paddingRight: '20px'
+              }}
+            >
+              <Link href="/roominfo" style={{ textDecoration: 'none', color: '#181848' }}>
+                Room Info
+              </Link>
+            </Box>
           </Toolbar>
         </AppBar>
       </Box>
