@@ -112,7 +112,7 @@ export default function Home() {
               We hope this helps you find the quiet room you need to get whatever you're working on done! We would love
               to hear your feedback, so make sure to contact one of us or fill out our{' '}
               <Button variant="outlined" style={{borderRadius: '15px'}}>
-                <Link href={'#bottom'} scroll={false} style={{ textDecoration: 'none' }}>
+                <Link href={'https://forms.gle/PamUMtey2cBjPAnD6'} scroll={false} style={{ textDecoration: 'none' }}>
                   Suggestion Form
                 </Link>
               </Button>{' '}
