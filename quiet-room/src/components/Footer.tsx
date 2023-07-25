@@ -9,7 +9,7 @@ export default function Footer() {
     }
 
     return (
-        <div id='#bottom' style={{ 
+        <div id='bottom' style={{ 
             width: '100vw',
             height: '12vh',
             backgroundColor: '#CFC9C9',
@@ -19,7 +19,8 @@ export default function Footer() {
             alignItems: 'center',
             alignContent: 'center',
             position: 'relative',
-            bottom: '0'
+            bottom: '0',
+            scrollBehavior: 'smooth'
         }}>
             <ul style={{ listStyleType: 'none', margin: '0', padding: '0', height: 'auto' }}>
                 <li><Typography variant='body1' width={'100%'} flexBasis={'100%'}>UAH QuietRoom</Typography></li>
