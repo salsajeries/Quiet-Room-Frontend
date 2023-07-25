@@ -49,6 +49,9 @@ export default function ListAvailableRooms() {
   // Toggle states
   const [open, setOpen] = useState(false) // Snackbar toggle
   const [invalidAlertOpen, setInvalidAlertOpen] = useState(false) // Input error alert toggle
+  const [weekdayInvalid, setWeekdayInvalid] = useState(false) // Weekday input validation status
+  const [startTimeInvalid, setStartTimeInvalid] = useState(false) // Start time input validation status
+  const [endTimeInvalid, setEndTimeInvalid] = useState(false) // End time input validation status
 
   // Available rooms list
   const [rooms, setRooms] = useState<any[]>([])
@@ -110,16 +113,30 @@ export default function ListAvailableRooms() {
 
   // On submit, make API call and set appropriate loading states
   const handleSubmit = async (e: any) => {
-    if (day == '' || startTime == '' || endTime == '') {
-      console.log('ERROR: Invalid input')
-      setInvalidAlertOpen(true)
-    } else {
+    
+    setWeekdayInvalid(false)
+    setStartTimeInvalid(false)
+    setEndTimeInvalid(false)
+
+    if (day != '' && startTime != '' && endTime != '') {
       setInvalidAlertOpen(false)
       setRooms([])
 
       buildingsList.map((buildingID: string) => {
         getAvailableRooms(buildingID, day, startTime, endTime)
       })
+    } else {
+      console.log('ERROR: Invalid input')
+      setInvalidAlertOpen(true)
+    }
+    if (day == '') {
+      setWeekdayInvalid(true)
+    }
+    if (startTime == '') {
+      setStartTimeInvalid(true)
+    }
+    if (endTime == '') {
+      setEndTimeInvalid(true)
     }
   }
 
@@ -215,7 +232,7 @@ export default function ListAvailableRooms() {
         width={'100%'} justifyContent={'space-between'} alignItems={'center'}
       >
         <Grid item xs={3} sm={3} md={4}>
-          <FormControl sx={{ width: '100%' }}>
+          <FormControl error={weekdayInvalid} sx={{ width: '100%' }}>
             <InputLabel id="weekday-select-label">Weekday</InputLabel>
             <Select
               labelId="weekday-select-label"
@@ -250,6 +267,7 @@ export default function ListAvailableRooms() {
                 label="Start Time"
                 defaultValue={'10:00'}
                 onChange={handleStartTime}
+                error={startTimeInvalid}
               />
             </FormControl>
             <img
@@ -267,6 +285,7 @@ export default function ListAvailableRooms() {
                 label="End Time"
                 defaultValue={'12:00'}
                 onChange={handleEndTime}
+                error={endTimeInvalid}
               />
             </FormControl>
           </Stack>

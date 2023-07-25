@@ -26,8 +26,6 @@ import Event from '@/interfaces/Event'
 import Scheduler from './Scheduler'
 
 
-
-
 function convertTime(timeVal: string) {
   let hour = parseInt(timeVal.substring(0, 2))
   let min = timeVal.substring(2, 4)
@@ -131,6 +129,7 @@ const columns: GridColDef[] = [
   { field: 'EndDate', headerName: 'End Date', width: 100 },
 ]
 
+
 export default function DisplayRoomInfo() {
   let getBuildingQ = useRouter()?.query?.building
   let getNumQ = useRouter()?.query?.num
@@ -138,6 +137,8 @@ export default function DisplayRoomInfo() {
   const [submitToggle, setSubmitToggle] = useState(false) // Submit toggle
   const [invalidAlertOpen, setInvalidAlertOpen] = useState(false) // Input error alert toggle
   const [dneAlertOpen, setDneAlertOpen] = useState(false) // DNE error alert toggle
+  const [buildingInvalid, setBuildingInvalid] = useState(false) // Building input validation status
+  const [roomInvalid, setRoomInvalid] = useState(false) // Room number input validation status
 
   // Room information
   const [room, setRoom] = useState()
@@ -221,17 +222,27 @@ export default function DisplayRoomInfo() {
 
   // On submit, make API call
   const handleSubmit = (e: any) => {
-    if (building == '' || num == '') {
-      console.log('ERROR: Invalid input')
-      setInvalidAlertOpen(true)
-      setDneAlertOpen(false)
-    } else {
+    
+    setBuildingInvalid(false)
+    setRoomInvalid(false)
+    
+    if (building != '' && num != '') {
       setInvalidAlertOpen(false)
       setDneAlertOpen(false)
       setSchedulerToggle(!schedulerToggle)
       setSubmitToggle(!submitToggle)
 
       getRoomInfo()
+    } else {
+      console.log('ERROR: Invalid input')
+      setInvalidAlertOpen(true)
+      setDneAlertOpen(false)
+    }
+    if (building == '') {
+      setBuildingInvalid(true)
+    }
+    if (num == '') {
+      setRoomInvalid(true)
     }
   }
 
@@ -274,7 +285,7 @@ export default function DisplayRoomInfo() {
         width={'100%'} justifyContent={'space-between'} alignItems={'center'}
       >
         <Grid item xs={3} sm={3} md={4}>
-          <FormControl sx={{ width: '100%' }}>
+          <FormControl error={buildingInvalid} sx={{ width: '100%' }}>
             <InputLabel id="building-select-label">Building</InputLabel>
             <Select
               labelId="building-select-label"
@@ -305,6 +316,7 @@ export default function DisplayRoomInfo() {
               variant="outlined"
               onChange={handleRoomNumber}
               defaultValue={getNumQ}
+              error={roomInvalid}
             />
           </FormControl>
         </Grid>
