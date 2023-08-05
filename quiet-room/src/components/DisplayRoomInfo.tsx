@@ -83,6 +83,9 @@ function isValidStartDate(dateVal: string) {
   startDate.setMonth(month - 1)
   startDate.setDate(day)
 
+  // Add buffer for new semester, 2 weeks = 14 days
+  today.setDate(today.getDate() + 14);
+
   // If start date is in the FUTURE, not valid: return false
   if (startDate > today) {
     return false
