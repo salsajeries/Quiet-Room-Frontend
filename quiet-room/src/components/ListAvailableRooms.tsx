@@ -32,6 +32,14 @@ function getTime(rawTime: string) {
   return hour.toString() + min.toString()
 }
 
+// Parse time input value for input element format
+// XXXX -> XX:XX
+function parseTime(rawTime: string) {
+  let hour = rawTime.substring(0, 2)
+  let min = rawTime.substring(2)
+  return hour.toString() + ':' + min.toString()
+}
+
 // Get default day input based on current day
 function getDefaultDay() {
   const today = new Date()
@@ -46,6 +54,49 @@ function getDefaultDay() {
   }
 }
 
+// Get default start time based on current time
+function getDefaultStartTime() {
+  const today = new Date()
+  let startHour = today.getHours().toString() // Get current hour
+  let startMin = today.getMinutes().toString()  // Get current min
+
+  // Parsing for proper string format
+  if (startHour.length < 2) {
+    startHour = '0' + startHour
+  }
+  if (startMin.length < 2) {
+    startMin = '0' + startMin
+  }
+  
+  const startTime = startHour + startMin
+  return startTime
+    
+}
+
+// Get default end time based on current time + 1 hour
+function getDefaultEndTime() {
+  const today = new Date()
+  let initEndHour = today.getHours() + 1  // Get end hour
+  let endMin = today.getMinutes().toString()  // Get end min
+
+  // Handle 24hr format overflow
+  if (initEndHour > 23) {
+    initEndHour -= 24
+  }
+
+  let endHour = initEndHour.toString()  // Parse to string
+
+  // Parsing for proper string format
+  if (endHour.length < 2) {
+    endHour = '0' + endHour
+  }
+  if (endMin.length < 2) {
+    endMin = '0' + endMin
+  }
+  
+  const endTime = endHour + endMin
+  return endTime
+}
 
 // Define list component columns
 const columns: GridColDef[] = [
@@ -66,8 +117,8 @@ export default function ListAvailableRooms() {
 
   // Input data
   const [day, setDay] = useState(getDefaultDay()) // Day selection
-  const [startTime, setStartTime] = useState('1000') // Start time
-  const [endTime, setEndTime] = useState('1200') // End time
+  const [startTime, setStartTime] = useState(getDefaultStartTime()) // Start time
+  const [endTime, setEndTime] = useState(getDefaultEndTime()) // End time
 
   // Loading states
   const [loadingData, setLoadingData] = useState<boolean>(false) // Data grid loading state
@@ -121,8 +172,6 @@ export default function ListAvailableRooms() {
 
   // On submit, make API call and set appropriate loading states
   const handleSubmit = async (e: any) => {
-
-    getDefaultDay()
     
     setWeekdayInvalid(false)
     setStartTimeInvalid(false)
@@ -275,7 +324,7 @@ export default function ListAvailableRooms() {
                 InputProps={{ style: { colorScheme: 'light', borderRadius: '15px' } }}
                 type="time"
                 label="Start Time"
-                defaultValue={'10:00'}
+                defaultValue={parseTime(getDefaultStartTime())}
                 onChange={handleStartTime}
                 error={startTimeInvalid}
               />
@@ -293,7 +342,7 @@ export default function ListAvailableRooms() {
                 InputProps={{ style: { colorScheme: 'light', borderRadius: '15px' } }}
                 type="time"
                 label="End Time"
-                defaultValue={'12:00'}
+                defaultValue={parseTime(getDefaultEndTime())}
                 onChange={handleEndTime}
                 error={endTimeInvalid}
               />
