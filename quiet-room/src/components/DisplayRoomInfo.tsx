@@ -7,7 +7,6 @@ import {
   Alert,
   Box,
   Collapse,
-  Container,
   FormControl,
   Grid,
   IconButton,
@@ -25,7 +24,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import Event from '@/interfaces/Event'
 import Scheduler from './Scheduler'
 
-
+// Convert API returned time format to output format
 function convertTime(timeVal: string) {
   let hour = parseInt(timeVal.substring(0, 2))
   let min = timeVal.substring(2, 4)
@@ -45,6 +44,7 @@ function convertTime(timeVal: string) {
   return hour.toString() + ':' + min + ' ' + opt
 }
 
+// Determine current data based on end date
 function isValidEndDate(dateVal: string) {
   // Get current date
   let today = new Date()
@@ -68,6 +68,7 @@ function isValidEndDate(dateVal: string) {
   }
 }
 
+// Determine current data based on start date
 function isValidStartDate(dateVal: string) {
   // Get current date
   let today = new Date()
@@ -95,6 +96,7 @@ function isValidStartDate(dateVal: string) {
   }
 }
 
+// Determine current semester data
 function cleanEvents(arr: any) {
   let newArr = []
 
@@ -111,6 +113,7 @@ function cleanEvents(arr: any) {
   return newArr
 }
 
+// Convert API returned date format to output format
 function parseDate(dateVal: string) {
   
   // Parse dateVal to create date object
@@ -278,6 +281,7 @@ export default function DisplayRoomInfo() {
       getRoomInfo()
   }, [])
 
+  // Loading state for page
   if (events === undefined) {
     return <>Still loading...</>
   }

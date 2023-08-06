@@ -8,7 +8,7 @@ interface Event {
   EndTime: string
   RawStartTime: string
   RawEndTime: string
-  DaysMet: Days[]
+  DaysMet: typeof Days
   StartDate: string
   EndDate: string
   EventID: string
