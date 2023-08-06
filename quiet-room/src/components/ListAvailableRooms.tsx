@@ -5,7 +5,6 @@ import {
   Alert,
   Box,
   Collapse,
-  Container,
   FormControl,
   Grid,
   IconButton,
@@ -14,22 +13,16 @@ import {
   MenuItem,
   Snackbar,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
 } from '@mui/material'
 import Select from '@mui/material/Select'
-import { Input } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { uuid } from 'uuidv4'
 import router from 'next/router'
 import MechButton from '@/components/MechButton'
 import CardRoomInfo from '@/components/CardRoomInfo'
 import CloseIcon from '@mui/icons-material/Close'
+import Days from '@/interfaces/Days'
 
 // Parse time input value for API Request format
 // XX:XX -> XXXX
@@ -38,6 +31,21 @@ function getTime(rawTime: string) {
   let min = rawTime.substring(3, 5)
   return hour.toString() + min.toString()
 }
+
+// Get default day input based on current day
+function getDefaultDay() {
+  const today = new Date()
+  const day = Days[today.getDay()]  // Get day of week in string format
+
+  // Default to 'M' if weekend
+  if (day == 'Sunday' || day == 'Saturday') {
+    return 'M'
+  }
+  else {
+    return day.substring(0, 1)
+  }
+}
+
 
 // Define list component columns
 const columns: GridColDef[] = [
@@ -57,7 +65,7 @@ export default function ListAvailableRooms() {
   const [rooms, setRooms] = useState<any[]>([])
 
   // Input data
-  const [day, setDay] = useState('M') // Day selection
+  const [day, setDay] = useState(getDefaultDay()) // Day selection
   const [startTime, setStartTime] = useState('1000') // Start time
   const [endTime, setEndTime] = useState('1200') // End time
 
@@ -113,6 +121,8 @@ export default function ListAvailableRooms() {
 
   // On submit, make API call and set appropriate loading states
   const handleSubmit = async (e: any) => {
+
+    getDefaultDay()
     
     setWeekdayInvalid(false)
     setStartTimeInvalid(false)
@@ -237,7 +247,7 @@ export default function ListAvailableRooms() {
             <Select
               labelId="weekday-select-label"
               id="weekday-select"
-              defaultValue={'M'}
+              defaultValue={day}
               onChange={handleDay}
               variant="outlined"
               label="Weekday"
