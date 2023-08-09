@@ -1,17 +1,42 @@
-import React from 'react'
-import { Avatar, Card, CardContent, CardHeader, Divider, Skeleton, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Avatar, Badge, Card, CardContent, CardHeader, Divider, Skeleton, Typography } from '@mui/material'
+import axios from 'axios'
 
 interface CardRoomInfoProps {
   cardTitle: string
   cardRoomType: string
   cardCapacity: string
   cardIcon: string
+  building?: string
+  room?: string
   state: string         // States: empty, loading, set
 }
 
 export default function CardRoomInfo(props: CardRoomInfoProps) {
   // Loading state for card
   const { state = 'false' } = props
+
+  // Room status state
+  const [available, setAvailable] = useState<boolean>(false)
+
+  // API CALL -> Get room current availability status
+  const getRoomStatus = async () => {
+    try {
+      await axios.get(`https://uah.quietroom.app/building/${props.building}/room/${props.room}/available`).then((response) => {
+        console.log(response?.data)
+        setAvailable(response?.data)
+      })
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    if (props.building != null && props.room != null) {
+      getRoomStatus()
+    }
+  }, [props.building, props.room])
+
 
   if (state != 'empty') {
     return (
@@ -31,9 +56,13 @@ export default function CardRoomInfo(props: CardRoomInfoProps) {
             state == 'loading' ? (
               <Skeleton variant="circular" width={'50px'} height={'50px'} />
             ) : (
-              <Avatar sx={{ width: '50px', height: '50px', bgcolor: 'transparent' }}>
-                <img src={props.cardIcon} height="30px" alt="" />
-              </Avatar>
+              <Badge overlap="circular" badgeContent=" "
+                color={available ? 'success' : 'error'}
+              >
+                <Avatar sx={{ width: '50px', height: '50px', bgcolor: 'transparent' }}>
+                  <img src={props.cardIcon} height="30px" alt="" />
+                </Avatar>
+              </Badge>
             )
           }
           title={<Typography variant="subtitle1">Room Quick View</Typography>}

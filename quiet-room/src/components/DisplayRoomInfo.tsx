@@ -431,6 +431,8 @@ export default function DisplayRoomInfo() {
             cardRoomType={cardRoomType}
             cardCapacity={cardCapacity}
             cardIcon={cardIcon}
+            building={building}
+            room={num}
           />
         </Box>
         <Box width={'100%'}>
