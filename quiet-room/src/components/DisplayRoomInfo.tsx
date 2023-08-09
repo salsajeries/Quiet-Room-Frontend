@@ -143,15 +143,16 @@ export default function DisplayRoomInfo() {
   // Toggle states
   const [submitToggle, setSubmitToggle] = useState(false) // Submit toggle
   const [invalidAlertOpen, setInvalidAlertOpen] = useState(false) // Input error alert toggle
-  const [dneAlertOpen, setDneAlertOpen] = useState(false) // DNE error alert toggle
+  const [disabledAlertOpen, setdisabledAlertOpen] = useState(false) // Disabled select alert toggle
   const [buildingInvalid, setBuildingInvalid] = useState(false) // Building input validation status
   const [roomInvalid, setRoomInvalid] = useState(false) // Room number input validation status
+  const [roomDisabled, setRoomDisabled] = useState(true) // Room number input disabled status
 
   // Room information
-  const [room, setRoom] = useState()
   const [events, setEvents] = useState<Event[]>([])
-  const [building, setBuilding] = useState(getBuildingQ != null ? getBuildingQ : '') // Set to query?.building, otherwise empty
-  const [num, setNum] = useState(getNumQ != null ? getNumQ : '') // Set to query?.num, otherwise empty
+  const [building, setBuilding] = useState<string>(getBuildingQ != null ? getBuildingQ.toString() : '') // Set to query?.building, otherwise empty
+  const [num, setNum] = useState<string>(getNumQ != null ? getNumQ.toString : '') // Set to query?.num, otherwise empty
+  const [roomsList, setRoomsList] = useState<string[]>([])  // Set list of rooms for selected building
 
   // Card information
   const [cardTitle, setCardTitle] = useState('')
@@ -172,7 +173,6 @@ export default function DisplayRoomInfo() {
       await axios.get(`https://uah.quietroom.app/building/${building}/room/${num}`).then((response) => {
         console.log(`https://uah.quietroom.app/building/${building}/room/${num}`)
         console.log(response)
-        setRoom(response?.data)
         let readRooms = response?.data.Events
         readRooms = cleanEvents(readRooms)
         let addID = readRooms.map((element: any) => ({
@@ -218,24 +218,38 @@ export default function DisplayRoomInfo() {
     } catch (error: any) {
       console.log(error?.message) // Log error message to console
 
-      if (error?.response.status == '404') {
-        setDneAlertOpen(true) // Open warning message that room DNE
-      }
-
       setLoadingData(false)
       setCardLoading('empty')
     }
   }
 
+  // API CALL -> Get rooms list for selected building
+  const getBuildingRooms = async (buildingID: string) => {
+    try {
+      await axios.get(`https://uah.quietroom.app/building/${buildingID}/rooms`).then((response) => {
+        let data = response?.data
+        let readRooms: string[] = []
+        data.map((item: any) => {
+          readRooms.push(item.roomNumber)
+          console.log(building + ' ' + item.roomNumber)
+        })
+        readRooms.sort()
+        setRoomsList(readRooms)
+      })
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
   // On submit, make API call
   const handleSubmit = (e: any) => {
-    
+
     setBuildingInvalid(false)
     setRoomInvalid(false)
     
     if (building != '' && num != '') {
       setInvalidAlertOpen(false)
-      setDneAlertOpen(false)
+      setdisabledAlertOpen(false)
       setSchedulerToggle(!schedulerToggle)
       setSubmitToggle(!submitToggle)
 
@@ -243,7 +257,7 @@ export default function DisplayRoomInfo() {
     } else {
       console.log('ERROR: Invalid input')
       setInvalidAlertOpen(true)
-      setDneAlertOpen(false)
+      setdisabledAlertOpen(false)
     }
     if (building == '') {
       setBuildingInvalid(true)
@@ -256,13 +270,28 @@ export default function DisplayRoomInfo() {
   // Set building number
   const handleBuilding = (e: any) => {
     console.log(e.target.value)
-    setBuilding(e.target.value)
+    setRoomDisabled(false)
+    setdisabledAlertOpen(false)
+
+    if (building != e.target.value) {
+      setBuilding(e.target.value)
+      setNum('')
+    }
+    getBuildingRooms(e.target.value)
   }
 
   // Set room number
   const handleRoomNumber = (e: any) => {
     console.log(e.target.value)
     setNum(e.target.value.toUpperCase())
+  }
+
+  // Set room number message status
+  const handleRoomNumberMessage = (e: any) => {
+    if (building == '') {
+      console.log('No building is selected, no room list available')
+      setdisabledAlertOpen(true)
+    }
   }
 
   // Use Effect: Update local storage for building
@@ -277,8 +306,14 @@ export default function DisplayRoomInfo() {
 
   // Use Effect: Search based on query on first render
   useEffect(() => {
-    if (building != '' && num != '')
+    if (building != '' && num != '') {
+      setRoomDisabled(false)
       getRoomInfo()
+    }
+    if (building != '') {
+      setRoomDisabled(false)
+      getBuildingRooms(building)
+    }
   }, [])
 
   // Loading state for page
@@ -299,14 +334,12 @@ export default function DisplayRoomInfo() {
               labelId="building-select-label"
               id="building-select"
               defaultValue={getBuildingQ}
+              value={building}
               onChange={handleBuilding}
               variant="outlined"
               label="Building"
               sx={{ width: '100%', borderRadius: '15px' }}
             >
-              <MenuItem disabled value={''}>
-                Select Building
-              </MenuItem>
               {buildingsList.map((buildingID: any) => (
                 <MenuItem value={buildingID} key={buildingID}>
                   {buildingID}
@@ -316,16 +349,24 @@ export default function DisplayRoomInfo() {
           </FormControl>
         </Grid>
         <Grid item xs={3} sm={3} md={4}>
-          <FormControl sx={{ width: '100%' }}>
-            <TextField
-              id="room-number-input"
-              InputProps={{ style: { colorScheme: 'light', borderRadius: '15px' } }}
-              label="Room Number"
-              variant="outlined"
-              onChange={handleRoomNumber}
+          <FormControl error={roomInvalid} sx={{ width: '100%' }} disabled={roomDisabled} onClick={handleRoomNumberMessage}>
+            <InputLabel id="room-select-label">Room Number</InputLabel>
+            <Select
+              labelId="room-select-label"
+              id="room-select"
               defaultValue={getNumQ}
-              error={roomInvalid}
-            />
+              value={num}
+              onChange={handleRoomNumber}
+              variant="outlined"
+              label="Room Number"
+              sx={{ width: '100%', borderRadius: '15px' }}
+            >
+              {roomsList.map((roomNumber: any) => (
+                <MenuItem value={roomNumber} key={roomNumber}>
+                  {roomNumber}
+                </MenuItem>
+              ))}
+            </Select>
           </FormControl>
         </Grid>
         <Grid item xs={3} sm={2} md={3}>
@@ -355,7 +396,7 @@ export default function DisplayRoomInfo() {
               Invalid input. Please try again!
             </Alert>
           </Collapse>
-          <Collapse in={dneAlertOpen}>
+          <Collapse in={disabledAlertOpen}>
             <Alert
               variant="filled"
               severity="warning"
@@ -365,7 +406,7 @@ export default function DisplayRoomInfo() {
                   color="inherit"
                   size="small"
                   onClick={() => {
-                    setDneAlertOpen(false)
+                    setdisabledAlertOpen(false)
                   }}
                 >
                   <CloseIcon fontSize="inherit" />
@@ -373,7 +414,7 @@ export default function DisplayRoomInfo() {
               }
               sx={{ mb: 2, borderRadius: '15px' }}
             >
-              This room does not exist. Please try again!
+              Please select a building before choosing a room!
             </Alert>
           </Collapse>
         </Grid>
