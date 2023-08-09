@@ -257,7 +257,6 @@ export default function DisplayRoomInfo() {
     } else {
       console.log('ERROR: Invalid input')
       setInvalidAlertOpen(true)
-      setdisabledAlertOpen(false)
     }
     if (building == '') {
       setBuildingInvalid(true)
