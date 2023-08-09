@@ -257,7 +257,6 @@ export default function DisplayRoomInfo() {
     } else {
       console.log('ERROR: Invalid input')
       setInvalidAlertOpen(true)
-      setdisabledAlertOpen(false)
     }
     if (building == '') {
       setBuildingInvalid(true)
@@ -431,6 +430,8 @@ export default function DisplayRoomInfo() {
             cardRoomType={cardRoomType}
             cardCapacity={cardCapacity}
             cardIcon={cardIcon}
+            building={building}
+            room={num}
           />
         </Box>
         <Box width={'100%'}>
