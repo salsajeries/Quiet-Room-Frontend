@@ -148,10 +148,10 @@ export default function DisplayRoomInfo() {
   const [roomInvalid, setRoomInvalid] = useState(false) // Room number input validation status
 
   // Room information
-  const [room, setRoom] = useState()
   const [events, setEvents] = useState<Event[]>([])
-  const [building, setBuilding] = useState(getBuildingQ != null ? getBuildingQ : '') // Set to query?.building, otherwise empty
-  const [num, setNum] = useState(getNumQ != null ? getNumQ : '') // Set to query?.num, otherwise empty
+  const [building, setBuilding] = useState<string>(getBuildingQ != null ? getBuildingQ.toString() : '') // Set to query?.building, otherwise empty
+  const [num, setNum] = useState<string>(getNumQ != null ? getNumQ.toString : '') // Set to query?.num, otherwise empty
+  const [roomsList, setRoomsList] = useState<string[]>([])  // Set list of rooms for selected building
 
   // Card information
   const [cardTitle, setCardTitle] = useState('')
@@ -172,7 +172,6 @@ export default function DisplayRoomInfo() {
       await axios.get(`https://uah.quietroom.app/building/${building}/room/${num}`).then((response) => {
         console.log(`https://uah.quietroom.app/building/${building}/room/${num}`)
         console.log(response)
-        setRoom(response?.data)
         let readRooms = response?.data.Events
         readRooms = cleanEvents(readRooms)
         let addID = readRooms.map((element: any) => ({
@@ -227,9 +226,27 @@ export default function DisplayRoomInfo() {
     }
   }
 
+  // API CALL -> Get rooms list for selected building
+  const getBuildingRooms = async (buildingID: string) => {
+    try {
+      await axios.get(`https://uah.quietroom.app/building/${buildingID}/rooms`).then((response) => {
+        let data = response?.data
+        let readRooms: string[] = []
+        data.map((item: any) => {
+          readRooms.push(item.roomNumber)
+          console.log(building + ' ' + item.roomNumber)
+        })
+        readRooms.sort()
+        setRoomsList(readRooms)
+      })
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
   // On submit, make API call
   const handleSubmit = (e: any) => {
-    
+
     setBuildingInvalid(false)
     setRoomInvalid(false)
     
@@ -257,6 +274,7 @@ export default function DisplayRoomInfo() {
   const handleBuilding = (e: any) => {
     console.log(e.target.value)
     setBuilding(e.target.value)
+    getBuildingRooms(e.target.value)
   }
 
   // Set room number
@@ -279,6 +297,8 @@ export default function DisplayRoomInfo() {
   useEffect(() => {
     if (building != '' && num != '')
       getRoomInfo()
+    if (building != '')
+      getBuildingRooms(building)
   }, [])
 
   // Loading state for page
@@ -304,9 +324,6 @@ export default function DisplayRoomInfo() {
               label="Building"
               sx={{ width: '100%', borderRadius: '15px' }}
             >
-              <MenuItem disabled value={''}>
-                Select Building
-              </MenuItem>
               {buildingsList.map((buildingID: any) => (
                 <MenuItem value={buildingID} key={buildingID}>
                   {buildingID}
@@ -316,16 +333,23 @@ export default function DisplayRoomInfo() {
           </FormControl>
         </Grid>
         <Grid item xs={3} sm={3} md={4}>
-          <FormControl sx={{ width: '100%' }}>
-            <TextField
-              id="room-number-input"
-              InputProps={{ style: { colorScheme: 'light', borderRadius: '15px' } }}
-              label="Room Number"
-              variant="outlined"
-              onChange={handleRoomNumber}
+          <FormControl error={roomInvalid} sx={{ width: '100%' }}>
+            <InputLabel id="room-select-label">Room Number</InputLabel>
+            <Select
+              labelId="room-select-label"
+              id="room-select"
               defaultValue={getNumQ}
-              error={roomInvalid}
-            />
+              onChange={handleRoomNumber}
+              variant="outlined"
+              label="Room Number"
+              sx={{ width: '100%', borderRadius: '15px' }}
+            >
+              {roomsList.map((roomNumber: any) => (
+                <MenuItem value={roomNumber} key={roomNumber}>
+                  {roomNumber}
+                </MenuItem>
+              ))}
+            </Select>
           </FormControl>
         </Grid>
         <Grid item xs={3} sm={2} md={3}>
