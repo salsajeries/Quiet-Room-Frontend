@@ -143,9 +143,10 @@ export default function DisplayRoomInfo() {
   // Toggle states
   const [submitToggle, setSubmitToggle] = useState(false) // Submit toggle
   const [invalidAlertOpen, setInvalidAlertOpen] = useState(false) // Input error alert toggle
-  const [dneAlertOpen, setDneAlertOpen] = useState(false) // DNE error alert toggle
+  const [disabledAlertOpen, setdisabledAlertOpen] = useState(false) // Disabled select alert toggle
   const [buildingInvalid, setBuildingInvalid] = useState(false) // Building input validation status
   const [roomInvalid, setRoomInvalid] = useState(false) // Room number input validation status
+  const [roomDisabled, setRoomDisabled] = useState(true) // Room number input disabled status
 
   // Room information
   const [events, setEvents] = useState<Event[]>([])
@@ -217,10 +218,6 @@ export default function DisplayRoomInfo() {
     } catch (error: any) {
       console.log(error?.message) // Log error message to console
 
-      if (error?.response.status == '404') {
-        setDneAlertOpen(true) // Open warning message that room DNE
-      }
-
       setLoadingData(false)
       setCardLoading('empty')
     }
@@ -252,7 +249,7 @@ export default function DisplayRoomInfo() {
     
     if (building != '' && num != '') {
       setInvalidAlertOpen(false)
-      setDneAlertOpen(false)
+      setdisabledAlertOpen(false)
       setSchedulerToggle(!schedulerToggle)
       setSubmitToggle(!submitToggle)
 
@@ -260,7 +257,7 @@ export default function DisplayRoomInfo() {
     } else {
       console.log('ERROR: Invalid input')
       setInvalidAlertOpen(true)
-      setDneAlertOpen(false)
+      setdisabledAlertOpen(false)
     }
     if (building == '') {
       setBuildingInvalid(true)
@@ -273,7 +270,13 @@ export default function DisplayRoomInfo() {
   // Set building number
   const handleBuilding = (e: any) => {
     console.log(e.target.value)
-    setBuilding(e.target.value)
+    setRoomDisabled(false)
+    setdisabledAlertOpen(false)
+
+    if (building != e.target.value) {
+      setBuilding(e.target.value)
+      setNum('')
+    }
     getBuildingRooms(e.target.value)
   }
 
@@ -281,6 +284,14 @@ export default function DisplayRoomInfo() {
   const handleRoomNumber = (e: any) => {
     console.log(e.target.value)
     setNum(e.target.value.toUpperCase())
+  }
+
+  // Set room number message status
+  const handleRoomNumberMessage = (e: any) => {
+    if (building == '') {
+      console.log('No building is selected, no room list available')
+      setdisabledAlertOpen(true)
+    }
   }
 
   // Use Effect: Update local storage for building
@@ -295,10 +306,14 @@ export default function DisplayRoomInfo() {
 
   // Use Effect: Search based on query on first render
   useEffect(() => {
-    if (building != '' && num != '')
+    if (building != '' && num != '') {
+      setRoomDisabled(false)
       getRoomInfo()
-    if (building != '')
+    }
+    if (building != '') {
+      setRoomDisabled(false)
       getBuildingRooms(building)
+    }
   }, [])
 
   // Loading state for page
@@ -319,6 +334,7 @@ export default function DisplayRoomInfo() {
               labelId="building-select-label"
               id="building-select"
               defaultValue={getBuildingQ}
+              value={building}
               onChange={handleBuilding}
               variant="outlined"
               label="Building"
@@ -333,12 +349,13 @@ export default function DisplayRoomInfo() {
           </FormControl>
         </Grid>
         <Grid item xs={3} sm={3} md={4}>
-          <FormControl error={roomInvalid} sx={{ width: '100%' }}>
+          <FormControl error={roomInvalid} sx={{ width: '100%' }} disabled={roomDisabled} onClick={handleRoomNumberMessage}>
             <InputLabel id="room-select-label">Room Number</InputLabel>
             <Select
               labelId="room-select-label"
               id="room-select"
               defaultValue={getNumQ}
+              value={num}
               onChange={handleRoomNumber}
               variant="outlined"
               label="Room Number"
@@ -379,7 +396,7 @@ export default function DisplayRoomInfo() {
               Invalid input. Please try again!
             </Alert>
           </Collapse>
-          <Collapse in={dneAlertOpen}>
+          <Collapse in={disabledAlertOpen}>
             <Alert
               variant="filled"
               severity="warning"
@@ -389,7 +406,7 @@ export default function DisplayRoomInfo() {
                   color="inherit"
                   size="small"
                   onClick={() => {
-                    setDneAlertOpen(false)
+                    setdisabledAlertOpen(false)
                   }}
                 >
                   <CloseIcon fontSize="inherit" />
@@ -397,7 +414,7 @@ export default function DisplayRoomInfo() {
               }
               sx={{ mb: 2, borderRadius: '15px' }}
             >
-              This room does not exist. Please try again!
+              Please select a building before choosing a room!
             </Alert>
           </Collapse>
         </Grid>
