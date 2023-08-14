@@ -151,7 +151,7 @@ export default function DisplayRoomInfo() {
   // Room information
   const [events, setEvents] = useState<Event[]>([])
   const [building, setBuilding] = useState<string>(getBuildingQ != null ? getBuildingQ.toString() : '') // Set to query?.building, otherwise empty
-  const [num, setNum] = useState<string>(getNumQ != null ? getNumQ.toString : '') // Set to query?.num, otherwise empty
+  const [num, setNum] = useState<string>(getNumQ != null ? getNumQ.toString() : '') // Set to query?.num, otherwise empty
   const [roomsList, setRoomsList] = useState<string[]>([])  // Set list of rooms for selected building
 
   // Card information
