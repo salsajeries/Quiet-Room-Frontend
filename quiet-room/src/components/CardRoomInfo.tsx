@@ -56,13 +56,9 @@ export default function CardRoomInfo(props: CardRoomInfoProps) {
             state == 'loading' ? (
               <Skeleton variant="circular" width={'50px'} height={'50px'} />
             ) : (
-              <Badge overlap="circular" badgeContent=" "
-                color={available ? 'success' : 'error'}
-              >
-                <Avatar sx={{ width: '50px', height: '50px', bgcolor: 'transparent' }}>
-                  <img src={props.cardIcon} height="30px" alt="" />
-                </Avatar>
-              </Badge>
+              <Avatar sx={{ width: '50px', height: '50px', bgcolor: 'transparent' }}>
+                <img src={props.cardIcon} height="30px" alt="" />
+              </Avatar>
             )
           }
           title={<Typography variant="subtitle1">Room Quick View</Typography>}
