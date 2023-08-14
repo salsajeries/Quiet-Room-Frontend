@@ -9,6 +9,7 @@ interface CardRoomInfoProps {
   cardIcon: string
   building?: string
   room?: string
+  available?: boolean
   state: string         // States: empty, loading, set
 }
 
@@ -17,7 +18,7 @@ export default function CardRoomInfo(props: CardRoomInfoProps) {
   const { state = 'false' } = props
 
   // Room status state
-  const [available, setAvailable] = useState<boolean>(false)
+  const [available, setAvailable] = useState<boolean>(props.available != null ? false : true)
 
   // API CALL -> Get room current availability status
   const getRoomStatus = async () => {
@@ -56,9 +57,13 @@ export default function CardRoomInfo(props: CardRoomInfoProps) {
             state == 'loading' ? (
               <Skeleton variant="circular" width={'50px'} height={'50px'} />
             ) : (
-              <Avatar sx={{ width: '50px', height: '50px', bgcolor: 'transparent' }}>
-                <img src={props.cardIcon} height="30px" alt="" />
-              </Avatar>
+              <Badge overlap="circular" badgeContent=" "
+                color={available ? 'success' : 'error'}
+              >
+                <Avatar sx={{ width: '50px', height: '50px', bgcolor: 'transparent' }}>
+                  <img src={props.cardIcon} height="30px" alt="" />
+                </Avatar>
+              </Badge>
             )
           }
           title={<Typography variant="subtitle1">Room Quick View</Typography>}
