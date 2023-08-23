@@ -211,8 +211,8 @@ export default function Schedule(props: SchedulerViewInt) {
                 allDaySlot={false}
                 events={events}
                 eventColor="#508AA8"
-                slotMinTime={'08:00:00'}
-                slotMaxTime={'20:00:00'}
+                slotMinTime={'07:00:00'}
+                slotMaxTime={'23:00:00'}
                 firstDay={1}
                 nowIndicator={true}
                 expandRows
